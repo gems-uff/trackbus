@@ -16,7 +16,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     lines: function(busWebFactory) {
-                        return busWebFactory.listBuses();
+                        return busWebFactory.listLines(true);
                     }
                 }
             })

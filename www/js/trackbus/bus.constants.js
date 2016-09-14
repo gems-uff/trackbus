@@ -2,12 +2,12 @@ angular
 .module('trackbus')
 .constant("BUS",
     {
-        "DATAHORA": 0,
-        "ORDEM": 1,
-        "LINHA": 2,
+        "DATETIME": 0,
+        "ORDER": 1,
+        "LINE": 2,
         "LATITUDE": 3,
         "LONGITUDE": 4,
-        "VELOCIDADE": 5,
-        "DIRECAO": 6
+        "SPEED": 5,
+        "DIRECTION": 6
     }
 );

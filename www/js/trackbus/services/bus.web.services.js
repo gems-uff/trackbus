@@ -5,9 +5,9 @@
         .module('trackbus')
         .factory('busWebFactory', busWebFactory);
 
-    busWebFactory.$inject = ['$http', 'URL'];
+    busWebFactory.$inject = ['$http', 'URL', 'busFactory'];
 
-    function busWebFactory($http, URL) {
+    function busWebFactory($http, URL, busFactory) {
 
         var self = this;
 
@@ -22,6 +22,12 @@
 
             return $http(req).then(function(result) {
                 return result.data.DATA;
+            });
+        };
+
+        self.listLines = function(showEmpty) {
+            return self.listBuses().then(function(result) {
+                return busFactory.getLines(result, showEmpty);
             });
         };
 

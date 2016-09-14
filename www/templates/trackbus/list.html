@@ -2,5 +2,10 @@
     <!--INSERT CSS HERE-->
     <ion-content class="has-header">
         <h1>Hello list!</h1>
+
+        <div ng-repeat="line in vm.displayedLines">
+            {{line}}
+        </div>
+
     </ion-content>
 </ion-view>
