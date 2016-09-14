@@ -1,0 +1,24 @@
+{
+  "name": "HelloIonic",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.3.1"
+  },
+  "dependencies": {
+    "angular-animate": "1.5.3",
+    "angular-ui-router": "0.2.13",
+    "angular-sanitize": "1.5.3",
+    "ngCordova": "^0.1.27-alpha"
+  },
+  "homepage": "https://github.com/mcrvaz/ionic-default",
+  "description": "Ionic template",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/lib",
+    "test",
+    "tests"
+  ]
+}
