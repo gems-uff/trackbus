@@ -5,15 +5,16 @@
         .module('trackbus')
         .controller('MapController', MapController);
 
-    MapController.$inject = ['stateService', 'buses'];
+    MapController.$inject = ['stateService', 'busesPromise'];
 
-    function MapController(stateService, buses) {
+    function MapController(stateService, busesPromise) {
         var vm = this;
+        var buses = busesPromise;
 
         activate();
 
         function activate() {
-            console.log("hello");
+            console.log(buses);
         };
     };
 

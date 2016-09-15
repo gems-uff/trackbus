@@ -5,19 +5,23 @@
         .module('trackbus')
         .controller('ListController', ListController);
 
-    ListController.$inject = ['stateService', 'lines', 'BUS'];
+    ListController.$inject = [
+        '$scope', 'stateService', 'BUS', 'linesPromise'
+    ];
 
-    function ListController(stateService, lines, BUS) {
+    function ListController(
+        $scope, stateService, BUS, linesPromise
+    ) {
         var vm = this;
-        var lines = lines;
+        var lines = linesPromise;
 
-        vm.displayedLines = lines.slice(0, 10);
+        vm.displayedLines = lines;
+        vm.goToMap = stateService.map;
 
         activate();
 
-        function activate() {
-            console.log(vm.displayedLines);
-        };
+        function activate() {};
+
     };
 
 })();

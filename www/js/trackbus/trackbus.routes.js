@@ -15,21 +15,22 @@
                 controller: 'ListController',
                 controllerAs: 'vm',
                 resolve: {
-                    lines: function(busWebFactory) {
+                    linesPromise: function(busWebFactory) {
                         return busWebFactory.listLines(true);
                     }
                 }
             })
             .state(STATES.MAP, {
-                url: '/map',
+                url: '/map/:line',
                 templateUrl: 'templates/trackbus/map.html',
                 controller: 'MapController',
-                controllerAs: 'vm'
-                /*resolve: {
-                    buses: function(busWebFactory, $stateParams) {
+                controllerAs: 'vm',
+                resolve: {
+                    busesPromise: function(busWebFactory, $stateParams) {
+                        console.log($stateParams);
                         return busWebFactory.listBuses($stateParams.line);
                     }
-                }*/
+                }
             })
             .state(STATES.OPTIONS, {
                 url: '/options',

@@ -11,40 +11,49 @@
 
         var self = this;
 
-        self.getLines = function(buses, showEmpty) {
-            return getByAttribute(buses, BUS.LINE, showEmpty, true);
+        self.getLines = function(buses, hideEmpty) {
+            return getByAttribute(buses, BUS.LINE, hideEmpty, true);
         };
 
-        self.getSpeed = function(buses, showEmpty) {
-            return getByAttribute(buses, BUS.LINE, showEmpty);
+        self.getSpeed = function(buses, hideEmpty) {
+            return getByAttribute(buses, BUS.LINE, hideEmpty);
         };
 
-        self.getDirection = function(buses, showEmpty) {
-            return getByAttribute(buses, BUS.LINE, showEmpty);
+        self.getDirection = function(buses, hideEmpty) {
+            return getByAttribute(buses, BUS.LINE, hideEmpty);
         };
 
-        self.getLatLong = function(buses, showEmpty) {
-            return getByAttributes(buses, [BUS.LATITUDE, BUS.LONGITUDE], showEmpty);
+        self.getLatLong = function(buses, hideEmpty) {
+            return getByAttributes(buses, [BUS.LATITUDE, BUS.LONGITUDE], hideEmpty);
         };
 
-        function getByAttribute(list, attr, addEmpty, distinct) {
+        function getByAttribute(list, attr, hideEmpty, distinct) {
+            if(distinct){
+                return getByAttributeDistinct(list, attr, hideEmpty);
+            }
+
             var result = [];
             angular.forEach(list, function(element) {
                 var value = element[attr];
-                if(addEmpty && value){
-                    if(distinct){
-                        if(!result.contains(value)){
-                            result.push(value);
-                        }
-                    } else {
-                        result.push(value);
-                    }
+                if(hideEmpty && value){
+                    result.push(value);
                 }
             });
             return result;
         };
 
-        function getByAttributes(list, attrs, addEmpty) {
+        function getByAttributeDistinct(list, attr, hideEmpty) {
+            var result = [];
+            angular.forEach(list, function(element) {
+                var value = element[attr];
+                if(!result.contains(value) && hideEmpty && value){
+                    result.push(value);
+                }
+            });
+            return result;
+        };
+
+        function getByAttributes(list, attrs, hideEmpty) {
             var result = [];
             angular.forEach(list, function(element) {
                 angular.forEach(attrs, function(a) {
@@ -55,7 +64,6 @@
             });
             return result;
         };
-
 
         return self;
     };
