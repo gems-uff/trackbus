@@ -12,26 +12,22 @@
         var self = this;
 
         self.getLines = function(buses, hideEmpty) {
-            return getByAttribute(buses, BUS.LINE, hideEmpty, true);
+            return getByAttributeDistinct(buses, BUS.LINE, hideEmpty);
         };
 
         self.getSpeed = function(buses, hideEmpty) {
-            return getByAttribute(buses, BUS.LINE, hideEmpty);
+            return getByAttribute(buses, BUS.SPEED, hideEmpty);
         };
 
         self.getDirection = function(buses, hideEmpty) {
-            return getByAttribute(buses, BUS.LINE, hideEmpty);
+            return getByAttribute(buses, BUS.DIRECTION, hideEmpty);
         };
 
         self.getLatLong = function(buses, hideEmpty) {
             return getByAttributes(buses, [BUS.LATITUDE, BUS.LONGITUDE], hideEmpty);
         };
 
-        function getByAttribute(list, attr, hideEmpty, distinct) {
-            if(distinct){
-                return getByAttributeDistinct(list, attr, hideEmpty);
-            }
-
+        function getByAttribute(list, attr, hideEmpty) {
             var result = [];
             angular.forEach(list, function(element) {
                 var value = element[attr];
