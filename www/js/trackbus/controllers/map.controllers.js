@@ -6,31 +6,35 @@
         .controller('MapController', MapController);
 
     MapController.$inject = [
-        'uiGmapGoogleMapApi', '$cordovaGeolocation',
+        '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation',
         'stateService',
         'busesPromise',
         'BUS'
     ];
 
     function MapController(
-        uiGmapGoogleMapApi, $cordovaGeolocation,
+        $scope, uiGmapGoogleMapApi, $cordovaGeolocation,
         stateService,
         busesPromise,
         BUS
     ) {
         var vm = this;
         var buses = busesPromise;
+        var baseRadius = 500;
         var gmap;
 
+        // Google Maps
         vm.markers = [];
-        vm.map = {center: {latitude: 0, longitude: 0}};
-
+        vm.map = {
+            center: {latitude: 0, longitude: 0},
+            zoom: 10
+        };
         vm.userCircle = {
             center: {
                 latitude: 0,
                 longitude: 0
             },
-            radius: 1000,
+            radius: baseRadius * vm.map.zoom,
             stroke: {
                 color: '#08B21F',
                 weight: 2,
@@ -41,7 +45,6 @@
                 opacity: 0.5
             }
         };
-
         vm.searchbox = {
             template:'searchbox.tpl.html',
             events:{
@@ -50,10 +53,14 @@
                     setPosition(location.lat(), location.lon());
                 }
             },
-            position:"top-left"
+            position:"top-right"
         };
+        // Google Maps
 
         vm.setCurrentPosition = setCurrentPosition;
+        vm.updateCircleRadius = updateCircleRadius;
+        vm.notifyProximity = notifyProximity;
+        vm.startTrip = startTrip;
 
         activate();
 
@@ -64,8 +71,12 @@
                     return setCurrentPosition();
                 });
             };
-
             return mapSetup().then(initializeMarkers);
+        };
+
+        function updateCircleRadius(event) {
+            vm.userCircle.radius = baseRadius/event.zoom;
+            console.log(vm.userCircle.radius);
         };
 
         function setCurrentPosition(zoom) {
@@ -108,6 +119,12 @@
             };
             vm.markers.push(marker);
             return marker;
+        };
+
+        function notifyProximity(bus) {
+        };
+
+        function startTrip() {
         };
     };
 

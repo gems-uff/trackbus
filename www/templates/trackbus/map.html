@@ -12,36 +12,42 @@
             <script id="searchbox.tpl.html" type="text/ng-template">
                 <input type="text" placeholder="Endereço">
             </script>
-
-            <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom"
-                control="vm.map">
-                <ui-gmap-search-box options="vm.searchbox.options"
-                    template="vm.searchbox.template"
-                    events="vm.searchbox.events" position="vm.searchbox.position">
-                </ui-gmap-search-box>
-                <ui-gmap-circle center='vm.userCircle.center'
-                    radius='vm.userCircle.radius'
-                    fill='vm.userCircle.fill'
-                    stroke='vm.userCircle.stroke'
-                >
-                </ui-gmap-circle>
-                <div ng-repeat="marker in vm.markers">
-                    <ui-gmap-marker
-                        coords="marker.coords" options="marker.options"
-                        events="marker.events" idkey="marker.id"
-                        click="marker.click">
-                        <ui-gmap-window>
-                            <div>
-                             <!-- Window content -->
-                            </div>
-                        </ui-gmap-window>
-                    </ui-gmap-marker>
-                </div>
-            </ui-gmap-google-map>
-            <button class="button button-full button-assertive btn-location ion-location"
-                ng-click="vm.setCurrentPosition()">
-                Usar minha localização
-            </button>
+            <div class="map-container">
+                <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom"
+                    control="vm.map"
+                    events="{zoom_changed: vm.updateCircleRadius}">
+                    <ui-gmap-search-box options="vm.searchbox.options"
+                        template="vm.searchbox.template"
+                        events="vm.searchbox.events" position="vm.searchbox.position">
+                    </ui-gmap-search-box>
+                    <ui-gmap-circle center='vm.userCircle.center'
+                        radius='vm.userCircle.radius'
+                        fill='vm.userCircle.fill'
+                        stroke='vm.userCircle.stroke'>
+                    </ui-gmap-circle>
+                    <div ng-repeat="marker in vm.markers">
+                        <ui-gmap-marker
+                            coords="marker.coords" options="marker.options"
+                            events="marker.events" idkey="marker.id"
+                            click="marker.click">
+                            <ui-gmap-window>
+                                <div>
+                                <!-- Window content -->
+                                    <a ng-click="vm.notifyProximity()">Notificar proximidade</a>
+                                </div>
+                            </ui-gmap-window>
+                        </ui-gmap-marker>
+                    </div>
+                </ui-gmap-google-map>
+                <button class="button button-full button-assertive btn-location ion-location"
+                    ng-click="vm.setCurrentPosition()">
+                    Usar minha localização
+                </button>
+                <button class="button button-full button-assertive btn-location ion-location"
+                    ng-click="vm.startTrip()">
+                    Acompanhar viagem
+                </button>
+            </div>
         </body>
     </ion-content>
 </ion-view>
