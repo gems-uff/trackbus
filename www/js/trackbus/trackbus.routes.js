@@ -27,7 +27,6 @@
                 controllerAs: 'vm',
                 resolve: {
                     busesPromise: function(busWebFactory, $stateParams) {
-                        console.log($stateParams);
                         return busWebFactory.listBuses($stateParams.line);
                     }
                 }

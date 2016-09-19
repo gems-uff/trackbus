@@ -4,7 +4,7 @@
     angular
         .module('database')
         .constant('DB_CONFIG', {
-        name: 'db_name',
+        name: 'tbdb',
         tables: [
             {
                 name: 'user',

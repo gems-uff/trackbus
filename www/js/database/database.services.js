@@ -19,7 +19,7 @@
                 if(window.cordova){
                     self.db = window.sqlitePlugin.openDatabase({name: DB_CONFIG.name, location:'default'}, initialize);
                 } else {
-                    self.db = window.openDatabase(DB_CONFIG.name, '1.0', 'db_name', -1);
+                    self.db = window.openDatabase(DB_CONFIG.name, '1.0', 'tbdb', -1);
                     initialize();
                 }
             };

@@ -1,1 +1,1 @@
-angular.module('trackbus', []);
+angular.module('trackbus', ['uiGmapgoogle-maps']);

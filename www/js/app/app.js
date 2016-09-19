@@ -3,7 +3,7 @@
 
     angular
         .module('app',[
-            'ionic', 'ui.router', 'database',
+            'ionic', 'ui.router', 'database', 'ngCordova',
             'alerts', 'states', 'trackbus',
             'messages', 'URLConstants'
         ])
