@@ -7,14 +7,16 @@
         name: 'tbdb',
         tables: [
             {
-                name: 'user',
+                name: 'bus',
                 columns: [
-                    {name: 'id', type: 'integer primary key'},
-                    {name: 'email', type: 'text unique'},
-                    {name: 'name', type: 'text'},
-                    {name: 'phone', type: 'text'},
-                    {name: 'created_at', type: 'text default CURRENT_TIMESTAMP'},
-                    {name: 'updated_at', type: 'text default CURRENT_TIMESTAMP'}
+                    {name: 'id', type: 'int primary key'},
+                    {name: 'datetime', type: 'text'},
+                    {name: 'bus_order', type: 'text'}, //order is reserved
+                    {name: 'line', type: 'text'},
+                    {name: 'latitude', type: 'text'},
+                    {name: 'longitude', type: 'text'},
+                    {name: 'speed', type: 'text'},
+                    {name: 'direction', type: 'text'}
                 ]
             }
         ]

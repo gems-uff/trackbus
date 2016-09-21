@@ -26,8 +26,12 @@
                 controller: 'MapController',
                 controllerAs: 'vm',
                 resolve: {
-                    busesPromise: function(busWebFactory, $stateParams) {
-                        return busWebFactory.listBuses($stateParams.line);
+                    busesPromise: function(busDbFactory, busWebFactory, $stateParams) {
+                        return busWebFactory.listBuses($stateParams.line).then(function(result){
+                            return busDbFactory.createBuses(result).then(function(queryResult) {
+                                return result;
+                            }, console.log);
+                        });
                     }
                 }
             })

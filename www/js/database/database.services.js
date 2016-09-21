@@ -53,7 +53,23 @@
                     console.error(error, query);
                 });
             });
+            return deferred.promise;
+        };
 
+        self.transaction = function(queries) {
+            //Expects each query object to contain a query and array of bindings
+            var deferred = $q.defer();
+            self.db.transaction(function(transaction) {
+                angular.forEach(queries, function(q){
+                    q.bindings = typeof q.bindings !== 'undefined' ? q.bindings : [];
+                    transaction.executeSql(q.query, q.bindings, function(transaction, result) {
+                        deferred.resolve(result);
+                    }, function(transaction, error) {
+                        deferred.reject(error);
+                        console.error(error, query);
+                    });
+                });
+            });
             return deferred.promise;
         };
 
