@@ -10,11 +10,12 @@
     function InitController($state, $rootScope, alertService, stateService, ERROR_MESSAGES) {
         var vm = this;
 
+        vm.goToList = stateService.list;
+
         activate();
 
         function activate() {
             setLoadingEvents();
-            stateService.list();
         };
 
         function setLoadingEvents(){

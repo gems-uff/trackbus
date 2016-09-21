@@ -18,6 +18,13 @@
             ).then(DB.fetchAll);
         };
 
+        self.deleteBuses = function() {
+            return DB.query(
+                "DELETE " +
+                "FROM bus"
+            );
+        };
+
         self.createBus = function(bus) {
             return DB.query(
                 "INSERT INTO bus(" +
