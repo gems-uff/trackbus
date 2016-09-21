@@ -4,15 +4,16 @@
     </ion-nav-bar>
 
     <ion-content class="has-header">
-        <ion-item>
-            <input type="text" placeholder="Digite o número da linha" ng-model="vm.lineFilter" size="50"></ion-input>
-        </ion-item>
-
+        <div class="list list-inset">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Digite o número da linha" ng-model="vm.lineFilter" size="50">
+            </label>
+        </div>
         <ion-list>
             <ion-item collection-repeat="line in vm.displayedLines | filter:vm.lineFilter"  ng-click="vm.goToMap(line)">
                 {{line}}
             </ion-item>
         </ion-list>
-
     </ion-content>
 </ion-view>
