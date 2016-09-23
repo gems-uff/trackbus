@@ -65,6 +65,10 @@
             return DB.transaction(queries);
         };
 
+        self.getDistance = function(bus, coordinates) {
+            return DB.query();
+        };
+
         return self;
     };
 

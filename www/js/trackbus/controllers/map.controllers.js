@@ -6,44 +6,31 @@
         .controller('MapController', MapController);
 
     MapController.$inject = [
-        '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation',
+        '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams',
         'stateService',
         'busesPromise',
         'BUS'
     ];
 
     function MapController(
-        $scope, uiGmapGoogleMapApi, $cordovaGeolocation,
+        $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams,
         stateService,
         busesPromise,
         BUS
     ) {
         var vm = this;
         var buses = busesPromise;
-        var baseRadius = 500;
         var gmap;
 
         // Google Maps
-        vm.markers = [];
+        vm.busMarkers = [];
+        vm.userMarker = {
+            coords: {latitude: 0, longitude: 0},
+            options: {icon: "img/person.png"}
+        };
         vm.map = {
             center: {latitude: 0, longitude: 0},
             zoom: 10
-        };
-        vm.userCircle = {
-            center: {
-                latitude: 0,
-                longitude: 0
-            },
-            radius: baseRadius * vm.map.zoom,
-            stroke: {
-                color: '#08B21F',
-                weight: 2,
-                opacity: 1
-            },
-            fill: {
-                color: '#08B21F',
-                opacity: 0.5
-            }
         };
         vm.searchbox = {
             template:'searchbox.tpl.html',
@@ -57,8 +44,9 @@
         };
         // Google Maps
 
+        vm.selectedLine = $stateParams.line;
+
         vm.setCurrentPosition = setCurrentPosition;
-        vm.updateCircleRadius = updateCircleRadius;
         vm.notifyProximity = notifyProximity;
         vm.startTrip = startTrip;
 
@@ -71,19 +59,23 @@
                     return setCurrentPosition();
                 });
             };
-            return mapSetup().then(initializeMarkers);
-        };
-
-        function updateCircleRadius(event) {
-            vm.userCircle.radius = baseRadius/event.zoom;
-            console.log(vm.userCircle.radius);
+            function watchUserPosition() {
+                navigator.geolocation.watchPosition(function(result){
+                    var coords = result.coords;
+                    setUserPosition(coords.latitude, coords.longitude);
+                });
+            };
+            return mapSetup().then(function(){
+                watchUserPosition();
+                initializeBusMarkers();
+            });
         };
 
         function setCurrentPosition(zoom) {
             return navigator.geolocation.getCurrentPosition(
                 function success(result) {
                     var coords = result.coords;
-                    vm.userCircle.center = {latitude: coords.latitude, longitude: coords.longitude};
+                    setUserPosition(coords.latitude, coords.longitude);
                     setPosition(coords.latitude, coords.longitude, zoom);
                 },
                 function failure(result) {
@@ -92,23 +84,26 @@
                 });
         };
 
-        function setPosition(latitude, longitude, zoom) {
-            vm.map.refresh({
-                latitude: latitude, longitude: longitude
-            });
+        function setPosition(lat, lon, zoom) {
+            vm.map.refresh({latitude: lat, longitude: lon});
             if(zoom){
                 vm.map.zoom = zoom;
             }
         };
 
-        function initializeMarkers(){
-            vm.markers = [];
+        function setUserPosition(lat, lon) {
+            vm.userMarker.coords = {latitude: lat, longitude: lon};
+            console.log(vm.userMarker);
+        };
+
+        function initializeBusMarkers(){
+            vm.busMarkers = [];
             angular.forEach(buses, function(bus) {
-                addMarker(bus);
+                addBusMarker(bus);
             });
         };
 
-        function addMarker(bus) {
+        function addBusMarker(bus) {
             //coords must contain latitude and longitude
             var marker = {
                 id: bus[BUS.ORDER],
@@ -117,11 +112,14 @@
                     longitude: bus[BUS.LONGITUDE]
                 }
             };
-            vm.markers.push(marker);
+            vm.busMarkers.push(marker);
             return marker;
         };
 
         function notifyProximity(bus) {
+        };
+
+        function getDistance() {
         };
 
         function startTrip() {
