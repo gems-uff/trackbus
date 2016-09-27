@@ -42,7 +42,7 @@
                             <!-- Window content -->
                             <ui-gmap-window>
                                 <div>
-                                    <a ng-click="vm.notifyProximity()">Notificar proximidade</a>
+                                    <a ng-click="$parent.vm.notifyProximity($parent.marker)">Notificar proximidade</a>
                                 </div>
                             </ui-gmap-window>
                         </ui-gmap-marker>

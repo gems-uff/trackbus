@@ -66,7 +66,10 @@
         };
 
         self.getDistance = function(bus, coordinates) {
-            return DB.query();
+            return DB.query(
+                "SELECT Distance(?,?) " +
+                "FROM bus ", [bus.coords, coordinates]
+            );
         };
 
         return self;
