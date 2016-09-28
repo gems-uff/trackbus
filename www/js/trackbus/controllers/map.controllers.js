@@ -7,14 +7,14 @@
 
     MapController.$inject = [
         '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams',
-        'stateService', 'busDbFactory',
+        'stateService', 'busSpatialService',
         'busesPromise',
         'BUS'
     ];
 
     function MapController(
         $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams,
-        stateService, busDbFactory,
+        stateService, busSpatialService,
         busesPromise,
         BUS
     ) {
@@ -117,14 +117,11 @@
         };
 
         function notifyProximity(bus) {
-            console.log(bus);
-            getDistance(bus);
+            console.log(getDistance(bus));
         };
 
         function getDistance(bus) {
-            return busDbFactory.getDistance(bus, vm.userMarker.coords).then(function(result) {
-                console.log(result);
-            });
+            return busSpatialService.getDistance(bus.coords, vm.userMarker.coords);
         };
 
         function startTrip() {
