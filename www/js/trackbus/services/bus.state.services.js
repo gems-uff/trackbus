@@ -15,8 +15,12 @@
             return busWebFactory.listLines(true);
         };
 
-        self.mapState = function(line) {
-            return busWebFactory.listBuses(line);
+        self.mapState = function(lines) {
+            var promises = [];
+            angular.forEach(lines, function(line){
+                promises.push(busWebFactory.listBuses(line));
+            });
+            return $q.all(promises);
         };
 
         self.optionsState = function() {

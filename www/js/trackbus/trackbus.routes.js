@@ -21,13 +21,16 @@
                 }
             })
             .state(STATES.MAP, {
-                url: '/map/:line',
+                url: '/map',
+                params:{
+                    lines: []
+                },
                 templateUrl: 'templates/trackbus/map.html',
                 controller: 'MapController',
                 controllerAs: 'vm',
                 resolve: {
                     busesPromise: function(busStateFactory, $stateParams) {
-                        return busStateFactory.mapState($stateParams.line);
+                        return busStateFactory.mapState($stateParams.lines);
                     }
                 }
             })

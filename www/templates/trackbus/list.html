@@ -4,16 +4,32 @@
     </ion-nav-bar>
 
     <ion-content class="has-header">
+        <div class="list list-inset" ng-if="vm.selectedLines.length > 0">
+            <label>
+                Linhas selecionadas
+            </label>
+            <ion-list>
+                <ion-item ng-repeat="line in vm.selectedLines" ng-click="vm.removeLine(line)">
+                    {{::line}} <i class="ion-close"></i>
+                </ion-item>
+            </ion-list>
+            <button class="button button-full button-assertive" ng-click="vm.goToMap(vm.selectedLines)">
+                Ver linhas no mapa
+            </button>
+        </div>
+
         <div class="list list-inset">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
                 <input type="text" placeholder="Digite o número da linha" ng-model="vm.lineFilter" size="50">
             </label>
         </div>
+
         <ion-list>
-            <ion-item collection-repeat="line in vm.displayedLines | filter:vm.lineFilter"  ng-click="vm.goToMap(line)">
-                {{::line}}
+            <ion-item collection-repeat="line in vm.displayedLines | filter:vm.lineFilter"  ng-click="vm.addLine(line)">
+                <i class="ion-plus"></i> {{::line}}
             </ion-item>
         </ion-list>
+
     </ion-content>
 </ion-view>
