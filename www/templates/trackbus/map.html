@@ -50,10 +50,14 @@
                     <!-- Bus markers -->
                 </ui-gmap-google-map>
 
-                <button class="button button-full button-assertive btn-location ion-location"
-                    ng-click="vm.startTrip()">
-                    Acompanhar viagem na linha {{vm.selectedLine}}
-                </button>
+                <label class="item item-divider">Acompanhar viagem na linha</label>
+                <div class="row">
+                    <button ng-repeat="line in vm.linesIds" ng-click="vm.selectedLine=line"
+                        class="col button button-outline button-assertive">
+                        {{::line}}
+                    </button>
+                </div>
+
             </div>
         </body>
     </ion-content>
