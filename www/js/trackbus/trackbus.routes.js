@@ -36,9 +36,18 @@
             })
             .state(STATES.OPTIONS, {
                 url: '/options',
+                params: {
+                    line: ""
+                },
                 templateUrl: 'templates/trackbus/options.html',
                 controller: 'OptionsController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    stopsPromise: function(busStateFactory, $stateParams) {
+                        console.log($stateParams);
+                        return busStateFactory.optionsState($stateParams.line);
+                    }
+                }
             });
     };
 

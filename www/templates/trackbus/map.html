@@ -52,7 +52,7 @@
 
                 <label class="item item-divider">Acompanhar viagem na linha</label>
                 <div class="row">
-                    <button ng-repeat="line in vm.linesIds" ng-click="vm.selectedLine=line"
+                    <button ng-repeat="line in vm.linesIds" ng-click="vm.goToOptions(line)"
                         class="col button button-outline button-assertive">
                         {{::line}}
                     </button>

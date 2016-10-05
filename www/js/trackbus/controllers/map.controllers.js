@@ -44,13 +44,11 @@
         };
         // Google Maps
 
-        //gets the id of the first bus on the first line
-        vm.selectedLine = lines[0][0][BUS.LINE];
         vm.linesIds = [];
 
         vm.setCurrentPosition = setCurrentPosition;
         vm.notifyProximity = notifyProximity;
-        vm.startTrip = startTrip;
+        vm.goToOptions = stateService.options;
 
         activate();
 

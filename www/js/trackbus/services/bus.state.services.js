@@ -23,8 +23,8 @@
             return $q.all(promises);
         };
 
-        self.optionsState = function() {
-            // body...
+        self.optionsState = function(line) {
+            return busWebFactory.listStops(line);
         };
 
         return self;
