@@ -5,13 +5,17 @@
             <i class="ion-arrow-left-c"></i>
         </ion-nav-back-button>
     </ion-nav-bar>
-    <!--<ion-header-bar align-title="center" class="bar-positive">
-    </ion-header-bar>-->
     <ion-content class="has-header">
         <body>
             <script id="searchbox.tpl.html" type="text/ng-template">
                 <input type="text" placeholder="Endereço">
             </script>
+            <div ng-repeat="line in vm.lines">
+                {{::line}}
+            </div>
+            <br>
+            <br>
+            <br>
             <div class="map-container">
                 <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" control="vm.map">
                     <!-- Search box -->

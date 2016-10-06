@@ -10,4 +10,12 @@ angular
         "SPEED": 5,
         "DIRECTION": 6
     }
-);
+).constant("BUS_ICONS",
+    [
+        "img/bus_red.png",
+        "img/bus_blue.png",
+        "img/bus_green.png",
+       	"img/bus_purple.png",
+        "img/bus_brown.png"
+    ]
+).constant("BUS_STOP_ICON", "img/bus_stop.png");
