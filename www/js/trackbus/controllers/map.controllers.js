@@ -43,9 +43,7 @@
         };
         // Google Maps
 
-        vm.lines = busesLinePromise;
-        console.log(vm.lines);
-        vm.selectedLine = $stateParams.line;
+        vm.linesIds = [];
 
         vm.setCurrentPosition = setCurrentPosition;
         vm.notifyProximity = notifyProximity;
@@ -66,8 +64,16 @@
                     setUserPosition(coords.latitude, coords.longitude);
                 });
             };
+            function getLinesIds() {
+                var arr = [];
+                angular.forEach(lines, function(line) {
+                    arr.push(line[0][BUS.LINE]);
+                });
+                vm.linesIds = arr;
+            };
             return mapSetup().then(function(){
                 watchUserPosition();
+                getLinesIds();
                 initializeBusMarkers();
             });
         };
