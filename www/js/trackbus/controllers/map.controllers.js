@@ -9,17 +9,16 @@
         '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams',
         'stateService', 'busSpatialService',
         'busesPromise',
-        'BUS'
+        'BUS', 'BUS_ICONS'
     ];
 
     function MapController(
         $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams,
         stateService, busSpatialService,
         busesLinePromise,
-        BUS
+        BUS, BUS_ICONS
     ) {
         var vm = this;
-        var lines = busesLinePromise;
         var gmap;
 
         // Google Maps
@@ -104,19 +103,21 @@
         };
 
         function initializeBusMarkers(){
+            var lineIndex = 0;
             vm.busMarkers = [];
-            angular.forEach(lines, function(line) {
+            angular.forEach(vm.lines, function(line) {
                 angular.forEach(line, function(bus) {
-                    addBusMarker(bus);
+                    addBusMarker(bus, lineIndex);
                 });
+                lineIndex++;
             });
         };
 
-        function addBusMarker(bus) {
+        function addBusMarker(bus, lineIndex) {
             //coords must contain latitude and longitude
             var marker = {
                 id: bus[BUS.ORDER],
-                options: {label: String(bus[BUS.LINE])},
+                options: {icon: BUS_ICONS[lineIndex]},
                 coords: {
                     latitude: bus[BUS.LATITUDE],
                     longitude: bus[BUS.LONGITUDE]
