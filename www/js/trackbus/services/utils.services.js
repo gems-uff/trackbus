@@ -12,7 +12,9 @@
         var self = this;
 
         self.parseCSV = function(csv) {
-            return Papa.parse(csv, {header: true, dynamicTyping: true});
+            return Papa.parse(csv, {header: true, dynamicTyping: true}).then(function(result) {
+                return result.data;
+            });
         };
 
         return self;
