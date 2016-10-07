@@ -44,7 +44,6 @@
                 controllerAs: 'vm',
                 resolve: {
                     stopsPromise: function(busStateFactory, $stateParams) {
-                        console.log($stateParams);
                         return busStateFactory.optionsState($stateParams.line);
                     }
                 }

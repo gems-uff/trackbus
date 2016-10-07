@@ -5,15 +5,16 @@
         .module('trackbus')
         .controller('OptionsController', OptionsController);
 
-    OptionsController.$inject = [];
+    OptionsController.$inject = ['stateService', 'stopsPromise'];
 
-    function OptionsController(stateService) {
+    function OptionsController(stateService, stopsPromise) {
         var vm = this;
+        var stops = stopsPromise;
 
         activate();
 
         function activate() {
-            console.log("hello");
+            console.log(stops);
         };
     };
 

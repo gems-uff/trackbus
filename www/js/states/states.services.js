@@ -24,8 +24,7 @@
         };
 
         self.options = function(line) {
-            console.log(line);
-            $state.go(STATES.OPTIONS), {line: line};
+            $state.go(STATES.OPTIONS, {line: line});
         };
 
         return self;

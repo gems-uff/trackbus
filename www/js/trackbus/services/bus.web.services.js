@@ -40,7 +40,7 @@
                     URL.DATA_RIO.BUS_STOP.AFTER_LINE
                 )
             };
-            return $http(req).then(function(result){console.log(result);});
+            return $http(req);
         };
 
         return self;
