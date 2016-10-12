@@ -6,15 +6,15 @@
         .controller('MapController', MapController);
 
     MapController.$inject = [
-        '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams',
-        'stateService', 'busSpatialService',
+        '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams', '$interval',
+        'stateService', 'busSpatialService', 'busStateFactory',
         'busesPromise',
         'BUS', 'BUS_ICONS'
     ];
 
     function MapController(
-        $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams,
-        stateService, busSpatialService,
+        $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams, $interval,
+        stateService, busSpatialService, busStateFactory,
         busesLinePromise,
         BUS, BUS_ICONS
     ) {
@@ -65,15 +65,30 @@
                     setUserPosition(coords.latitude, coords.longitude);
                 });
             };
-            function getLinesIds() {
-                var arr = [];
-                angular.forEach(lines, function(line) {
-                    arr.push(line[0][BUS.LINE]);
-                });
-                vm.linesIds = arr;
+            function setUpdateInterval(){
+                //updates every minute
+                $interval(updateLines, 60000);
             };
+
             return mapSetup().then(function(){
                 watchUserPosition();
+                getLinesIds();
+                initializeBusMarkers();
+                setUpdateInterval();
+            });
+        };
+
+        function getLinesIds() {
+            var arr = [];
+            angular.forEach(lines, function(line) {
+                arr.push(line[0][BUS.LINE]);
+            });
+            vm.linesIds = arr;
+        };
+
+        function updateLines(){
+            return busStateFactory.mapState(vm.linesIds).then(function(result){
+                lines = result;
                 getLinesIds();
                 initializeBusMarkers();
             });
@@ -105,18 +120,20 @@
 
         function initializeBusMarkers(){
             var lineIndex = 0;
+            var result = [];
             vm.busMarkers = [];
             angular.forEach(lines, function(line) {
                 angular.forEach(line, function(bus) {
-                    addBusMarker(bus, lineIndex);
+                    result.push(generateBusMarker(bus, lineIndex));
                 });
                 lineIndex++;
             });
+            vm.busMarkers = result;
         };
 
-        function addBusMarker(bus, lineIndex) {
+        function generateBusMarker(bus, lineIndex) {
             //coords must contain latitude and longitude
-            var marker = {
+            return {
                 id: bus[BUS.ORDER],
                 options: {icon: BUS_ICONS[lineIndex]},
                 coords: {
@@ -124,8 +141,6 @@
                     longitude: bus[BUS.LONGITUDE]
                 }
             };
-            vm.busMarkers.push(marker);
-            return marker;
         };
 
         function notifyProximity(bus) {
