@@ -30,6 +30,19 @@
             });
         };
 
+        self.listStops = function(line) {
+            var req = {
+                method: 'GET',
+                url: (
+                    URL.DATA_RIO.BUS_STOP.BASE +
+                    URL.DATA_RIO.BUS_STOP.BEFORE_LINE
+                    + line +
+                    URL.DATA_RIO.BUS_STOP.AFTER_LINE
+                )
+            };
+            return $http(req);
+        };
+
         return self;
     };
 

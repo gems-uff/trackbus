@@ -23,8 +23,8 @@
             $state.go(STATES.MAP, {lines: lines});
         };
 
-        self.options = function() {
-            $state.go(STATES.OPTIONS);
+        self.options = function(line) {
+            $state.go(STATES.OPTIONS, {line: line});
         };
 
         return self;

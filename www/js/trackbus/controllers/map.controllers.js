@@ -19,6 +19,7 @@
         BUS, BUS_ICONS
     ) {
         var vm = this;
+        var lines = busesLinePromise;
         var gmap;
 
         // Google Maps
@@ -29,7 +30,7 @@
         };
         vm.map = {
             center: {latitude: 0, longitude: 0},
-            zoom: 10
+            zoom: 15
         };
         vm.searchbox = {
             template:'searchbox.tpl.html',
@@ -47,7 +48,7 @@
 
         vm.setCurrentPosition = setCurrentPosition;
         vm.notifyProximity = notifyProximity;
-        vm.startTrip = startTrip;
+        vm.goToOptions = stateService.options;
 
         activate();
 
@@ -105,7 +106,7 @@
         function initializeBusMarkers(){
             var lineIndex = 0;
             vm.busMarkers = [];
-            angular.forEach(vm.lines, function(line) {
+            angular.forEach(lines, function(line) {
                 angular.forEach(line, function(bus) {
                     addBusMarker(bus, lineIndex);
                 });
