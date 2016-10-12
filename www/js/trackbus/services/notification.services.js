@@ -11,11 +11,10 @@
 
         var self = this;
 
-        self.scheduleBusProximityNotification = function(bus) {
+        self.scheduleBusNotification = function(bus) {
             $cordovaLocalNotification.schedule({
-                id: bus[BUS.ORDER],
-                title: "Ônibus " + bus[BUS.LINE],
-                text: 'O ônibus está se aproximando.'
+                title: "Ônibus " + bus.line,
+                text: "O ônibus está a " + bus.distance + "km."
             }).then(function (result) {
                 $cordovaVibration.vibrate(300);
             });

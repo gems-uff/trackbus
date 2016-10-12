@@ -40,7 +40,13 @@
                             <!-- Window content -->
                             <ui-gmap-window>
                                 <div>
-                                    <a ng-click="$parent.vm.notifyProximity($parent.marker)">Notificar proximidade</a>
+                                    Linha: {{::marker.line}}
+                                    <br>
+                                    Distância: {{::marker.distance}} km
+                                    <br>
+                                    <button class="button button-small button-assertive" ng-click="$parent.vm.addProximityListener($parent.marker)">
+                                        Notificar proximidade
+                                    </button>
                                 </div>
                             </ui-gmap-window>
                         </ui-gmap-marker>

@@ -12,7 +12,6 @@
         var self = this;
 
         self.getDistance = function(coord1, coord2) {
-            console.log(coord1, coord2);
             var from = {
                 "type": "Feature",
                 "properties": {},
