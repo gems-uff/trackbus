@@ -6,15 +6,18 @@
         .controller('ListController', ListController);
 
     ListController.$inject = [
-        '$scope', 'stateService', 'alertService', 'BUS', 'linesPromise', 'ERROR_MESSAGES'
+        '$scope', 'stateService', 'alertService',
+        'linesPromise',
+        'BUS', 'ERROR_MESSAGES', 'TRACKBUS'
     ];
 
     function ListController(
-        $scope, stateService, alertService, BUS, linesPromise, ERROR_MESSAGES
+        $scope, stateService, alertService,
+        linesPromise,
+        BUS, ERROR_MESSAGES, TRACKBUS
     ) {
         var vm = this;
         var lines = linesPromise;
-        const maxLines = 3;
 
         vm.displayedLines = lines;
         vm.selectedLines = [];
@@ -27,7 +30,7 @@
         function activate() {};
 
         function addLine(line) {
-            if(vm.selectedLines.length >= maxLines){
+            if(vm.selectedLines.length >= TRACKBUS.MAX_LINES){
                 return alertService.showAlert("Erro", ERROR_MESSAGES.MAX_LINES);
             }
             vm.selectedLines.push(line);

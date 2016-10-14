@@ -8,6 +8,7 @@ angular.module('messages', [])
 .constant("SUCCESS_MESSAGES",
     {
         "GENERIC": "Operação realizada com sucesso.",
+        "BUS_NOTIFICATION": "Você será notificado quando o ônibus se aproximar.",
     }
 )
 .constant("CONFIRMATION_MESSAGES",

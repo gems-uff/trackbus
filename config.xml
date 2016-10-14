@@ -8,9 +8,11 @@
         Your Name Here
     </author>
   <content src="index.html"/>
-  <access origin="*"/>
   <access origin="http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/*" />
-  <access origin="http://maps.google.com" />
+  <access origin="https://maps.googleapis.com/*" />
+  <access origin="https://csi.gstatic.com/*" />
+  <access origin="https://maps.gstatic.com/*" />
+  <access origin="https://fonts.googleapis.com/*" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
