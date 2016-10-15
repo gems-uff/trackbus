@@ -12,6 +12,8 @@
 
         vm.goToList = stateService.list;
 
+        vm.goToStopsEquivalence = stateService.stopsEquivalence;
+
         activate();
 
         function activate() {

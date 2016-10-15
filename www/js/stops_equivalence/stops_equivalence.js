@@ -1,1 +1,1 @@
-angular.module('stops_equivalence', ['uiGmapgoogle-maps', 'URLConstants']);
+angular.module('stops_equivalence', ['papa-promise', 'trackbus']);
