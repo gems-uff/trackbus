@@ -5,6 +5,7 @@ angular
         "INTRO": "intro",
         "LIST": "list",
         "MAP": "map",
-        "OPTIONS": "options"
+        "OPTIONS": "options",
+        "STOPS_EQUIVALENCE": "stops_equivalence"
     }
 );

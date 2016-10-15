@@ -1,0 +1,1 @@
+angular.module('stops_equivalence', ['uiGmapgoogle-maps', 'URLConstants']);

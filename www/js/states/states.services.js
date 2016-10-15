@@ -27,6 +27,10 @@
             $state.go(STATES.OPTIONS);
         };
 
+        self.options = function() {
+            $state.go(STATES.STOPS_EQUIVALENCE);
+        };
+
         return self;
     };
 
