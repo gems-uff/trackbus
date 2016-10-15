@@ -5,7 +5,8 @@
         .module('app',[
             'ionic', 'ui.router', 'ngCordova',
             'alerts', 'states', 'trackbus',
-            'messages', 'URLConstants'
+            'messages', 'URLConstants',
+            'stops_equivalence'
         ])
         .run(run);
 

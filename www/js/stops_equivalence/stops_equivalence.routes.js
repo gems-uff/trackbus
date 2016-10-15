@@ -9,7 +9,7 @@
 
     function config($stateProvider, STATES){
         $stateProvider
-            .state(STATES.INTRO, {
+            .state(STATES.STOPS_EQUIVALENCE, {
                 url: '/stops_equivalence',
                 templateUrl: 'templates/stops_equivalence/stops_equivalence.html',
                 controller: 'StopsEquivalenceController',
