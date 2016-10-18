@@ -5,9 +5,17 @@
         .module('trackbus')
         .factory('notificationService', notificationService);
 
-    notificationService.$inject = ['$rootScope', '$cordovaLocalNotification', '$cordovaVibration', 'BUS'];
+    notificationService.$inject = [
+        '$rootScope',
+        '$cordovaLocalNotification', '$cordovaVibration',
+        'BUS'
+    ];
 
-    function notificationService($rootScope, $cordovaLocalNotification, $cordovaVibration, BUS) {
+    function notificationService(
+        $rootScope,
+        $cordovaLocalNotification, $cordovaVibration,
+        BUS
+    ) {
 
         var self = this;
 
@@ -23,7 +31,7 @@
             return $cordovaLocalNotification.schedule({
                 title: "Ônibus " + bus.line,
                 text: "O ônibus está a " + bus.distance + "km.",
-                sound: "sounds/honk.mp3"
+                sound: "file://sounds/honk.mp3"
             });
         };
 
