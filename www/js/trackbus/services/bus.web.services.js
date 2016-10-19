@@ -24,6 +24,12 @@
             });
         };
 
+        self.listAllBuses = function() {
+            return self.listBuses().then(function(result) {
+                return busFactory.filterEmptyLines(result);
+            });
+        };
+
         self.listLines = function(hideEmpty) {
             return self.listBuses().then(function(result) {
                 return busFactory.getLines(result, hideEmpty);

@@ -27,6 +27,16 @@
             return getByAttributes(buses, [BUS.LATITUDE, BUS.LONGITUDE], hideEmpty);
         };
 
+        self.filterEmptyLines = function(list) {
+            var result = [];
+            angular.forEach(list, function(element) {
+                if(element[BUS.LINE]){
+                    result.push(element);
+                }
+            });
+            return result;
+        };
+
         function getByAttribute(list, attr, hideEmpty) {
             var result = [];
             angular.forEach(list, function(element) {

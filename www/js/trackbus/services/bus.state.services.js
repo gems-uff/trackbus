@@ -12,7 +12,7 @@
         var self = this;
 
         self.listState = function(){
-            return busWebFactory.listLines(true);
+            return busWebFactory.listAllBuses();
         };
 
         self.mapState = function(lines) {

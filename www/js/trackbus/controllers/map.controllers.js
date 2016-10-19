@@ -106,16 +106,17 @@
         };
 
         function setCurrentPosition(zoom) {
-            return navigator.geolocation.getCurrentPosition(
+            return busSpatialService.getCurrentPosition().then(
                 function success(result) {
                     var coords = result.coords;
                     setUserPosition(coords.latitude, coords.longitude);
                     setPosition(coords.latitude, coords.longitude, zoom);
                 },
-                function failure(result) {
+                function error(result) {
                     console.error(result);
                     alertService.showAlert("Erro", ERROR_MESSAGES.NAVIGATOR_FAILURE);
-                });
+                }
+            );
         };
 
         function setPosition(lat, lon, zoom) {
