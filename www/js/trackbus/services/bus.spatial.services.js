@@ -5,9 +5,9 @@
         .module('trackbus')
         .factory('busSpatialService', busSpatialService);
 
-    busSpatialService.$inject = ['BUS'];
+    busSpatialService.$inject = ['$q', 'BUS', 'TRACKBUS'];
 
-    function busSpatialService(BUS) {
+    function busSpatialService($q, BUS, TRACKBUS) {
 
         var self = this;
 
@@ -33,6 +33,58 @@
                 "features": [from, to]
             };
             return turf.distance(from, to);
+        };
+
+        self.isClose = function(centerCoords, radius, targetCoords) {
+            var center = {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [centerCoords.latitude, centerCoords.longitude]
+                }
+            };
+            var target = {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [targetCoords.latitude, targetCoords.longitude]
+                }
+            };
+            var circle = turf.circle(center, radius, 10);
+            return turf.inside(target, circle);
+        };
+
+        self.getCurrentPosition = function() {
+            var deferred = $q.defer();
+            navigator.geolocation.getCurrentPosition(
+                function success(result) {
+                    deferred.resolve(result.coords);
+                },
+                function error(result) {
+                    deferred.reject(result);
+                }
+            );
+            return deferred.promise;
+        };
+
+        self.getCloseLines = function(buses) {
+            return self.getCurrentPosition().then(function(selfCoords) {
+                var arr = [];
+                var busCoords;
+                var line;
+                angular.forEach(buses, function(bus) {
+                    busCoords = {latitude: bus[BUS.LATITUDE], longitude: bus[BUS.LONGITUDE]};
+                    line = bus[BUS.LINE];
+                    if(arr.indexOf(line) == -1){
+                        if(self.isClose(selfCoords, TRACKBUS.LINE_RADIUS, busCoords)){
+                            arr.push(line);
+                        }
+                    }
+                });
+                return arr;
+            });
         };
 
         return self;

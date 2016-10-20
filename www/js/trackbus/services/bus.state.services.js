@@ -5,14 +5,21 @@
         .module('trackbus')
         .factory('busStateFactory', busStateFactory);
 
-    busStateFactory.$inject = ['$q', 'busWebFactory', 'busFactory', 'utilsService'];
+    busStateFactory.$inject = ['$q', 'busWebFactory', 'busFactory', 'busSpatialService', 'utilsService'];
 
-    function busStateFactory($q, busWebFactory, busFactory, utilsService) {
+    function busStateFactory($q, busWebFactory, busFactory, busSpatialService, utilsService) {
 
         var self = this;
 
         self.listState = function(){
-            return busWebFactory.listLines(true);
+            var statePromise = {lines: [], closeLines: []};
+            return busWebFactory.listAllBuses().then(function(result) {
+                statePromise.lines = busFactory.getLines(result, true);
+                return busSpatialService.getCloseLines(result).then(function(result) {
+                    statePromise.closeLines = result;
+                    return statePromise;
+                });
+            });
         };
 
         self.mapState = function(lines) {

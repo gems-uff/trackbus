@@ -24,6 +24,12 @@
             });
         };
 
+        self.listAllBuses = function() {
+            return self.listBuses().then(function(result) {
+                return busFactory.filterEmptyLines(result);
+            });
+        };
+
         self.listLines = function(hideEmpty) {
             return self.listBuses().then(function(result) {
                 return busFactory.getLines(result, hideEmpty);
@@ -35,8 +41,8 @@
                 method: 'GET',
                 url: (
                     URL.DATA_RIO.BUS_STOP.BASE +
-                    URL.DATA_RIO.BUS_STOP.BEFORE_LINE
-                    + line +
+                    URL.DATA_RIO.BUS_STOP.BEFORE_LINE +
+                    line +
                     URL.DATA_RIO.BUS_STOP.AFTER_LINE
                 )
             };
