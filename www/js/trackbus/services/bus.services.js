@@ -28,13 +28,9 @@
         };
 
         self.filterEmptyLines = function(list) {
-            var result = [];
-            angular.forEach(list, function(element) {
-                if(element[BUS.LINE]){
-                    result.push(element);
-                }
+            return list.filter(function(element) {
+                return element[BUS.LINE];
             });
-            return result;
         };
 
         function getByAttribute(list, attr, hideEmpty) {

@@ -6,75 +6,49 @@
         .controller('ListController', ListController);
 
     ListController.$inject = [
-        '$scope', 'stateService', 'alertService', 'busSpatialService',
+        'filterFilter', '$scope', 'stateService', 'alertService',
         'linesPromise',
         'BUS', 'ERROR_MESSAGES', 'TRACKBUS'
     ];
 
     function ListController(
-        $scope, stateService, alertService, busSpatialService,
+        filterFilter, $scope, stateService, alertService,
         linesPromise,
         BUS, ERROR_MESSAGES, TRACKBUS
     ) {
         var vm = this;
-        var buses = linesPromise;
-        var closeLines = [];
+        var lines = linesPromise.lines;
 
-        vm.displayedLines = buses;
+        vm.lineFilter = "";
+        vm.closeLines = linesPromise.closeLines;
+        vm.filteredLines = [];
         vm.selectedLines = [];
+
         vm.addLine = addLine;
         vm.removeLine = removeLine;
+        vm.filterLines = filterLines;
         vm.goToMap = stateService.map;
 
         activate();
 
-        function activate() {
-            return getCloseLines().then(function(result){
-                closeLines = result;
-            });
-        };
+        function activate() {};
 
         function addLine(line) {
             if(vm.selectedLines.length >= TRACKBUS.MAX_LINES){
                 return alertService.showAlert("Erro", ERROR_MESSAGES.MAX_LINES);
+            } else if(vm.selectedLines.indexOf(line) != -1){
+                return alertService.showAlert("Erro", ERROR_MESSAGES.ALREADY_PRESENT);
             }
             vm.selectedLines.push(line);
-            var index = vm.displayedLines.indexOf(line);
-            vm.displayedLines.splice(index, 1);
         };
 
         function removeLine(line) {
-            vm.displayedLines.push(line);
             var index = vm.selectedLines.indexOf(line);
             vm.selectedLines.splice(index, 1);
         };
 
-        function getCloseLines() {
-            return getCurrentPosition().then(function(result) {
-                var arr = [];
-                var selfCoords = result;
-
-                angular.forEach(buses, function(bus) {
-                    var busCoords = {latitude: bus[BUS.LATITUDE], longitude: bus[BUS.LONGITUDE]};
-                    if(busSpatialService.isClose(selfCoords, TRACKBUS.LINE_RADIUS, busCoords)){
-                        arr.push(bus);
-                    }
-                });
-
-                return arr;
-            });
-        };
-
-        function getCurrentPosition(){
-            return busSpatialService.getCurrentPosition().then(
-                function success(result) {
-                    return {latitude: result.latitude, longitude: result.longitude};
-                },
-                function error(result){
-                    console.error(result);
-                    alertService.showAlert("Erro", ERROR_MESSAGES.NAVIGATOR_FAILURE);
-                }
-            );
+        function filterLines() {
+            vm.filteredLines = filterFilter(lines, vm.lineFilter);
         };
 
     };

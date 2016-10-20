@@ -5,9 +5,9 @@
         .module('trackbus')
         .factory('busSpatialService', busSpatialService);
 
-    busSpatialService.$inject = ['$q', 'BUS'];
+    busSpatialService.$inject = ['$q', 'BUS', 'TRACKBUS'];
 
-    function busSpatialService($q, BUS) {
+    function busSpatialService($q, BUS, TRACKBUS) {
 
         var self = this;
 
@@ -67,6 +67,24 @@
                 }
             );
             return deferred.promise;
+        };
+
+        self.getCloseLines = function(buses) {
+            return self.getCurrentPosition().then(function(selfCoords) {
+                var arr = [];
+                var busCoords;
+                var line;
+                angular.forEach(buses, function(bus) {
+                    busCoords = {latitude: bus[BUS.LATITUDE], longitude: bus[BUS.LONGITUDE]};
+                    line = bus[BUS.LINE];
+                    if(arr.indexOf(line) == -1){
+                        if(self.isClose(selfCoords, TRACKBUS.LINE_RADIUS, busCoords)){
+                            arr.push(line);
+                        }
+                    }
+                });
+                return arr;
+            });
         };
 
         return self;
