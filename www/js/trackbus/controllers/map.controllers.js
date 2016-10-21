@@ -108,9 +108,8 @@
         function setCurrentPosition(zoom) {
             return busSpatialService.getCurrentPosition().then(
                 function success(result) {
-                    var coords = result.coords;
-                    setUserPosition(coords.latitude, coords.longitude);
-                    setPosition(coords.latitude, coords.longitude, zoom);
+                    setUserPosition(result.latitude, result.longitude);
+                    setPosition(result.latitude, result.longitude, zoom);
                 },
                 function error(result) {
                     console.error(result);
