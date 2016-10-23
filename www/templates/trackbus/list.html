@@ -4,8 +4,8 @@
     </ion-nav-bar>
 
     <ion-content class="has-header">
-        <div class="list list-inset" ng-if="vm.selectedLines.length > 0">
 
+        <div class="list list-inset" ng-if="vm.selectedLines.length > 0">
             <ion-list>
                 <label>
                     Linhas selecionadas
@@ -19,32 +19,34 @@
             </button>
         </div>
 
-        <div class="list list-inset">
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" size="50" placeholder="Digite o número da linha" ng-model="vm.lineFilter" ng-blur="vm.filterLines()">
-            </label>
+        <button class="button button-full button-calm" ng-click="vm.showFilter = !vm.showFilter">
+            Pesquisar linhas
+        </button>
+
+        <div ng-if="vm.showFilter">
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input type="text" size="50" placeholder="Digite o número da linha" ng-model="vm.lineFilter" ng-blur="vm.filterLines()">
+                </label>
+            </div>
+
+            <ion-list ng-show="vm.lineFilter">
+                 <ion-item ng-repeat="line in vm.filteredLines" ng-click="vm.addLine(line)">
+                    <i class="ion-plus"></i> {{::line}}
+                </ion-item>
+            </ion-list>
         </div>
 
-        <ion-list ng-show="vm.lineFilter">
-            <label>
-                Linhas filtradas:
-            </label>
-             <ion-item ng-repeat="line in vm.filteredLines" ng-click="vm.addLine(line)">
-                <i class="ion-plus"></i> {{::line}}
-            </ion-item>
-        </ion-list>
-
-        <hr>
-
-        <ion-list>
-            <label>
-                Linhas próximas a você:
-            </label>
-            <ion-item ng-repeat="line in vm.closeLines" ng-click="vm.addLine(line)">
-                <i class="ion-plus"></i> {{::line}}
-            </ion-item>
-        </ion-list>
-
+        <div ng-if="!vm.showFilter">
+            <ion-list>
+                <label>
+                    Linhas próximas a você:
+                </label>
+                <ion-item ng-repeat="line in vm.closeLines" ng-click="vm.addLine(line)">
+                    <i class="ion-plus"></i> {{::line}}
+                </ion-item>
+            </ion-list>
+        </div>
     </ion-content>
 </ion-view>
