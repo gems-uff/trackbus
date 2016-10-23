@@ -6,13 +6,13 @@
         .factory('notificationService', notificationService);
 
     notificationService.$inject = [
-        '$rootScope',
+        '$q', '$rootScope',
         '$cordovaLocalNotification', '$cordovaVibration',
         'BUS'
     ];
 
     function notificationService(
-        $rootScope,
+        $q, $rootScope,
         $cordovaLocalNotification, $cordovaVibration,
         BUS
     ) {
@@ -28,10 +28,22 @@
         };
 
         self.scheduleBusNotification = function(bus) {
-            return $cordovaLocalNotification.schedule({
-                title: "Ônibus " + bus.line,
-                text: "O ônibus está a " + bus.distance + "km.",
-                sound: "file://sounds/honk.mp3"
+            var busId = bus.id.hashCode();
+            var promises = {
+                scheduled: $cordovaLocalNotification.isScheduled(busId),
+                triggered: $cordovaLocalNotification.isTriggered(busId)
+            };
+
+            return $q.all(promises).then(function(result){
+                console.log(result);
+                if(!result.scheduled && !result.triggered){
+                    return $cordovaLocalNotification.schedule({
+                        id: busId,
+                        title: "Ônibus " + bus.line,
+                        text: "O ônibus está a " + bus.distance + "km.",
+                        sound: "file://sounds/honk.mp3"
+                    });
+                }
             });
         };
 

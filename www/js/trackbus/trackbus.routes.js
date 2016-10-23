@@ -11,12 +11,16 @@
         $stateProvider
             .state(STATES.LIST, {
                 url: '/list',
-                templateUrl: 'templates/trackbus/list.html',
-                controller: 'ListController',
-                controllerAs: 'vm',
-                resolve: {
-                    linesPromise: function(busStateFactory) {
-                        return busStateFactory.listState();
+                views: {
+                    "headerContent":{
+                        templateUrl: 'templates/trackbus/list.html',
+                        controller: 'ListController',
+                        controllerAs: 'vm',
+                        resolve: {
+                            linesPromise: function(busStateFactory) {
+                                return busStateFactory.listState();
+                            }
+                        }
                     }
                 }
             })
@@ -25,12 +29,16 @@
                 params:{
                     lines: []
                 },
-                templateUrl: 'templates/trackbus/map.html',
-                controller: 'MapController',
-                controllerAs: 'vm',
-                resolve: {
-                    busesPromise: function(busStateFactory, $stateParams) {
-                        return busStateFactory.mapState($stateParams.lines);
+                views: {
+                    "headerContent":{
+                        templateUrl: 'templates/trackbus/map.html',
+                        controller: 'MapController',
+                        controllerAs: 'vm',
+                        resolve: {
+                            busesPromise: function(busStateFactory, $stateParams) {
+                                return busStateFactory.mapState($stateParams.lines);
+                            }
+                        }
                     }
                 }
             })
@@ -39,12 +47,16 @@
                 params: {
                     line: ""
                 },
-                templateUrl: 'templates/trackbus/options.html',
-                controller: 'OptionsController',
-                controllerAs: 'vm',
-                resolve: {
-                    stopsPromise: function(busStateFactory, $stateParams) {
-                        return busStateFactory.optionsState($stateParams.line);
+                views: {
+                    "headerContent":{
+                        templateUrl: 'templates/trackbus/options.html',
+                        controller: 'OptionsController',
+                        controllerAs: 'vm',
+                        resolve: {
+                            stopsPromise: function(busStateFactory, $stateParams) {
+                                return busStateFactory.optionsState($stateParams.line);
+                            }
+                        }
                     }
                 }
             });
