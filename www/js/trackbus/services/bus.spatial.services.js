@@ -10,6 +10,7 @@
     function busSpatialService($q, BUS, TRACKBUS) {
 
         var self = this;
+        var watchId = 0;
 
         self.getDistance = function(coord1, coord2) {
             var from = {
@@ -58,15 +59,37 @@
 
         self.getCurrentPosition = function() {
             var deferred = $q.defer();
+
+            clearWatch();
             navigator.geolocation.getCurrentPosition(
                 function success(result) {
                     deferred.resolve(result.coords);
                 },
                 function error(result) {
+                    console.log(result);
                     deferred.reject(result);
-                }
+                },
+                {timeout: 5000, enableHighAccuracy: false}
             );
             return deferred.promise;
+        };
+
+        self.watchPosition = function(handler) {
+            var deferred = $q.defer();
+
+            clearWatch();
+            watchId = navigator.geolocation.watchPosition(function(result){
+                var coords = result.coords;
+                handler(coords.latitude, coords.longitude);
+                deferred.resolve();
+            });
+            return deferred.promise;
+        };
+
+        function clearWatch() {
+            if(watchId != 0){
+                navigator.geolocation.clearWatch(watchId);
+            }
         };
 
         self.getCloseLines = function(buses) {

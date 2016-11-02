@@ -28,7 +28,7 @@
             });
             $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
                 console.error(error);
-                alertService.showAlert("Erro", ERROR_MESSAGES.GENERIC);
+                alertService.showGenericError();
                 alertService.hideLoading();
             });
         };

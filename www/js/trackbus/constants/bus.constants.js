@@ -18,4 +18,5 @@ angular
        	"img/bus_purple.png",
         "img/bus_brown.png"
     ]
-).constant("BUS_STOP_ICON", "img/bus_stop.png");
+)
+.constant("BUS_STOP_ICON", "img/bus_stop.png");

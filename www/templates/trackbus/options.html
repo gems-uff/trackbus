@@ -1,6 +1,28 @@
 <ion-view view-title="Trackbus">
     <!--INSERT CSS HERE-->
     <ion-content class="has-header">
-        <h1>Hello options!</h1>
+        <div>
+            Notificações:
+            <ion-checkbox ng-model="vm.options.notification.vibration">Vibração</ion-checkbox>
+            <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.NO_SOUND">
+                Sem som
+            </ion-radio>
+            <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.SOUND_ALERT">
+                Alerta sonoro
+            </ion-radio>
+            <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.VOICE">
+                Voz
+            </ion-radio>
+        </div>
+
+        <div>
+            Pontos turísticos
+            <ion-checkbox ng-model="vm.tripOptions.enableTourist">Exibir pontos turísticos</ion-checkbox>
+        </div>
+
+        <br>
+        <button ng-click="vm.goToTrip(vm.line, vm.options)" class="col button button-outline button-assertive">
+            Acompanhar viagem
+        </button>
     </ion-content>
 </ion-view>

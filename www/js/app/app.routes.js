@@ -17,7 +17,7 @@
                 controllerAs: 'header'
             })
             .state(STATES.INTRO, {
-                url: '/intro',
+                url: 'intro',
                 views: {
                     "headerContent":{
                         templateUrl: 'templates/trackbus/intro.html',

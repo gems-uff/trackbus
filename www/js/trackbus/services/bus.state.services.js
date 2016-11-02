@@ -5,9 +5,15 @@
         .module('trackbus')
         .factory('busStateFactory', busStateFactory);
 
-    busStateFactory.$inject = ['$q', 'busWebFactory', 'busFactory', 'busSpatialService', 'utilsService'];
+    busStateFactory.$inject = [
+        '$q',
+        'busWebFactory', 'busFactory', 'busSpatialService', 'fileService'
+    ];
 
-    function busStateFactory($q, busWebFactory, busFactory, busSpatialService, utilsService) {
+    function busStateFactory(
+        $q,
+        busWebFactory, busFactory, busSpatialService, fileService
+    ) {
 
         var self = this;
 
@@ -31,11 +37,11 @@
         };
 
         self.optionsState = function(line) {
-            return busWebFactory.listStops(line).then(function(result){
-                //result.data is expected to be CSV
-                var csv = result.data;
-                return utilsService.parseCSV(csv);
-            });
+            return fileService.loadJSONFile(line);
+        };
+
+        self.tripState = function(line) {
+            return fileService.loadJSONFile(line);
         };
 
         return self;

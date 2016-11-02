@@ -3,17 +3,17 @@
 
     angular
         .module('trackbus')
-        .controller('MapController', MapController);
+        .controller('BusMapController', BusMapController);
 
-    MapController.$inject = [
-        '$q', '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams', '$interval',
+    BusMapController.$inject = [
+        '$q', '$rootScope', '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams', '$interval',
         'alertService', 'stateService', 'busSpatialService', 'busStateFactory', 'notificationService',
         'busesPromise',
         'BUS', 'BUS_ICONS', 'TRACKBUS', 'SUCCESS_MESSAGES'
     ];
 
-    function MapController(
-        $q, $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams, $interval,
+    function BusMapController(
+        $q, $rootScope, $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams, $interval,
         alertService, stateService, busSpatialService, busStateFactory, notificationService,
         busesLinePromise,
         BUS, BUS_ICONS, TRACKBUS, SUCCESS_MESSAGES
@@ -21,7 +21,6 @@
         var vm = this;
         var lines = busesLinePromise;
         var notifyBuses = [];
-        var gmap;
 
         // Google Maps
         vm.busMarkers = [];
@@ -56,18 +55,8 @@
         function activate() {
             function mapSetup(){
                 return uiGmapGoogleMapApi.then(function(maps) {
-                    gmap = maps;
                     return setCurrentPosition();
                 });
-            };
-            function watchUserPosition() {
-                var deferred = $q.defer();
-                navigator.geolocation.watchPosition(function(result){
-                    var coords = result.coords;
-                    setUserPosition(coords.latitude, coords.longitude);
-                    deferred.resolve();
-                });
-                return deferred.promise;
             };
             function setUpdateInterval(){
                 $interval(updateLines, TRACKBUS.TIME_TO_UPDATE);
@@ -76,7 +65,7 @@
             return mapSetup().then(function(){
                 getLinesIds();
                 setUpdateInterval();
-                watchUserPosition().then(initializeBusMarkers);
+                return busSpatialService.watchPosition(setUserPosition).then(initializeBusMarkers);
             });
         };
 
@@ -99,7 +88,7 @@
 
         function notifyProximity() {
             angular.forEach(notifyBuses, function(bus){
-                if(getDistance(bus) <= TRACKBUS.NOTIFICATION_DISTANCE){
+                if(getDistance(bus) <= TRACKBUS.BUS_NOTIFICATION_DISTANCE){
                     notificationService.scheduleBusNotification(bus);
                 }
             });
@@ -170,9 +159,6 @@
                 }
             }
             return busSpatialService.getDistance(bus.coords, vm.userMarker.coords);
-        };
-
-        function startTrip() {
         };
     };
 

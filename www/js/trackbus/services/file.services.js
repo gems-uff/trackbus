@@ -5,9 +5,9 @@
         .module('trackbus')
         .factory('fileService', fileService);
 
-    fileService.$inject = ['$http'];
+    fileService.$inject = ['$http', 'alertService', 'ERROR_MESSAGES'];
 
-    function fileService($http) {
+    function fileService($http, alertService, ERROR_MESSAGES) {
 
         var self = this;
 
@@ -15,9 +15,15 @@
         const LINES_PATH = "lines/";
 
         self.loadJSONFile = function(line) {
-            return $http.get(DATA_PATH + LINES_PATH + line + ".json").then(function(result) {
-                return JSON.parse(JSON.stringify(result.data));
-            });
+            return $http.get(DATA_PATH + LINES_PATH + line + ".json").then(
+                function success(result) {
+                    return JSON.parse(JSON.stringify(result.data));
+                },
+                function error() {
+                    alertService.showAlert("Erro", ERROR_MESSAGES.NO_LINES);
+                    throw error;
+                }
+            );
         };
 
         return self;

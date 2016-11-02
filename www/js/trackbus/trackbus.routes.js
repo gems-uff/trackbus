@@ -10,7 +10,7 @@
     function config($stateProvider, STATES) {
         $stateProvider
             .state(STATES.LIST, {
-                url: '/list',
+                url: 'list',
                 views: {
                     "headerContent":{
                         templateUrl: 'templates/trackbus/list.html',
@@ -25,14 +25,14 @@
                 }
             })
             .state(STATES.MAP, {
-                url: '/map',
+                url: 'map',
                 params:{
                     lines: []
                 },
                 views: {
                     "headerContent":{
                         templateUrl: 'templates/trackbus/map.html',
-                        controller: 'MapController',
+                        controller: 'BusMapController',
                         controllerAs: 'vm',
                         resolve: {
                             busesPromise: function(busStateFactory, $stateParams) {
@@ -43,7 +43,7 @@
                 }
             })
             .state(STATES.OPTIONS, {
-                url: '/options',
+                url: 'options',
                 params: {
                     line: ""
                 },
@@ -55,6 +55,25 @@
                         resolve: {
                             stopsPromise: function(busStateFactory, $stateParams) {
                                 return busStateFactory.optionsState($stateParams.line);
+                            }
+                        }
+                    }
+                }
+            })
+            .state(STATES.TRIP, {
+                url: 'trip',
+                params: {
+                    line: "",
+                    options: {}
+                },
+                views: {
+                    "headerContent":{
+                        templateUrl: 'templates/trackbus/trip.html',
+                        controller: 'TripController',
+                        controllerAs: 'vm',
+                        resolve: {
+                            stopsPromise: function(busStateFactory, $stateParams) {
+                                return busStateFactory.tripState($stateParams.line, $stateParams.options);
                             }
                         }
                     }

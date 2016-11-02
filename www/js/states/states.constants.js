@@ -6,6 +6,7 @@ angular
         "INTRO": "header.intro",
         "LIST": "header.list",
         "MAP": "header.map",
-        "OPTIONS": "header.options"
+        "OPTIONS": "header.options",
+        "TRIP": "header.trip"
     }
 );

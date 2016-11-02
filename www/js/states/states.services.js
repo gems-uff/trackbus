@@ -27,6 +27,10 @@
             $state.go(STATES.OPTIONS, {line: line});
         };
 
+        self.trip = function(line, options) {
+            $state.go(STATES.TRIP, {line: line, options: options});
+        };
+
         return self;
     };
 

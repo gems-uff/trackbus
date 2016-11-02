@@ -4,8 +4,7 @@
     angular
         .module('app',[
             'ionic', 'ui.router', 'ngCordova',
-            'alerts', 'states', 'trackbus',
-            'messages', 'URLConstants'
+            'alerts', 'states', 'trackbus'
         ])
         .run(run);
 
@@ -60,7 +59,7 @@
                     });
                 }
             };
-            function hashCodePolyfill(argument) {
+            function hashCodePolyfill() {
                 String.prototype.hashCode = function() {
                     var hash = 0, i, chr, len;
                     if (this.length === 0) return hash;

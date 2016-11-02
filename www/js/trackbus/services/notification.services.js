@@ -35,7 +35,6 @@
             };
 
             return $q.all(promises).then(function(result){
-                console.log(result);
                 if(!result.scheduled && !result.triggered){
                     return $cordovaLocalNotification.schedule({
                         id: busId,

@@ -4,9 +4,9 @@
         .module('alerts')
         .factory('alertService', alertService);
 
-    alertService.$inject = ['$ionicPopup', '$ionicLoading'];
+    alertService.$inject = ['$ionicPopup', '$ionicLoading', 'ERROR_MESSAGES'];
 
-    function alertService($ionicPopup, $ionicLoading) {
+    function alertService($ionicPopup, $ionicLoading, ERROR_MESSAGES) {
         var self = this;
 
         self.showLoading = function() {
@@ -22,6 +22,10 @@
                 title: title,
                 template: message
             });
+        };
+
+        self.showGenericError = function() {
+            self.showAlert("Erro", ERROR_MESSAGES.GENERIC);
         };
 
         self.showConfirmation = function(title, message, callback) {
