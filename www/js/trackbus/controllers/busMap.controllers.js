@@ -132,7 +132,7 @@
         };
 
         function generateBusMarker(bus, lineIndex) {
-            //coords must contain latitude and longitude
+            //must contain coords: {latitude: number, longitude: number}
             return {
                 id: bus[BUS.ORDER],
                 options: {icon: BUS_ICONS[lineIndex]},
@@ -152,13 +152,14 @@
         };
 
         function getDistance(bus) {
-            if(!bus.coords){
-                bus.coords = {
-                    latitude: bus[BUS.LATITUDE],
-                    longitude: bus[BUS.LONGITUDE]
+            var _bus = angular.copy(bus);
+            if(!_bus.coords){
+                _bus.coords = {
+                    latitude: _bus[BUS.LATITUDE],
+                    longitude: _bus[BUS.LONGITUDE]
                 }
             }
-            return busSpatialService.getDistance(bus.coords, vm.userMarker.coords);
+            return busSpatialService.getDistance(_bus.coords, vm.userMarker.coords);
         };
     };
 

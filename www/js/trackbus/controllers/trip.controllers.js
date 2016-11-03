@@ -19,7 +19,12 @@
         BUS_STOP_ICON, ERROR_MESSAGES
     ) {
         var vm = this;
-        var stops = stopsPromise;
+        var notifyStops = [];
+
+        vm.stops = stopsPromise;
+        console.log(vm.stops);
+        vm.addProximityListener = addProximityListener;
+        vm.setPosition = setPosition;
 
         // Google Maps
         vm.stopsMarkers = [];
@@ -71,6 +76,7 @@
         };
 
         function setPosition(lat, lon, zoom) {
+            console.log(lat,lon);
             vm.map.refresh({latitude: lat, longitude: lon});
             if(zoom){
                 vm.map.zoom = zoom;
@@ -84,7 +90,7 @@
         function initializeStopsMarkers(){
             var result = [];
             vm.stopsMarkers = [];
-            angular.forEach(stops, function(stop) {
+            angular.forEach(vm.stops, function(stop) {
                 result.push(generateStopMarker(stop));
             });
             vm.stopsMarkers = result;
@@ -101,6 +107,31 @@
                     longitude: stop.longitude
                 }
             };
+        };
+
+        function addProximityListener(stop) {
+            notifyStops.push(stop);
+            notifyProximity();
+            alertService.showAlert("Notificação", SUCCESS_MESSAGES.STOPS_NOTIFICATION);
+        };
+
+        function notifyProximity() {
+            angular.forEach(notifyStops, function(stop){
+                if(getDistance(stop) <= TRACKBUS.STOP_NOTIFICATION_DISTANCE){
+                    notificationService.scheduleStopNotification(stop);
+                }
+            });
+        };
+
+        function getDistance(stop) {
+            var _stop = angular.copy(stop);
+            if(!_stop.coords){
+                _stop.coords = {
+                    latitude: _stop.latitude,
+                    longitude: _stop.longitude
+                }
+            }
+            return busSpatialService.getDistance(_stop.coords, vm.userMarker.coords);
         };
     };
 
