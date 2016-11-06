@@ -19,15 +19,21 @@
             <ion-item>
                 <ion-label color="primary" stacked>Distância da notificação de ônibus</ion-label>
                 <input ng-model="vm.options.notification.busDistance" type="number">
-                <label ng-if="vm.options.notification.busDistance > 1">quilômetros</label>
-                <label ng-if="vm.options.notification.busDistance <= 1">quilômetro</label>
+                <label ng-if="vm.options.notification.busDistance > 1">metros</label>
+                <label ng-if="vm.options.notification.busDistance <= 1">metro</label>
+                <button class="button button-small button-assertive small" ng-click="vm.setBusDistanceDefault()">
+                    Padrão
+                </button>
             </ion-item>
 
             <ion-item>
                 <ion-label color="primary" stacked>Distância da notificação de pontos</ion-label>
                 <input ng-model="vm.options.notification.stopDistance" type="number">
-                <label ng-if="vm.options.notification.stopDistance > 1">quilômetros</label>
-                <label ng-if="vm.options.notification.stopDistance <= 1">quilômetro</label>
+                <label ng-if="vm.options.notification.stopDistance > 1">metros</label>
+                <label ng-if="vm.options.notification.stopDistance <= 1">metro</label>
+                <button class="button button-small button-assertive small" ng-click="vm.setStopDistanceDefault()">
+                    Padrão
+                </button>
             </ion-item>
 
             <ion-item>
@@ -35,7 +41,7 @@
                 <ion-checkbox ng-model="vm.options.enableTourist">Exibir pontos turísticos</ion-checkbox>
             </ion-item>
         </ion-list>
-        <button ng-click="vm.save()" class="col button button-outline button-assertive">
+        <button ng-click="vm.save()" class="button button-outline button-assertive">
             Salvar preferências
         </button>
     </ion-content>

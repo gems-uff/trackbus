@@ -6,28 +6,29 @@
         .controller('BusMapController', BusMapController);
 
     BusMapController.$inject = [
-        '$q', '$rootScope', '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams', '$interval',
+        '$scope', 'uiGmapGoogleMapApi', '$interval',
         'alertService', 'stateService', 'busSpatialService', 'busStateFactory', 'notificationService', 'configService',
         'busesPromise', 'configPromise',
-        'BUS', 'BUS_ICONS', 'TRACKBUS', 'SUCCESS_MESSAGES'
+        'BUS', 'BUS_ICONS', 'PERSON_ICON', 'TRACKBUS', 'SUCCESS_MESSAGES'
     ];
 
     function BusMapController(
-        $q, $rootScope, $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams, $interval,
+        $scope, uiGmapGoogleMapApi, $interval,
         alertService, stateService, busSpatialService, busStateFactory, notificationService, configService,
         busesLinePromise, configPromise,
-        BUS, BUS_ICONS, TRACKBUS, SUCCESS_MESSAGES
+        BUS, BUS_ICONS, PERSON_ICON, TRACKBUS, SUCCESS_MESSAGES
     ) {
         var vm = this;
         var lines = busesLinePromise;
         var notifyBuses = [];
         var options = configPromise;
+        var updateWatch;
 
         // Google Maps
         vm.busMarkers = [];
         vm.userMarker = {
             coords: {latitude: 0, longitude: 0},
-            options: {icon: "img/person.png"}
+            options: {icon: PERSON_ICON}
         };
         vm.map = {
             center: {latitude: 0, longitude: 0},
@@ -60,7 +61,10 @@
                 });
             };
             function setUpdateInterval(){
-                $interval(updateLines, TRACKBUS.TIME_TO_UPDATE);
+                updateWatch = $interval(updateLines, TRACKBUS.TIME_TO_UPDATE_LINES);
+                $scope.$on('$destroy', function() {
+                    $interval.cancel(updateWatch);
+                });
             };
 
             options = configService.getPreferences();
@@ -126,26 +130,39 @@
             vm.busMarkers = [];
             angular.forEach(lines, function(line) {
                 angular.forEach(line, function(bus) {
-                    result.push(generateBusMarker(bus, lineIndex));
+                    //result.push(generateBusMarker(bus, lineIndex));
+                    result.push(new BusMarker(bus, lineIndex));
                 });
                 lineIndex++;
             });
             vm.busMarkers = result;
         };
 
-        function generateBusMarker(bus, lineIndex) {
+        function BusMarker(bus, lineIndex) {
             //must contain coords: {latitude: number, longitude: number}
-            return {
-                id: bus[BUS.ORDER],
-                options: {icon: BUS_ICONS[lineIndex]},
-                line: bus[BUS.LINE],
-                distance: getDistance(bus).toFixed(2),
-                coords: {
-                    latitude: bus[BUS.LATITUDE],
-                    longitude: bus[BUS.LONGITUDE]
-                }
-            };
+            this.id = bus[BUS.ORDER],
+            this.options = {icon: BUS_ICONS[lineIndex]},
+            this.line = bus[BUS.LINE],
+            this.distance = getDistance(bus).toFixed(2),
+            this.coords = {
+                latitude: bus[BUS.LATITUDE],
+                longitude: bus[BUS.LONGITUDE]
+            }
         };
+
+        // function generateBusMarker(bus, lineIndex) {
+        //     //must contain coords: {latitude: number, longitude: number}
+        //     return {
+        //         id: bus[BUS.ORDER],
+        //         options: {icon: BUS_ICONS[lineIndex]},
+        //         line: bus[BUS.LINE],
+        //         distance: getDistance(bus).toFixed(2),
+        //         coords: {
+        //             latitude: bus[BUS.LATITUDE],
+        //             longitude: bus[BUS.LONGITUDE]
+        //         }
+        //     };
+        // };
 
         function addProximityListener(bus){
             notifyBuses.push(bus);
