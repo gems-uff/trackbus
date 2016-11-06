@@ -46,6 +46,25 @@
             });
         };
 
+        self.scheduleStopNotification = function(stop) {
+            var stopId = stop.sequencia;
+            var promises = {
+                scheduled: $cordovaLocalNotification.isScheduled(stopId),
+                triggered: $cordovaLocalNotification.isTriggered(stopId)
+            };
+
+            return $q.all(promises).then(function(result){
+                if(!result.scheduled && !result.triggered){
+                    return $cordovaLocalNotification.schedule({
+                        id: stopId,
+                        title: "Ponto " + stop.descricao_ponto,
+                        text: "O ponto está a " + stop.distance + "km.",
+                        sound: "file://sounds/honk.mp3"
+                    });
+                }
+            });
+        };
+
         return self;
     };
 

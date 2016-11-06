@@ -8,21 +8,21 @@
     TripController.$inject = [
         '$q', '$rootScope', '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation',
         'busSpatialService', 'alertService',
-        'stopsPromise',
+        'stopsPromise', 'configPromise',
         'BUS_STOP_ICON', 'ERROR_MESSAGES'
     ];
 
     function TripController(
         $q, $rootScope, $scope, uiGmapGoogleMapApi, $cordovaGeolocation,
         busSpatialService, alertService,
-        stopsPromise,
+        stopsPromise, configPromise,
         BUS_STOP_ICON, ERROR_MESSAGES
     ) {
         var vm = this;
         var notifyStops = [];
+        var options = configPromise;
 
         vm.stops = stopsPromise;
-        console.log(vm.stops);
         vm.addProximityListener = addProximityListener;
         vm.setPosition = setPosition;
 
@@ -109,10 +109,32 @@
             };
         };
 
+        function indexOfStop(stop) {
+            var index = -1;
+            angular.forEach(notifyStops, function(s, key) {
+                if(s.sequencia ==  stop.sequencia){
+                    return index = key;
+                }
+            });
+            return index;
+        };
+
         function addProximityListener(stop) {
             notifyStops.push(stop);
             notifyProximity();
             alertService.showAlert("Notificação", SUCCESS_MESSAGES.STOPS_NOTIFICATION);
+        };
+
+        function removeProximityListener(stop, index) {
+            var idx = index ? index:indexOfStop(stop);
+            if(idx != -1){
+                notifyStops.splice(idx, 1);
+            }
+        };
+
+        function toggleProximityListener(stop){
+            var index = indexOfStop(stop);
+            (index != -1) ? removeProximityListener(stop, index):addProximityListener(stop);
         };
 
         function notifyProximity() {

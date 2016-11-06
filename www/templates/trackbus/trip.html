@@ -51,7 +51,7 @@
             Notificar pontos de parada
             <div ng-repeat="stop in vm.stops">
                 <div ng-click="vm.setPosition(stop.latitude, stop.longitude)">
-                       {{::stop.descricao_ponto}}
+                   {{::stop.descricao_ponto}}
                 </div>
                 <ion-toggle ng-model="stop" toggle-class="toggle-calm"
                     ng-change="vm.toggleProximityListener(stop)">

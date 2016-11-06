@@ -37,6 +37,9 @@
                         resolve: {
                             busesPromise: function(busStateFactory, $stateParams) {
                                 return busStateFactory.mapState($stateParams.lines);
+                            },
+                            configPromise: function(busStateFactory) {
+                                return busStateFactory.optionsState();
                             }
                         }
                     }
@@ -44,17 +47,14 @@
             })
             .state(STATES.OPTIONS, {
                 url: 'options',
-                params: {
-                    line: ""
-                },
                 views: {
                     "headerContent":{
                         templateUrl: 'templates/trackbus/options.html',
                         controller: 'OptionsController',
                         controllerAs: 'vm',
                         resolve: {
-                            stopsPromise: function(busStateFactory, $stateParams) {
-                                return busStateFactory.optionsState($stateParams.line);
+                            configPromise: function(busStateFactory) {
+                                return busStateFactory.optionsState();
                             }
                         }
                     }
@@ -63,8 +63,7 @@
             .state(STATES.TRIP, {
                 url: 'trip',
                 params: {
-                    line: "",
-                    options: {}
+                    line: ""
                 },
                 views: {
                     "headerContent":{
@@ -73,7 +72,10 @@
                         controllerAs: 'vm',
                         resolve: {
                             stopsPromise: function(busStateFactory, $stateParams) {
-                                return busStateFactory.tripState($stateParams.line, $stateParams.options);
+                                return busStateFactory.tripState($stateParams.line);
+                            },
+                            configPromise: function(busStateFactory) {
+                                return busStateFactory.optionsState();
                             }
                         }
                     }

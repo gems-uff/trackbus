@@ -7,20 +7,21 @@
 
     BusMapController.$inject = [
         '$q', '$rootScope', '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams', '$interval',
-        'alertService', 'stateService', 'busSpatialService', 'busStateFactory', 'notificationService',
-        'busesPromise',
+        'alertService', 'stateService', 'busSpatialService', 'busStateFactory', 'notificationService', 'configService',
+        'busesPromise', 'configPromise',
         'BUS', 'BUS_ICONS', 'TRACKBUS', 'SUCCESS_MESSAGES'
     ];
 
     function BusMapController(
         $q, $rootScope, $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams, $interval,
-        alertService, stateService, busSpatialService, busStateFactory, notificationService,
-        busesLinePromise,
+        alertService, stateService, busSpatialService, busStateFactory, notificationService, configService,
+        busesLinePromise, configPromise,
         BUS, BUS_ICONS, TRACKBUS, SUCCESS_MESSAGES
     ) {
         var vm = this;
         var lines = busesLinePromise;
         var notifyBuses = [];
+        var options = configPromise;
 
         // Google Maps
         vm.busMarkers = [];
@@ -48,7 +49,7 @@
 
         vm.setCurrentPosition = setCurrentPosition;
         vm.addProximityListener = addProximityListener;
-        vm.goToOptions = stateService.options;
+        vm.goToTrip = stateService.trip;
 
         activate();
 
@@ -62,6 +63,7 @@
                 $interval(updateLines, TRACKBUS.TIME_TO_UPDATE);
             };
 
+            options = configService.getPreferences();
             return mapSetup().then(function(){
                 getLinesIds();
                 setUpdateInterval();
@@ -88,7 +90,7 @@
 
         function notifyProximity() {
             angular.forEach(notifyBuses, function(bus){
-                if(getDistance(bus) <= TRACKBUS.BUS_NOTIFICATION_DISTANCE){
+                if(getDistance(bus) <= options.notification.busDistance){
                     notificationService.scheduleBusNotification(bus);
                 }
             });

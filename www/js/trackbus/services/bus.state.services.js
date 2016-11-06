@@ -7,12 +7,12 @@
 
     busStateFactory.$inject = [
         '$q',
-        'busWebFactory', 'busFactory', 'busSpatialService', 'fileService'
+        'busWebFactory', 'busFactory', 'busSpatialService', 'fileService', 'configService'
     ];
 
     function busStateFactory(
         $q,
-        busWebFactory, busFactory, busSpatialService, fileService
+        busWebFactory, busFactory, busSpatialService, fileService, configService
     ) {
 
         var self = this;
@@ -36,8 +36,8 @@
             return $q.all(promises);
         };
 
-        self.optionsState = function(line) {
-            return fileService.loadJSONFile(line);
+        self.optionsState = function() {
+            return configService.getPreferences();
         };
 
         self.tripState = function(line) {

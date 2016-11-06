@@ -6,37 +6,32 @@
         .controller('OptionsController', OptionsController);
 
     OptionsController.$inject = [
-        '$stateParams',
-        'stateService', 'stopsPromise',
+        '$stateParams', '$ionicHistory',
+        'configService',
+        'configPromise',
         'OPTIONS'
     ];
 
     function OptionsController(
-        $stateParams,
-        stateService, stopsPromise,
+        $stateParams, $ionicHistory,
+        configService,
+        configPromise,
         OPTIONS
     ) {
         var vm = this;
-        var stops = stopsPromise;
 
         vm.OPTIONS = OPTIONS;
-        vm.line = $stateParams.line;
-
-        vm.goToTrip = stateService.trip;
-
-        vm.options = {
-            notification: {
-                vibration: true,
-                soundAlert: OPTIONS.SOUND_ALERT
-            },
-            tourist: {
-                enable: true
-            }
-        };
+        vm.options = configPromise;
+        vm.save = save;
 
         activate();
 
         function activate() {};
+
+        function save() {
+            configService.savePreferences(vm.options);
+            $ionicHistory.goBack();
+        };
     };
 
 })();

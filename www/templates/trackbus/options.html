@@ -1,28 +1,42 @@
 <ion-view view-title="Trackbus">
     <!--INSERT CSS HERE-->
     <ion-content class="has-header">
-        <div>
-            Notificações:
-            <ion-checkbox ng-model="vm.options.notification.vibration">Vibração</ion-checkbox>
-            <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.NO_SOUND">
-                Sem som
-            </ion-radio>
-            <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.SOUND_ALERT">
-                Alerta sonoro
-            </ion-radio>
-            <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.VOICE">
-                Voz
-            </ion-radio>
-        </div>
+        <ion-list>
+            <ion-item>
+                <ion-label color="primary" stacked>Notificações</ion-label>
+                <ion-checkbox ng-model="vm.options.notification.vibration">Vibração</ion-checkbox>
+                <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.SOUND.NO_SOUND">
+                    Sem som
+                </ion-radio>
+                <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.SOUND.SOUND_ALERT">
+                    Alerta sonoro
+                </ion-radio>
+                <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.SOUND.VOICE">
+                    Voz
+                </ion-radio>
+            </ion-item>
 
-        <div>
-            Pontos turísticos
-            <ion-checkbox ng-model="vm.tripOptions.enableTourist">Exibir pontos turísticos</ion-checkbox>
-        </div>
+            <ion-item>
+                <ion-label color="primary" stacked>Distância da notificação de ônibus</ion-label>
+                <input ng-model="vm.options.notification.busDistance" type="number">
+                <label ng-if="vm.options.notification.busDistance > 1">quilômetros</label>
+                <label ng-if="vm.options.notification.busDistance <= 1">quilômetro</label>
+            </ion-item>
 
-        <br>
-        <button ng-click="vm.goToTrip(vm.line, vm.options)" class="col button button-outline button-assertive">
-            Acompanhar viagem
+            <ion-item>
+                <ion-label color="primary" stacked>Distância da notificação de pontos</ion-label>
+                <input ng-model="vm.options.notification.stopDistance" type="number">
+                <label ng-if="vm.options.notification.stopDistance > 1">quilômetros</label>
+                <label ng-if="vm.options.notification.stopDistance <= 1">quilômetro</label>
+            </ion-item>
+
+            <ion-item>
+                <ion-label color="primary" stacked>Pontos turísticos</ion-label>
+                <ion-checkbox ng-model="vm.options.enableTourist">Exibir pontos turísticos</ion-checkbox>
+            </ion-item>
+        </ion-list>
+        <button ng-click="vm.save()" class="col button button-outline button-assertive">
+            Salvar preferências
         </button>
     </ion-content>
 </ion-view>
