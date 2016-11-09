@@ -3,11 +3,11 @@
 
     angular
         .module('trackbus')
-        .factory('busSpatialService', busSpatialService);
+        .factory('spatialService', spatialService);
 
-    busSpatialService.$inject = ['$q', 'BUS', 'TRACKBUS'];
+    spatialService.$inject = ['$q', 'BUS'];
 
-    function busSpatialService($q, BUS, TRACKBUS) {
+    function spatialService($q, BUS) {
 
         var self = this;
         var watchId = 0;
@@ -90,24 +90,6 @@
             if(watchId != 0){
                 navigator.geolocation.clearWatch(watchId);
             }
-        };
-
-        self.getCloseLines = function(buses) {
-            return self.getCurrentPosition().then(function(selfCoords) {
-                var arr = [];
-                var busCoords;
-                var line;
-                angular.forEach(buses, function(bus) {
-                    busCoords = {latitude: bus[BUS.LATITUDE], longitude: bus[BUS.LONGITUDE]};
-                    line = bus[BUS.LINE];
-                    if(arr.indexOf(line) == -1){
-                        if(self.isClose(selfCoords, TRACKBUS.LINE_RADIUS, busCoords)){
-                            arr.push(line);
-                        }
-                    }
-                });
-                return arr;
-            });
         };
 
         return self;

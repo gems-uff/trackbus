@@ -7,21 +7,21 @@
 
     busStateFactory.$inject = [
         '$q',
-        'busWebFactory', 'busFactory', 'busSpatialService', 'fileService', 'configService'
+        'webService', 'busService', 'spatialService', 'fileService', 'configService'
     ];
 
     function busStateFactory(
         $q,
-        busWebFactory, busFactory, busSpatialService, fileService, configService
+        webService, busService, spatialService, fileService, configService
     ) {
 
         var self = this;
 
         self.listState = function(){
             var statePromise = {lines: [], closeLines: []};
-            return busWebFactory.listAllBuses().then(function(result) {
-                statePromise.lines = busFactory.getLines(result, true);
-                return busSpatialService.getCloseLines(result).then(function(result) {
+            return webService.listAllBuses().then(function(result) {
+                statePromise.lines = busService.getLines(result, true);
+                return busService.getCloseLines(result).then(function(result) {
                     statePromise.closeLines = result;
                     return statePromise;
                 });
@@ -31,7 +31,7 @@
         self.mapState = function(lines) {
             var promises = [];
             angular.forEach(lines, function(line){
-                promises.push(busWebFactory.listBuses(line));
+                promises.push(webService.listBuses(line));
             });
             return $q.all(promises);
         };

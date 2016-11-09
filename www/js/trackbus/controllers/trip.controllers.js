@@ -7,14 +7,14 @@
 
     TripController.$inject = [
         '$scope', 'uiGmapGoogleMapApi', '$interval',
-        'busSpatialService', 'alertService',
+        'spatialService', 'alertService', 'stopService',
         'stopsPromise', 'configPromise',
         'TRACKBUS', 'PERSON_ICON', 'BUS_STOP_ICON', 'ERROR_MESSAGES'
     ];
 
     function TripController(
         $scope, uiGmapGoogleMapApi, $interval,
-        busSpatialService, alertService,
+        spatialService, alertService, stopService,
         stopsPromise, configPromise,
         TRACKBUS, PERSON_ICON, BUS_STOP_ICON, ERROR_MESSAGES
     ) {
@@ -22,6 +22,8 @@
         var notifyStops = [];
         var options = configPromise;
         var updateWatch;
+        var currentStop;
+        var nextStop;
 
         vm.stops = stopsPromise;
         vm.addProximityListener = addProximityListener;
@@ -64,16 +66,26 @@
                 });
             };
 
+            vm.stops = stopService.sortStops(vm.stops);
             return mapSetup().then(function(){
                 setUpdateInterval();
-                return busSpatialService.watchPosition(setUserPosition).then(initializeStopsMarkers);
+                initializeStopsMarkers();
+                return spatialService.watchPosition(setUserPosition).then(function(){
+                    return stopService.getClosestStop(vm.stops).then(function(result){
+                        currentStop = result;
+                        nextStop = getNextStop();
+                    });
+                });
             });
         };
 
+        function getNextStop() {
+            return vm.stops[currentStop.index + 1];
+        };
+
         function setCurrentPosition(zoom) {
-            return busSpatialService.getCurrentPosition().then(
+            return spatialService.getCurrentPosition().then(
                 function success(result) {
-                    setUserPosition(result.latitude, result.longitude);
                     setPosition(result.latitude, result.longitude, zoom);
                 },
                 function error(result) {
@@ -81,6 +93,10 @@
                     alertService.showAlert("Erro", ERROR_MESSAGES.NAVIGATOR_FAILURE);
                 }
             );
+        };
+
+        function watchUserPosition(){
+
         };
 
         function setPosition(lat, lon, zoom) {
@@ -98,7 +114,6 @@
             var result = [];
             vm.stopsMarkers = [];
             angular.forEach(vm.stops, function(stop) {
-//                result.push(generateStopMarker(stop));
                 result.push(new StopMarker(stop));
             });
             vm.stopsMarkers = result;
@@ -112,21 +127,8 @@
             this.coords = {
                 latitude: stop.latitude,
                 longitude: stop.longitude
-            }
+            };
         };
-
-        // function generateStopMarker(stop) {
-        //     //must contain coords: {latitude: number, longitude: number}
-        //     return {
-        //         id: stop.sequencia,
-        //         options: {icon: BUS_STOP_ICON},
-        //         description: stop.descricao_ponto,
-        //         coords: {
-        //             latitude: stop.latitude,
-        //             longitude: stop.longitude
-        //         }
-        //     };
-        // };
 
         function indexOfStop(stop) {
             var index = -1;
@@ -172,7 +174,7 @@
                     longitude: _stop.longitude
                 }
             }
-            return busSpatialService.getDistance(_stop.coords, vm.userMarker.coords);
+            return spatialService.getDistance(_stop.coords, vm.userMarker.coords);
         };
     };
 

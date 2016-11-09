@@ -3,11 +3,11 @@
 
     angular
         .module('trackbus')
-        .factory('busWebFactory', busWebFactory);
+        .factory('webService', webService);
 
-    busWebFactory.$inject = ['$q', '$http', 'URL', 'busFactory'];
+    webService.$inject = ['$q', '$http', 'URL', 'busService'];
 
-    function busWebFactory($q, $http, URL, busFactory) {
+    function webService($q, $http, URL, busService) {
 
         var self = this;
 
@@ -26,13 +26,13 @@
 
         self.listAllBuses = function() {
             return self.listBuses().then(function(result) {
-                return busFactory.filterEmptyLines(result);
+                return busService.filterEmptyLines(result);
             });
         };
 
         self.listLines = function(hideEmpty) {
             return self.listBuses().then(function(result) {
-                return busFactory.getLines(result, hideEmpty);
+                return busService.getLines(result, hideEmpty);
             });
         };
 
