@@ -70,7 +70,7 @@
             return mapSetup().then(function(){
                 setUpdateInterval();
                 initializeStopsMarkers();
-                return spatialService.watchPosition(setUserPosition).then(function(){
+                return spatialService.watchPosition(watchUserPosition).then(function(){
                     return stopService.getClosestStop(vm.stops).then(function(result){
                         currentStop = result;
                         nextStop = getNextStop();
@@ -95,8 +95,9 @@
             );
         };
 
-        function watchUserPosition(){
-
+        function watchUserPosition(lat, lon){
+            setUserPosition(lat, lon);
+            notifyProximity();
         };
 
         function setPosition(lat, lon, zoom) {
@@ -159,11 +160,12 @@
         };
 
         function notifyProximity() {
-            angular.forEach(notifyStops, function(stop){
-                if(getDistance(stop) <= TRACKBUS.STOP_NOTIFICATION_DISTANCE){
-                    notificationService.scheduleStopNotification(stop);
-                }
-            });
+            var distance = getDistance(nextStop);
+            if(distance <= TRACKBUS.STOP_NOTIFICATION_DISTANCE){
+                notificationService.scheduleStopNotification(nextStop);
+                currentStop = nextStop;
+                nextStop = getNextStop();
+            }
         };
 
         function getDistance(stop) {
