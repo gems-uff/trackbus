@@ -17,25 +17,23 @@
             });
         };
 
-        self.getClosestStop = function(stops) {
-            return spatialService.getCurrentPosition().then(function(selfCoords) {
-                var coords = {latitude: stops[0].latitude, longitude: stops[0].longitude};
-                var min_distance = spatialService.getDistance(coords, selfCoords);
-                var distance = min_distance;
-                var min_stop = stops[0];
+        self.getClosestStop = function(stops, position) {
+            var coords = {latitude: stops[0].latitude, longitude: stops[0].longitude};
+            var min_distance = spatialService.getDistance(coords, position);
+            var distance = min_distance;
+            var min_stop = stops[0];
 
-                for (var i = 1; i < stops.length; i++) {
-                    coords.latitude = stops[i].latitude;
-                    coords.longitude = stops[i].longitude;
-                    distance = spatialService.getDistance(coords, selfCoords);
-                    if(distance < min_distance){
-                        min_distance = distance;
-                        min_stop = stops[i];
-                    }
+            for (var i = 1; i < stops.length; i++) {
+                coords.latitude = stops[i].latitude;
+                coords.longitude = stops[i].longitude;
+                distance = spatialService.getDistance(coords, position);
+                if(distance < min_distance){
+                    min_distance = distance;
+                    min_stop = stops[i];
+                    min_stop.index = i;
                 }
-                min_stop.index = i;
-                return min_stop;
-            });
+            }
+            return min_stop;
         };
 
         return self;

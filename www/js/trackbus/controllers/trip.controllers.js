@@ -44,7 +44,8 @@
             events:{
                 places_changed: function (searchBox) {
                     var location = searchBox.getPlaces()[0].geometry.location;
-                    setPosition(location.lat(), location.lon());
+                    var coords = {latitude: location.lat(), longitude: location.lon()};
+                    setPosition(coords);
                 }
             },
             position:"top-right"
@@ -70,12 +71,7 @@
             return mapSetup().then(function(){
                 setUpdateInterval();
                 initializeStopsMarkers();
-                return spatialService.watchPosition(watchUserPosition).then(function(){
-                    return stopService.getClosestStop(vm.stops).then(function(result){
-                        currentStop = result;
-                        nextStop = getNextStop();
-                    });
-                });
+                return spatialService.watchPosition(watchUserPosition);
             });
         };
 
@@ -86,7 +82,8 @@
         function setCurrentPosition(zoom) {
             return spatialService.getCurrentPosition().then(
                 function success(result) {
-                    setPosition(result.latitude, result.longitude, zoom);
+                    var coords = {latitude: result.latitude, longitude: result.longitude};
+                    setPosition(coords, zoom);
                 },
                 function error(result) {
                     console.error(result);
@@ -95,20 +92,26 @@
             );
         };
 
-        function watchUserPosition(lat, lon){
-            setUserPosition(lat, lon);
+        function watchUserPosition(lat, lng){
+            var coords = {latitude: lat, longitude: lng}
+            if(!currentStop){
+                currentStop = stopService.getClosestStop(vm.stops, coords);
+                nextStop = getNextStop();
+                console.log(currentStop, nextStop);
+            }
+            setUserPosition(coords);
             notifyProximity();
         };
 
-        function setPosition(lat, lon, zoom) {
-            vm.map.refresh({latitude: lat, longitude: lon});
+        function setPosition(coords, zoom) {
+            vm.map.refresh({latitude: coords.latitude, longitude: coords.longitude});
             if(zoom){
                 vm.map.zoom = zoom;
             }
         };
 
-        function setUserPosition(lat, lon) {
-            vm.userMarker.coords = {latitude: lat, longitude: lon};
+        function setUserPosition(coords) {
+            vm.userMarker.coords = coords;
         };
 
         function initializeStopsMarkers(){
@@ -160,6 +163,9 @@
         };
 
         function notifyProximity() {
+            if(!nextStop){
+                return;
+            }
             var distance = getDistance(nextStop);
             if(distance <= TRACKBUS.STOP_NOTIFICATION_DISTANCE){
                 notificationService.scheduleStopNotification(nextStop);
