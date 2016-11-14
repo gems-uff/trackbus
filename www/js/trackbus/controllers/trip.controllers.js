@@ -8,29 +8,32 @@
     TripController.$inject = [
         '$scope', 'uiGmapGoogleMapApi', '$interval',
         'spatialService', 'alertService', 'stopService',
-        'stopsPromise', 'configPromise',
-        'TRACKBUS', 'PERSON_ICON', 'BUS_STOP_ICON', 'ERROR_MESSAGES'
+        'stopsPromise', 'configPromise', 'touristPromise',
+        'PERSON_ICON', 'BUS_STOP_ICON', 'TOURIST_STOP_ICON',
+        'TRACKBUS', 'ERROR_MESSAGES'
     ];
 
     function TripController(
         $scope, uiGmapGoogleMapApi, $interval,
         spatialService, alertService, stopService,
-        stopsPromise, configPromise,
-        TRACKBUS, PERSON_ICON, BUS_STOP_ICON, ERROR_MESSAGES
+        stopsPromise, configPromise, touristPromise,
+        PERSON_ICON, BUS_STOP_ICON, TOURIST_STOP_ICON,
+        TRACKBUS, ERROR_MESSAGES
     ) {
         var vm = this;
         var notifyStops = [];
         var options = configPromise;
         var updateWatch;
         var currentStop;
-        var nextStop;
 
         vm.stops = stopsPromise;
+        vm.touristSpots = touristPromise;
         vm.addProximityListener = addProximityListener;
         vm.setPosition = setPosition;
 
         // Google Maps
         vm.stopsMarkers = [];
+        vm.touristMarkers = [];
         vm.userMarker = {
             coords: {latitude: 0, longitude: 0},
             options: {icon: PERSON_ICON}
@@ -71,12 +74,16 @@
             return mapSetup().then(function(){
                 setUpdateInterval();
                 initializeStopsMarkers();
+                initializeTouristMarkers();
                 return spatialService.watchPosition(watchUserPosition);
             });
         };
 
         function getNextStop() {
-            return vm.stops[currentStop.index + 1];
+            var stops = vm.stops.filter(function(s) {
+                return Number(s.sequencia) === Number(currentStop.sequencia) + 1;
+            });
+            return stopService.getClosestStop(stops, vm.userMarker.coords);
         };
 
         function setCurrentPosition(zoom) {
@@ -96,8 +103,6 @@
             var coords = {latitude: lat, longitude: lng}
             if(!currentStop){
                 currentStop = stopService.getClosestStop(vm.stops, coords);
-                nextStop = getNextStop();
-                console.log(currentStop, nextStop);
             }
             setUserPosition(coords);
             notifyProximity();
@@ -123,6 +128,15 @@
             vm.stopsMarkers = result;
         };
 
+        function initializeTouristMarkers(){
+            var result = [];
+            vm.touristMarkers = [];
+            angular.forEach(vm.touristSpots, function(ts) {
+                result.push(new TouristMarker(ts));
+            });
+            vm.touristMarkers = result;
+        };
+
         function StopMarker(stop){
             //must contain coords: {latitude: number, longitude: number}
             this.id = stop.sequencia;
@@ -131,6 +145,17 @@
             this.coords = {
                 latitude: stop.latitude,
                 longitude: stop.longitude
+            };
+        };
+
+        function TouristMarker(ts){
+            //must contain coords: {latitude: number, longitude: number}
+            this.id = ts.nome;
+            this.options = {icon: TOURIST_STOP_ICON};
+            this.address = ts.endereco;
+            this.coords = {
+                latitude: ts.latitude,
+                longitude: ts.longitude
             };
         };
 
@@ -163,14 +188,11 @@
         };
 
         function notifyProximity() {
-            if(!nextStop){
-                return;
-            }
+            var nextStop = getNextStop();
             var distance = getDistance(nextStop);
             if(distance <= TRACKBUS.STOP_NOTIFICATION_DISTANCE){
-                notificationService.scheduleStopNotification(nextStop);
+                notificationService.scheduleStopNotification(currentStop);
                 currentStop = nextStop;
-                nextStop = getNextStop();
             }
         };
 

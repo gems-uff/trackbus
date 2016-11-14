@@ -41,7 +41,7 @@
         };
 
         self.tripState = function(line) {
-            return fileService.loadJSONFile(line);
+            return fileService.loadLineJSON(line);
         };
 
         return self;

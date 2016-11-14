@@ -76,6 +76,9 @@
                             },
                             configPromise: function(busStateFactory) {
                                 return busStateFactory.optionsState();
+                            },
+                            touristPromise: function(fileService, $stateParams) {
+                                return fileService.loadTouristJSON($stateParams.line);
                             }
                         }
                     }

@@ -6,13 +6,13 @@
         .controller('ListController', ListController);
 
     ListController.$inject = [
-        'filterFilter', '$scope', '$anchorScroll', 'stateService', 'alertService',
+        'filterFilter', '$scope', 'stateService', 'alertService',
         'linesPromise',
         'BUS', 'ERROR_MESSAGES', 'TRACKBUS'
     ];
 
     function ListController(
-        filterFilter, $scope, $anchorScroll, stateService, alertService,
+        filterFilter, $scope, stateService, alertService,
         linesPromise,
         BUS, ERROR_MESSAGES, TRACKBUS
     ) {
@@ -40,7 +40,6 @@
                 return alertService.showAlert("Erro", ERROR_MESSAGES.ALREADY_PRESENT);
             }
             vm.selectedLines.push(line);
-            $anchorScroll(); //not working :(
         };
 
         function removeLine(line) {
