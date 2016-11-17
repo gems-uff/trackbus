@@ -2,27 +2,12 @@
     <!--INSERT CSS HERE-->
     <ion-content class="has-header">
         <body>
-            <script id="searchbox.tpl.html" type="text/ng-template">
-                <input type="text" placeholder="Endereço">
-            </script>
             <div class="map-container">
                 <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" control="vm.map">
-                    <!-- Search box -->
-                    <ui-gmap-search-box options="vm.searchbox.options"
-                        template="vm.searchbox.template"
-                        events="vm.searchbox.events" position="vm.searchbox.position">
-                    </ui-gmap-search-box>
-                    <!-- Search box -->
-
                     <!-- User marker -->
                     <ui-gmap-marker coords="vm.userMarker.coords" options="vm.userMarker.options"
                         events="vm.userMarker.events" idkey="'user'"
                         click="vm.userMarker.click">
-                            <ui-gmap-window>
-                                <div>
-                                    olar
-                                </div>
-                            </ui-gmap-window>
                     </ui-gmap-marker>
                     <!-- User marker -->
 

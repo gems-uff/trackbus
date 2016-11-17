@@ -8,12 +8,14 @@
     notificationService.$inject = [
         '$q', '$rootScope',
         '$cordovaLocalNotification', '$cordovaVibration',
+        'textToSpeechService', 'configService', 'OPTIONS',
         'BUS'
     ];
 
     function notificationService(
         $q, $rootScope,
         $cordovaLocalNotification, $cordovaVibration,
+        textToSpeechService, configService, OPTIONS,
         BUS
     ) {
 
@@ -23,44 +25,54 @@
 
         function activate(){
             $rootScope.$on('$cordovaLocalNotification:trigger', function(event, notification, state) {
-                $cordovaVibration.vibrate(500);
+                var prefs = configService.getPreferences();
+                if(prefs.notification.vibration){
+                    $cordovaVibration.vibrate(500);
+                }
+                if(prefs.notification.soundAlert == OPTIONS.SOUND.VOICE){
+                    var tts = JSON.parse(notification.data).speechText;
+                    return textToSpeechService.speak(tts);
+                }
+            });
+        };
+
+        function getSound() {
+            var prefs = configService.getPreferences();
+            return prefs.soundAlert == OPTIONS.SOUND.SOUND_ALERT ? "file://sounds/honk.mp3":null;
+        };
+
+        function schedule(notification) {
+            var promises = {
+                scheduled: $cordovaLocalNotification.isScheduled(notification.id),
+                triggered: $cordovaLocalNotification.isTriggered(notification.id)
+            };
+            return $q.all(promises).then(function(result){
+                if(!result.scheduled && !result.triggered){
+                    return $cordovaLocalNotification.schedule(notification);
+                }
             });
         };
 
         self.scheduleBusNotification = function(bus) {
-            var busId = bus.id.hashCode();
-            var promises = {
-                scheduled: $cordovaLocalNotification.isScheduled(busId),
-                triggered: $cordovaLocalNotification.isTriggered(busId)
-            };
-
-            return $q.all(promises).then(function(result){
-                if(!result.scheduled && !result.triggered){
-                    return $cordovaLocalNotification.schedule({
-                        id: busId,
-                        title: "Ônibus " + bus.line,
-                        text: "O ônibus está a " + bus.distance + "km.",
-                        sound: "file://sounds/honk.mp3"
-                    });
+            return schedule({
+                id: bus.id.hashCode(),
+                title: "Ônibus " + bus.line,
+                text: "O ônibus está a " + bus.distance + "km.",
+                sound: getSound(),
+                data: {
+                    speechText: "Ônibus " + bus.line + " está próximo."
                 }
             });
         };
 
         self.scheduleStopNotification = function(stop) {
-            var stopId = stop.sequencia;
-            var promises = {
-                scheduled: $cordovaLocalNotification.isScheduled(stopId),
-                triggered: $cordovaLocalNotification.isTriggered(stopId)
-            };
-
-            return $q.all(promises).then(function(result){
-                if(!result.scheduled && !result.triggered){
-                    return $cordovaLocalNotification.schedule({
-                        id: stopId,
-                        title: "Ponto " + stop.descricao_ponto,
-                        text: "O ponto está a " + stop.distance + "km.",
-                        sound: "file://sounds/honk.mp3"
-                    });
+            return schedule({
+                id: stop.sequencia,
+                title: "Ponto " + stop.descricao_ponto,
+                text: "O ponto está a " + stop.distance + "km.",
+                sound: getSound(),
+                data: {
+                    speechText: "Próximo ponto " + stop.descricao_ponto
                 }
             });
         };
