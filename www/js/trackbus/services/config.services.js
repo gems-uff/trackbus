@@ -25,13 +25,13 @@
         };
 
         self.getPreferences = function() {
-            var pref;
+            var prefs;
             try{
-                pref = JSON.parse($window.localStorage[PREFERENCES]);
+                prefs = JSON.parse($window.localStorage[PREFERENCES]);
             } catch(e){
                 pref = DEFAULT_OPTIONS;
             }
-            return pref;
+            return prefs;
         };
 
         self.savePreferences = function(options) {

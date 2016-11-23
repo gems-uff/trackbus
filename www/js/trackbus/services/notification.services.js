@@ -77,6 +77,18 @@
             });
         };
 
+        self.scheduleTouristNotification = function(ts) {
+            return schedule({
+                id: stop.sequencia,
+                title: "Ponto " + stop.descricao_ponto,
+                text: "O ponto está a " + stop.distance + "km.",
+                sound: getSound(),
+                data: {
+                    speechText: "Próximo ponto " + stop.descricao_ponto
+                }
+            });
+        };
+
         return self;
     };
 

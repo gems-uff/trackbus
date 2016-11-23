@@ -12,7 +12,6 @@
         var self = this;
 
         self.speak = function(text) {
-            console.log(text);
             var deferred = $q.defer();
             var speakOptions = {
                 text: text,
@@ -21,10 +20,9 @@
             };
 
             TTS.speak(speakOptions, function () {
-                console.log("success");
                 deferred.resolve();
             }, function (reason) {
-                console.log(reason);
+                console.error(reason);
                 deferred.reject(reason);
             });
 

@@ -11,6 +11,24 @@
 
         var self = this;
 
+        self.getCloseLines = function(buses) {
+            return spatialService.getCurrentPosition().then(function(selfCoords) {
+                var arr = [];
+                var busCoords;
+                var line;
+                angular.forEach(buses, function(bus) {
+                    busCoords = {latitude: bus[BUS.LATITUDE], longitude: bus[BUS.LONGITUDE]};
+                    line = bus[BUS.LINE];
+                    if(arr.indexOf(line) == -1){
+                        if(spatialService.isClose(selfCoords, TRACKBUS.LINE_RADIUS, busCoords)){
+                            arr.push(line);
+                        }
+                    }
+                });
+                return arr;
+            });
+        };
+
         self.getLines = function(buses, hideEmpty) {
             return getByAttributeDistinct(buses, BUS.LINE, hideEmpty);
         };
@@ -65,24 +83,6 @@
                 });
             });
             return result;
-        };
-
-        self.getCloseLines = function(buses) {
-            return spatialService.getCurrentPosition().then(function(selfCoords) {
-                var arr = [];
-                var busCoords;
-                var line;
-                angular.forEach(buses, function(bus) {
-                    busCoords = {latitude: bus[BUS.LATITUDE], longitude: bus[BUS.LONGITUDE]};
-                    line = bus[BUS.LINE];
-                    if(arr.indexOf(line) == -1){
-                        if(spatialService.isClose(selfCoords, TRACKBUS.LINE_RADIUS, busCoords)){
-                            arr.push(line);
-                        }
-                    }
-                });
-                return arr;
-            });
         };
 
         return self;

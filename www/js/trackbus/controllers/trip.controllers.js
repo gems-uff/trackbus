@@ -10,7 +10,7 @@
         'spatialService', 'alertService', 'stopService',
         'stopsPromise', 'configPromise', 'touristPromise',
         'PERSON_ICON', 'BUS_STOP_ICON', 'TOURIST_STOP_ICON',
-        'TRACKBUS', 'ERROR_MESSAGES'
+        'TRACKBUS', 'SUCCESS_MESSAGES', 'ERROR_MESSAGES'
     ];
 
     function TripController(
@@ -18,7 +18,7 @@
         spatialService, alertService, stopService,
         stopsPromise, configPromise, touristPromise,
         PERSON_ICON, BUS_STOP_ICON, TOURIST_STOP_ICON,
-        TRACKBUS, ERROR_MESSAGES
+        TRACKBUS, SUCCESS_MESSAGES, ERROR_MESSAGES
     ) {
         var vm = this;
         var notifyStops = [];
@@ -27,8 +27,9 @@
         var currentStop;
 
         vm.stops = stopsPromise;
-        vm.touristSpots = touristPromise;
-        vm.addProximityListener = addProximityListener;
+        vm.touristSpots = options.tourist.enable ? touristPromise:[];
+        vm.addStopProximityListener = addStopProximityListener;
+        vm.toggleStopProximityListener = toggleStopProximityListener;
         vm.setPosition = setPosition;
 
         // Google Maps
@@ -41,17 +42,6 @@
         vm.map = {
             center: {latitude: 0, longitude: 0},
             zoom: 15
-        };
-        vm.searchbox = {
-            template:'searchbox.tpl.html',
-            events:{
-                places_changed: function (searchBox) {
-                    var location = searchBox.getPlaces()[0].geometry.location;
-                    var coords = {latitude: location.lat(), longitude: location.lon()};
-                    setPosition(coords);
-                }
-            },
-            position:"top-right"
         };
         // Google Maps
 
@@ -81,7 +71,7 @@
 
         function getNextStop() {
             var stops = vm.stops.filter(function(s) {
-                return Number(s.sequencia) === Number(currentStop.sequencia) + 1;
+                return Number(s.sequencia) === (Number(currentStop.sequencia) + 1);
             });
             return stopService.getClosestStop(stops, vm.userMarker.coords);
         };
@@ -138,7 +128,7 @@
         };
 
         function StopMarker(stop){
-            //must contain coords: {latitude: number, longitude: number}
+            //must contain latitude: Number, longitude: Number
             this.id = stop.sequencia;
             this.options = {icon: BUS_STOP_ICON};
             this.description = stop.descricao_ponto;
@@ -149,7 +139,7 @@
         };
 
         function TouristMarker(ts){
-            //must contain coords: {latitude: number, longitude: number}
+            //must contain latitude: Number, longitude: Number
             this.id = ts.nome;
             this.options = {icon: TOURIST_STOP_ICON};
             this.address = ts.endereco;
@@ -169,29 +159,36 @@
             return index;
         };
 
-        function addProximityListener(stop) {
+        function addStopProximityListener(stop, notify) {
             notifyStops.push(stop);
             notifyProximity();
-            alertService.showAlert("Notificação", SUCCESS_MESSAGES.STOPS_NOTIFICATION);
+            if(notify){
+                alertService.showAlert("Notificação", SUCCESS_MESSAGES.STOP_NOTIFICATION);
+            }
         };
 
-        function removeProximityListener(stop, index) {
+        function removeStopProximityListener(stop, index) {
             var idx = index ? index:indexOfStop(stop);
             if(idx != -1){
                 notifyStops.splice(idx, 1);
             }
         };
 
-        function toggleProximityListener(stop){
+        function toggleStopProximityListener(stop){
             var index = indexOfStop(stop);
-            (index != -1) ? removeProximityListener(stop, index):addProximityListener(stop);
+            (index != -1) ? removeStopProximityListener(stop, index):addStopProximityListener(stop);
         };
 
         function notifyProximity() {
             var nextStop = getNextStop();
+            if(!nextStop){
+                return;
+            }
+
             var distance = getDistance(nextStop);
             if(distance <= TRACKBUS.STOP_NOTIFICATION_DISTANCE){
                 notificationService.scheduleStopNotification(currentStop);
+                removeStopProximityListener(currentStop);
                 currentStop = nextStop;
             }
         };

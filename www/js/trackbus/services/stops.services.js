@@ -18,6 +18,10 @@
         };
 
         self.getClosestStop = function(stops, position) {
+            if(stops.length == 0){
+                return null;
+            }
+
             var coords = {latitude: stops[0].latitude, longitude: stops[0].longitude};
             var min_distance = spatialService.getDistance(coords, position);
             var distance = min_distance;

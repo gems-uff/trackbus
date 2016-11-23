@@ -11,6 +11,8 @@ angular.module('trackbus')
     {
         "GENERIC": "Operação realizada com sucesso.",
         "BUS_NOTIFICATION": "Você será notificado quando o ônibus se aproximar.",
+        "STOP_NOTIFICATION": "Você será notificado ao se aproximar do ponto.",
+        "TOURIST_NOTIFICATION": "Você será notificado ao se aproximar do ponto."
     }
 )
 .constant("CONFIRMATION_MESSAGES",
