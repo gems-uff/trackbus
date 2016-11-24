@@ -42,6 +42,9 @@
         };
 
         function schedule(notification) {
+            if(!window.cordova){
+                return;
+            }
             var promises = {
                 scheduled: $cordovaLocalNotification.isScheduled(notification.id),
                 triggered: $cordovaLocalNotification.isTriggered(notification.id)

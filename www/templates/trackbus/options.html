@@ -37,6 +37,16 @@
             </ion-item>
 
             <ion-item>
+                <ion-label color="primary" stacked>Distância da notificação de pontos turísticos</ion-label>
+                <input ng-model="vm.options.notification.touristDistance" type="number">
+                <label ng-if="vm.options.notification.touristDistance > 1">metros</label>
+                <label ng-if="vm.options.notification.touristDistance <= 1">metro</label>
+                <button class="button button-small button-assertive small" ng-click="vm.setTouristDistanceDefault()">
+                    Padrão
+                </button>
+            </ion-item>
+
+            <ion-item>
                 <ion-label color="primary" stacked>Pontos turísticos</ion-label>
                 <ion-checkbox ng-model="vm.options.tourist.enable">Exibir pontos turísticos</ion-checkbox>
             </ion-item>

@@ -7,7 +7,7 @@
 
     TripController.$inject = [
         '$scope', 'uiGmapGoogleMapApi', '$interval',
-        'spatialService', 'alertService', 'stopService',
+        'spatialService', 'alertService', 'stopService', 'notificationService',
         'stopsPromise', 'configPromise', 'touristPromise',
         'PERSON_ICON', 'BUS_STOP_ICON', 'TOURIST_STOP_ICON',
         'TRACKBUS', 'SUCCESS_MESSAGES', 'ERROR_MESSAGES'
@@ -15,13 +15,14 @@
 
     function TripController(
         $scope, uiGmapGoogleMapApi, $interval,
-        spatialService, alertService, stopService,
+        spatialService, alertService, stopService, notificationService,
         stopsPromise, configPromise, touristPromise,
         PERSON_ICON, BUS_STOP_ICON, TOURIST_STOP_ICON,
         TRACKBUS, SUCCESS_MESSAGES, ERROR_MESSAGES
     ) {
         var vm = this;
         var notifyStops = [];
+        var notifyTourist = [];
         var options = configPromise;
         var updateWatch;
         var currentStop;
@@ -149,10 +150,20 @@
             };
         };
 
-        function indexOfStop(stop) {
+        // function indexOfStop(stop) {
+        //     var index = -1;
+        //     angular.forEach(notifyStops, function(s, key) {
+        //         if(s.sequencia ==  stop.sequencia){
+        //             return index = key;
+        //         }
+        //     });
+        //     return index;
+        // };
+
+        function indexOf(array, attr, value) {
             var index = -1;
-            angular.forEach(notifyStops, function(s, key) {
-                if(s.sequencia ==  stop.sequencia){
+            angular.forEach(array, function(element, key) {
+                if(element[key] ==  value){
                     return index = key;
                 }
             });
@@ -168,29 +179,56 @@
         };
 
         function removeStopProximityListener(stop, index) {
-            var idx = index ? index:indexOfStop(stop);
+            var idx = index ? index:indexOf(notifyStops, "sequencia", stop.sequencia);
             if(idx != -1){
                 notifyStops.splice(idx, 1);
             }
         };
 
         function toggleStopProximityListener(stop){
-            var index = indexOfStop(stop);
+            var index = indexOf(notifyStops, "sequencia", stop.sequencia);
             (index != -1) ? removeStopProximityListener(stop, index):addStopProximityListener(stop);
         };
 
         function notifyProximity() {
+            function toKilometers(value) {
+                return value/1000;
+            }
+
             var nextStop = getNextStop();
             if(!nextStop){
                 return;
             }
 
             var distance = getDistance(nextStop);
-            if(distance <= TRACKBUS.STOP_NOTIFICATION_DISTANCE){
+            if(distance <= toKilometers(options.notification.stopDistance)){
                 notificationService.scheduleStopNotification(currentStop);
                 removeStopProximityListener(currentStop);
                 currentStop = nextStop;
             }
+        };
+
+        function notifyTouristSpots(touristSpots) {
+            function find(array, attr, value){
+                var result;
+                angular.forEach(array, function(e){
+                    if(e[attr] === value){
+                        return result = e;
+                    }
+                })
+                return result;
+            };
+
+            var spot;
+            angular.forEach(touristSpots, function(ts) {
+                if(ts.distancia <= options.notification.touristDistance){
+                    if(find(notifyTourist, "name", ts.name)){
+                        spot = find(vm.touristSpots, "name", ts.name);
+                        notificationService.scheduleTouristNotification(spot);
+                    }
+                }
+            });
+
         };
 
         function getDistance(stop) {

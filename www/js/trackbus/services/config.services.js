@@ -18,6 +18,7 @@
                 soundAlert: OPTIONS.SOUND.SOUND_ALERT,
                 busDistance: OPTIONS.DISTANCE.BUS_DISTANCE,
                 stopDistance: OPTIONS.DISTANCE.STOP_DISTANCE,
+                touristDistance: OPTIONS.DISTANCE.TOURIST_DISTANCE,
             },
             tourist: {
                 enable: true
@@ -29,7 +30,7 @@
             try{
                 prefs = JSON.parse($window.localStorage[PREFERENCES]);
             } catch(e){
-                pref = DEFAULT_OPTIONS;
+                prefs = DEFAULT_OPTIONS;
             }
             return prefs;
         };

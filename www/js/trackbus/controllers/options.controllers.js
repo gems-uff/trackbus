@@ -29,6 +29,7 @@
         //         soundAlert: OPTIONS.SOUND.SOUND_ALERT,
         //         busDistance: OPTIONS.DISTANCE.BUS_DISTANCE,
         //         stopDistance: OPTIONS.DISTANCE.STOP_DISTANCE,
+        //         touristDistance: OPTIONS.DISTANCE.TOURIST_DISTANCE,
         //     },
         //     tourist: {
         //         enable: true
@@ -47,6 +48,7 @@
         function activate() {
             vm.options.notification.busDistance = toMeters(vm.options.notification.busDistance);
             vm.options.notification.stopDistance = toMeters(vm.options.notification.stopDistance);
+            vm.options.notification.touristDistance = toMeters(vm.options.notification.touristDistance);
         };
 
         function toKilometers(value){
@@ -65,9 +67,14 @@
             vm.options.notification.stopDistance = toMeters(OPTIONS.DISTANCE.STOP_DISTANCE);
         };
 
+        function setTouristDistanceDefault() {
+            vm.options.notification.touristDistance = toMeters(OPTIONS.DISTANCE.TOURIST_DISTANCE);
+        };
+
         function save() {
             vm.options.notification.busDistance = toKilometers(vm.options.notification.busDistance);
             vm.options.notification.stopDistance = toKilometers(vm.options.notification.stopDistance);
+            vm.options.notification.touristDistance = toMeters(vm.options.notification.touristDistance);
 
             configService.savePreferences(vm.options);
             $ionicHistory.goBack();

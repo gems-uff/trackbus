@@ -7,14 +7,16 @@
 
     BusMapController.$inject = [
         '$scope', 'uiGmapGoogleMapApi', '$interval',
-        'alertService', 'stateService', 'spatialService', 'busStateFactory', 'notificationService', 'configService',
+        'alertService', 'stateService', 'spatialService',
+        'busStateFactory', 'notificationService', 'configService',
         'busesPromise', 'configPromise',
         'BUS', 'BUS_ICONS', 'PERSON_ICON', 'TRACKBUS', 'SUCCESS_MESSAGES', 'ERROR_MESSAGES'
     ];
 
     function BusMapController(
         $scope, uiGmapGoogleMapApi, $interval,
-        alertService, stateService, spatialService, busStateFactory, notificationService, configService,
+        alertService, stateService, spatialService,
+        busStateFactory, notificationService, configService,
         busesLinePromise, configPromise,
         BUS, BUS_ICONS, PERSON_ICON, TRACKBUS, SUCCESS_MESSAGES, ERROR_MESSAGES
     ) {

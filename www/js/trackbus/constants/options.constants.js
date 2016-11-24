@@ -10,6 +10,7 @@ angular
         "DISTANCE": {
             "BUS_DISTANCE": 500, //kilometers
             "STOP_DISTANCE": 500, //kilometers
+            "TOURIST_DISTANCE": 500, //kilometers
         }
     }
 );

@@ -8,11 +8,6 @@
                     <ui-gmap-marker coords="vm.userMarker.coords" options="vm.userMarker.options"
                         events="vm.userMarker.events" idkey="'user'"
                         click="vm.userMarker.click">
-                            <ui-gmap-window>
-                                <div>
-                                    olar
-                                </div>
-                            </ui-gmap-window>
                     </ui-gmap-marker>
                     <!-- User marker -->
 
@@ -62,7 +57,7 @@
                 </ui-gmap-google-map>
             </div>
 
-            <div ng-show="showStops">
+            <div ng-show="showStops" ng-init="showStops=true">
                 Notificar pontos de parada
                 <div ng-repeat="stop in vm.stops">
                     <div ng-click="vm.setPosition(stop.latitude, stop.longitude)">
