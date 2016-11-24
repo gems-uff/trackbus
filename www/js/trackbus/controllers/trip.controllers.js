@@ -170,24 +170,59 @@
             return index;
         };
 
-        function addStopProximityListener(stop, notify) {
-            notifyStops.push(stop);
+        function addProximityListener(array, value, message, notify) {
+            array.push(element);
             notifyProximity();
             if(notify){
-                alertService.showAlert("Notificação", SUCCESS_MESSAGES.STOP_NOTIFICATION);
+                alertService.showAlert("Notificação", message);
+            }
+        };
+
+        function addStopProximityListener(stop, notify) {
+            addProximityListener(notifyStops, stop, SUCCESS_MESSAGES.STOP_NOTIFICATION, notify);
+            // notifyStops.push(stop);
+            // notifyProximity();
+            // if(notify){
+            //     alertService.showAlert("Notificação", SUCCESS_MESSAGES.STOP_NOTIFICATION);
+            // }
+        };
+
+        function addTouristProximityListener(ts, notify) {
+            addProximityListener(notifyStops, ts, SUCCESS_MESSAGES.TOURIST_NOTIFICATION, notify);
+        };
+
+        function removeProximityListener(array, attr, value, index) {
+            var idx = index ? index:indexOf(array, attr, value);
+            if(idx != -1){
+                array.splice(idx, 1);
             }
         };
 
         function removeStopProximityListener(stop, index) {
-            var idx = index ? index:indexOf(notifyStops, "sequencia", stop.sequencia);
-            if(idx != -1){
-                notifyStops.splice(idx, 1);
-            }
+            removeProximityListener(notifyStops, "sequencia", stop.sequencia, index);
+            // var idx = index ? index:indexOf(notifyStops, "sequencia", stop.sequencia);
+            // if(idx != -1){
+            //     notifyStops.splice(idx, 1);
+            // }
+        };
+
+        function removeTouristProximityListener(ts){
+            removeProximityListener(notifyTourist, "id", ts.id, index);
+        };
+
+        function toggleProximityListener(array, attr, value) {
+            var index = indexOf(array, attr, value);
+            (index != -1) ? removeProximityListener(array, attr, value, index):addProximityListener(array, value);
         };
 
         function toggleStopProximityListener(stop){
-            var index = indexOf(notifyStops, "sequencia", stop.sequencia);
-            (index != -1) ? removeStopProximityListener(stop, index):addStopProximityListener(stop);
+           toggleProximityListener(notifyStops, "sequencia", stop.sequencia);
+            // var index = indexOf(notifyStops, "sequencia", stop.sequencia);
+            // (index != -1) ? removeStopProximityListener(stop, index):addStopProximityListener(stop);
+        };
+
+        function toggleTouristProximityListener(ts) {
+            toggleProximityListener(notifyTourist, "id", ts.id);
         };
 
         function notifyProximity() {
