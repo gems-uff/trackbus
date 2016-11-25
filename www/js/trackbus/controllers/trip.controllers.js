@@ -219,7 +219,7 @@
             }
 
             var distance = getDistance(nextStop);
-            if(distance <= toKilometers(options.notification.stopDistance)){
+            if(distance <= options.notification.stopDistance){
                 notifyTouristSpots(currentStop.pontos_turisticos);
                 notificationService.scheduleStopNotification(currentStop);
                 removeStopProximityListener(currentStop);
