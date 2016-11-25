@@ -31,6 +31,8 @@
         vm.touristSpots = options.tourist.enable ? touristPromise:[];
         vm.addStopProximityListener = addStopProximityListener;
         vm.toggleStopProximityListener = toggleStopProximityListener;
+        vm.addTouristProximityListener = addTouristProximityListener;
+        vm.toggleTouristProximityListener = toggleTouristProximityListener;
         vm.setPosition = setPosition;
 
         // Google Maps
@@ -94,6 +96,8 @@
             var coords = {latitude: lat, longitude: lng}
             if(!currentStop){
                 currentStop = stopService.getClosestStop(vm.stops, coords);
+                console.log(currentStop);
+
             }
             setUserPosition(coords);
             notifyProximity();
@@ -150,16 +154,6 @@
             };
         };
 
-        // function indexOfStop(stop) {
-        //     var index = -1;
-        //     angular.forEach(notifyStops, function(s, key) {
-        //         if(s.sequencia ==  stop.sequencia){
-        //             return index = key;
-        //         }
-        //     });
-        //     return index;
-        // };
-
         function indexOf(array, attr, value) {
             var index = -1;
             angular.forEach(array, function(element, key) {
@@ -171,24 +165,11 @@
         };
 
         function addProximityListener(array, value, message, notify) {
-            array.push(element);
+            array.push(value);
             notifyProximity();
             if(notify){
                 alertService.showAlert("Notificação", message);
             }
-        };
-
-        function addStopProximityListener(stop, notify) {
-            addProximityListener(notifyStops, stop, SUCCESS_MESSAGES.STOP_NOTIFICATION, notify);
-            // notifyStops.push(stop);
-            // notifyProximity();
-            // if(notify){
-            //     alertService.showAlert("Notificação", SUCCESS_MESSAGES.STOP_NOTIFICATION);
-            // }
-        };
-
-        function addTouristProximityListener(ts, notify) {
-            addProximityListener(notifyStops, ts, SUCCESS_MESSAGES.TOURIST_NOTIFICATION, notify);
         };
 
         function removeProximityListener(array, attr, value, index) {
@@ -198,27 +179,29 @@
             }
         };
 
+        function toggleProximityListener(array, attr, value) {
+            var index = indexOf(array, attr, value);
+            (index != -1) ? removeProximityListener(array, attr, value, index):addProximityListener(array, value);
+        };
+
+        function addStopProximityListener(stop, notify) {
+            addProximityListener(notifyStops, stop, SUCCESS_MESSAGES.STOP_NOTIFICATION, notify);
+        };
+
+        function addTouristProximityListener(ts, notify) {
+            addProximityListener(notifyStops, ts, SUCCESS_MESSAGES.TOURIST_NOTIFICATION, notify);
+        };
+
         function removeStopProximityListener(stop, index) {
             removeProximityListener(notifyStops, "sequencia", stop.sequencia, index);
-            // var idx = index ? index:indexOf(notifyStops, "sequencia", stop.sequencia);
-            // if(idx != -1){
-            //     notifyStops.splice(idx, 1);
-            // }
         };
 
         function removeTouristProximityListener(ts){
             removeProximityListener(notifyTourist, "id", ts.id, index);
         };
 
-        function toggleProximityListener(array, attr, value) {
-            var index = indexOf(array, attr, value);
-            (index != -1) ? removeProximityListener(array, attr, value, index):addProximityListener(array, value);
-        };
-
         function toggleStopProximityListener(stop){
            toggleProximityListener(notifyStops, "sequencia", stop.sequencia);
-            // var index = indexOf(notifyStops, "sequencia", stop.sequencia);
-            // (index != -1) ? removeStopProximityListener(stop, index):addStopProximityListener(stop);
         };
 
         function toggleTouristProximityListener(ts) {
@@ -237,6 +220,7 @@
 
             var distance = getDistance(nextStop);
             if(distance <= toKilometers(options.notification.stopDistance)){
+                notifyTouristSpots(currentStop.pontos_turisticos);
                 notificationService.scheduleStopNotification(currentStop);
                 removeStopProximityListener(currentStop);
                 currentStop = nextStop;

@@ -43,6 +43,7 @@
 
         function schedule(notification) {
             if(!window.cordova){
+                console.log("notified!");
                 return;
             }
             var promises = {
