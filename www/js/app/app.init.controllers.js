@@ -10,11 +10,13 @@
     function InitController($state, $rootScope, alertService, stateService, ERROR_MESSAGES) {
         var vm = this;
 
+        vm.goToList = stateService.list;
+        vm.goToOptions = stateService.options;
+        
         activate();
 
         function activate() {
             setLoadingEvents();
-            stateService.list();
         };
 
         function setLoadingEvents(){
@@ -27,8 +29,18 @@
             });
             $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
                 console.error(error);
-                alertService.showAlert("Erro", ERROR_MESSAGES.GENERIC);
                 alertService.hideLoading();
+                if(error.constructor.name ==  "PositionError"){
+                    alertService.showAlert("Erro", ERROR_MESSAGES.LOCATION_UNAVAILABLE);
+                    return;
+                }
+                switch(error.status){
+                    case 404:
+                        alertService.showAlert("Erro", ERROR_MESSAGES.SERVICE_UNAVAILABLE);
+                        break;
+                    default:
+                        alertService.showGenericError();
+                }
             });
         };
     };

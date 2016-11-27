@@ -1,6 +1,51 @@
-<ion-view view-title="Listagem de linhas">
+<ion-view view-title="Trackbus">
     <!--INSERT CSS HERE-->
     <ion-content class="has-header">
-        <h1>Hello list!</h1>
+
+        <div class="list list-inset" ng-if="vm.selectedLines.length > 0">
+            <ion-list>
+                <label>
+                    Linhas selecionadas
+                </label>
+                <ion-item ng-repeat="line in vm.selectedLines" ng-click="vm.removeLine(line)">
+                    {{::line}} <i class="ion-close"></i>
+                </ion-item>
+            </ion-list>
+            <button class="button button-full button-assertive" ng-click="vm.goToMap(vm.selectedLines)">
+                Ver linhas no mapa
+            </button>
+        </div>
+
+        <button class="button button-full button-calm" ng-click="vm.showFilter = !vm.showFilter">
+            Pesquisar linhas
+        </button>
+
+        <div ng-if="vm.showFilter">
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input type="tel" size="50" placeholder="Digite o número da linha"
+                        ng-model="vm.lineFilter" ng-change="vm.filterLines()"
+                        ng-model-options="{debounce: 500}">
+                </label>
+            </div>
+
+            <ion-list ng-show="vm.lineFilter">
+                 <ion-item ng-repeat="line in vm.filteredLines" ng-click="vm.addLine(line)">
+                    <i class="ion-plus"></i> {{::line}}
+                </ion-item>
+            </ion-list>
+        </div>
+
+        <div ng-if="!vm.showFilter">
+            <ion-list>
+                <label>
+                    Linhas próximas a você:
+                </label>
+                <ion-item ng-repeat="line in vm.closeLines" ng-click="vm.addLine(line)">
+                    <i class="ion-plus"></i> {{::line}}
+                </ion-item>
+            </ion-list>
+        </div>
     </ion-content>
 </ion-view>

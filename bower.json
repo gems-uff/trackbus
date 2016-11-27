@@ -7,7 +7,8 @@
     "angular-animate": "1.5.3",
     "angular-ui-router": "0.2.13",
     "angular-sanitize": "1.5.3",
-    "ngCordova": "^0.1.27-alpha"
+    "ngCordova": "^0.1.27-alpha",
+    "angular-google-maps": "^2.3.4"
   },
   "homepage": "https://github.com/mcrvaz/ionic-default",
   "description": "Ionic template",

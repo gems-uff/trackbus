@@ -2,9 +2,11 @@ angular
 .module('states')
 .constant("STATES",
     {
+        "HEADER": "header",
         "INTRO": "intro",
-        "LIST": "list",
-        "MAP": "map",
-        "OPTIONS": "options"
+        "LIST": "header.list",
+        "MAP": "header.map",
+        "OPTIONS": "header.options",
+        "TRIP": "header.trip"
     }
 );

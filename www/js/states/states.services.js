@@ -19,12 +19,16 @@
             $state.go(STATES.LIST);
         };
 
-        self.map = function(line) {
-            $state.go(STATES.MAP, {line: line});
+        self.map = function(lines) {
+            $state.go(STATES.MAP, {lines: lines});
         };
 
-        self.options = function() {
-            $state.go(STATES.OPTIONS);
+        self.options = function(line) {
+            $state.go(STATES.OPTIONS, {line: line});
+        };
+
+        self.trip = function(line, options) {
+            $state.go(STATES.TRIP, {line: line, options: options});
         };
 
         return self;
