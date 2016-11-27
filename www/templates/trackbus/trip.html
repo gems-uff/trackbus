@@ -2,27 +2,12 @@
     <!--INSERT CSS HERE-->
     <ion-content class="has-header">
         <body>
-            <script id="searchbox.tpl.html" type="text/ng-template">
-                <input type="text" placeholder="Endereço">
-            </script>
             <div class="map-container">
                 <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" control="vm.map">
-                    <!-- Search box -->
-                    <ui-gmap-search-box options="vm.searchbox.options"
-                        template="vm.searchbox.template"
-                        events="vm.searchbox.events" position="vm.searchbox.position">
-                    </ui-gmap-search-box>
-                    <!-- Search box -->
-
                     <!-- User marker -->
                     <ui-gmap-marker coords="vm.userMarker.coords" options="vm.userMarker.options"
                         events="vm.userMarker.events" idkey="'user'"
                         click="vm.userMarker.click">
-                            <ui-gmap-window>
-                                <div>
-                                    olar
-                                </div>
-                            </ui-gmap-window>
                     </ui-gmap-marker>
                     <!-- User marker -->
 
@@ -37,7 +22,8 @@
                                 <div>
                                     {{::marker.description}}
                                     <br>
-                                    <button class="button button-small button-assertive" ng-click="$parent.vm.addProximityListener($parent.marker)">
+                                    <button class="button button-small button-assertive"
+                                        ng-click="$parent.vm.addStopProximityListener($parent.marker, true)">
                                         Notificar proximidade
                                     </button>
                                 </div>
@@ -45,8 +31,55 @@
                         </ui-gmap-marker>
                     </div>
                     <!-- Bus stops -->
+
+                    <!-- Tourist stops -->
+                    <div ng-repeat="marker in vm.touristMarkers">
+                        <ui-gmap-marker
+                            coords="marker.coords" options="marker.options"
+                            events="marker.events" idkey="marker.id"
+                            click="marker.click">
+                            <!-- Window content -->
+                            <ui-gmap-window>
+                                <div>
+                                    {{::marker.id}}
+                                    <br>
+                                    {{::marker.address}}
+                                    <br>
+                                    <button class="button button-small button-assertive"
+                                        ng-click="$parent.vm.addTouristProximityListener($parent.marker, true)">
+                                        Notificar proximidade
+                                    </button>
+                                </div>
+                            </ui-gmap-window>
+                        </ui-gmap-marker>
+                    </div>
+                    <!-- Tourist stops -->
                 </ui-gmap-google-map>
             </div>
+
+            <div ng-show="showStops" ng-init="showStops=true">
+                Notificar pontos de parada
+                <div ng-repeat="stop in vm.stops">
+                    <div ng-click="vm.setPosition(stop.latitude, stop.longitude)">
+                       {{::stop.descricao_ponto}}
+                    </div>
+                    <ion-toggle ng-model="stop" toggle-class="toggle-calm"
+                        ng-change="vm.toggleStopProximityListener(stop)">
+                    </ion-toggle>
+                </div>
+            </div>
+            <div ng-show="!showStops">
+                Notificar pontos turísticos
+                <div ng-repeat="ts in vm.touristSpots">
+                    <div ng-click="vm.setPosition(ts.latitude, ts.longitude)">
+                       {{::stop.nome}}
+                    </div>
+                    <ion-toggle ng-model="ts" toggle-class="toggle-calm"
+                        ng-change="vm.toggleTouristProximityListener(ts)">
+                    </ion-toggle>
+                </div>
+            </div>
+
         </body>
     </ion-content>
 </ion-view>

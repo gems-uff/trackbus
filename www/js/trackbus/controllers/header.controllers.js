@@ -5,15 +5,16 @@
         .module('trackbus')
         .controller('HeaderController', HeaderController);
 
-    HeaderController.$inject = [];
+    HeaderController.$inject = ['stateService'];
 
-    function HeaderController() {
-        var vm = this;
+    function HeaderController(stateService) {
+        var header = this;
+
+        header.goToOptions = stateService.options;
 
         activate();
 
-        function activate() {
-        };
+        function activate() {};
     };
 
 })();

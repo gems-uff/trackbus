@@ -6,41 +6,35 @@
         .controller('BusMapController', BusMapController);
 
     BusMapController.$inject = [
-        '$q', '$rootScope', '$scope', 'uiGmapGoogleMapApi', '$cordovaGeolocation', '$stateParams', '$interval',
-        'alertService', 'stateService', 'busSpatialService', 'busStateFactory', 'notificationService',
-        'busesPromise',
-        'BUS', 'BUS_ICONS', 'TRACKBUS', 'SUCCESS_MESSAGES'
+        '$scope', 'uiGmapGoogleMapApi', '$interval',
+        'alertService', 'stateService', 'spatialService',
+        'busStateFactory', 'notificationService', 'configService',
+        'busesPromise', 'configPromise',
+        'BUS', 'BUS_ICONS', 'PERSON_ICON', 'TRACKBUS', 'SUCCESS_MESSAGES', 'ERROR_MESSAGES'
     ];
 
     function BusMapController(
-        $q, $rootScope, $scope, uiGmapGoogleMapApi, $cordovaGeolocation, $stateParams, $interval,
-        alertService, stateService, busSpatialService, busStateFactory, notificationService,
-        busesLinePromise,
-        BUS, BUS_ICONS, TRACKBUS, SUCCESS_MESSAGES
+        $scope, uiGmapGoogleMapApi, $interval,
+        alertService, stateService, spatialService,
+        busStateFactory, notificationService, configService,
+        busesLinePromise, configPromise,
+        BUS, BUS_ICONS, PERSON_ICON, TRACKBUS, SUCCESS_MESSAGES, ERROR_MESSAGES
     ) {
         var vm = this;
         var lines = busesLinePromise;
         var notifyBuses = [];
+        var options = configPromise;
+        var updateWatch;
 
         // Google Maps
         vm.busMarkers = [];
         vm.userMarker = {
             coords: {latitude: 0, longitude: 0},
-            options: {icon: "img/person.png"}
+            options: {icon: PERSON_ICON}
         };
         vm.map = {
             center: {latitude: 0, longitude: 0},
             zoom: 15
-        };
-        vm.searchbox = {
-            template:'searchbox.tpl.html',
-            events:{
-                places_changed: function (searchBox) {
-                    var location = searchBox.getPlaces()[0].geometry.location;
-                    setPosition(location.lat(), location.lon());
-                }
-            },
-            position:"top-right"
         };
         // Google Maps
 
@@ -48,7 +42,7 @@
 
         vm.setCurrentPosition = setCurrentPosition;
         vm.addProximityListener = addProximityListener;
-        vm.goToOptions = stateService.options;
+        vm.goToTrip = stateService.trip;
 
         activate();
 
@@ -59,13 +53,16 @@
                 });
             };
             function setUpdateInterval(){
-                $interval(updateLines, TRACKBUS.TIME_TO_UPDATE);
+                updateWatch = $interval(updateLines, TRACKBUS.TIME_TO_UPDATE_LINES);
+                $scope.$on('$destroy', function() {
+                    $interval.cancel(updateWatch);
+                });
             };
 
             return mapSetup().then(function(){
-                getLinesIds();
+                vm.linesIds = getLinesIds();
                 setUpdateInterval();
-                return busSpatialService.watchPosition(setUserPosition).then(initializeBusMarkers);
+                return spatialService.watchPosition(setUserPosition).then(initializeBusMarkers);
             });
         };
 
@@ -74,7 +71,7 @@
             angular.forEach(lines, function(line) {
                 arr.push(line[0][BUS.LINE]);
             });
-            vm.linesIds = arr;
+            return arr;
         };
 
         function updateLines(){
@@ -86,18 +83,9 @@
             });
         };
 
-        function notifyProximity() {
-            angular.forEach(notifyBuses, function(bus){
-                if(getDistance(bus) <= TRACKBUS.BUS_NOTIFICATION_DISTANCE){
-                    notificationService.scheduleBusNotification(bus);
-                }
-            });
-        };
-
         function setCurrentPosition(zoom) {
-            return busSpatialService.getCurrentPosition().then(
+            return spatialService.getCurrentPosition().then(
                 function success(result) {
-                    setUserPosition(result.latitude, result.longitude);
                     setPosition(result.latitude, result.longitude, zoom);
                 },
                 function error(result) {
@@ -107,15 +95,15 @@
             );
         };
 
-        function setPosition(lat, lon, zoom) {
-            vm.map.refresh({latitude: lat, longitude: lon});
+        function setPosition(lat, lng, zoom) {
+            vm.map.refresh({latitude: lat, longitude: lng});
             if(zoom){
                 vm.map.zoom = zoom;
             }
         };
 
-        function setUserPosition(lat, lon) {
-            vm.userMarker.coords = {latitude: lat, longitude: lon};
+        function setUserPosition(lat, lng) {
+            vm.userMarker.coords = {latitude: lat, longitude: lng};
         };
 
         function initializeBusMarkers(){
@@ -124,25 +112,33 @@
             vm.busMarkers = [];
             angular.forEach(lines, function(line) {
                 angular.forEach(line, function(bus) {
-                    result.push(generateBusMarker(bus, lineIndex));
+                    result.push(new BusMarker(bus, lineIndex));
                 });
                 lineIndex++;
             });
             vm.busMarkers = result;
         };
 
-        function generateBusMarker(bus, lineIndex) {
-            //coords must contain latitude and longitude
-            return {
-                id: bus[BUS.ORDER],
-                options: {icon: BUS_ICONS[lineIndex]},
-                line: bus[BUS.LINE],
-                distance: getDistance(bus).toFixed(2),
-                coords: {
-                    latitude: bus[BUS.LATITUDE],
-                    longitude: bus[BUS.LONGITUDE]
+        function BusMarker(bus, lineIndex) {
+            //must contain latitude: Number, longitude: Number
+            this.id = bus[BUS.ORDER],
+            this.options = {icon: BUS_ICONS[lineIndex]},
+            this.line = bus[BUS.LINE],
+            this.distance = getDistance(bus).toFixed(2),
+            this.coords = {
+                latitude: bus[BUS.LATITUDE],
+                longitude: bus[BUS.LONGITUDE]
+            }
+        };
+
+        function indexOfBus(bus) {
+            var index = -1;
+            angular.forEach(notifyBuses, function(b, key) {
+                if(bus[BUS.ORDER] ==  b[BUS.ORDER]){
+                    return index = key;
                 }
-            };
+            });
+            return index;
         };
 
         function addProximityListener(bus){
@@ -151,14 +147,31 @@
             alertService.showAlert("Notificação", SUCCESS_MESSAGES.BUS_NOTIFICATION);
         };
 
+        function removeProximityListener(bus, index) {
+            var idx = index ? index:indexOfBus(bus);
+            if(idx != -1){
+                notifyBuses.splice(idx, 1);
+            }
+        };
+
+        function notifyProximity() {
+            angular.forEach(notifyBuses, function(bus){
+                if(getDistance(bus) <= options.notification.busDistance){
+                    notificationService.scheduleBusNotification(bus);
+                    removeProximityListener(bus);
+                }
+            });
+        };
+
         function getDistance(bus) {
-            if(!bus.coords){
-                bus.coords = {
-                    latitude: bus[BUS.LATITUDE],
-                    longitude: bus[BUS.LONGITUDE]
+            var _bus = angular.copy(bus);
+            if(!_bus.coords){
+                _bus.coords = {
+                    latitude: _bus[BUS.LATITUDE],
+                    longitude: _bus[BUS.LONGITUDE]
                 }
             }
-            return busSpatialService.getDistance(bus.coords, vm.userMarker.coords);
+            return spatialService.getDistance(_bus.coords, vm.userMarker.coords);
         };
     };
 
