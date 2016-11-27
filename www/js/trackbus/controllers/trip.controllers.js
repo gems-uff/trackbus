@@ -97,7 +97,6 @@
             if(!currentStop){
                 currentStop = stopService.getClosestStop(vm.stops, coords);
                 console.log(currentStop);
-
             }
             setUserPosition(coords);
             notifyProximity();
@@ -137,6 +136,7 @@
             this.id = stop.sequencia;
             this.options = {icon: BUS_STOP_ICON};
             this.description = stop.descricao_ponto;
+            this.distance = 0;
             this.coords = {
                 latitude: stop.latitude,
                 longitude: stop.longitude
@@ -148,6 +148,7 @@
             this.id = ts.nome;
             this.options = {icon: TOURIST_STOP_ICON};
             this.address = ts.endereco;
+            this.distance = 0;
             this.coords = {
                 latitude: ts.latitude,
                 longitude: ts.longitude
@@ -209,19 +210,17 @@
         };
 
         function notifyProximity() {
-            function toKilometers(value) {
-                return value/1000;
-            }
-
             var nextStop = getNextStop();
             if(!nextStop){
                 return;
             }
 
             var distance = getDistance(nextStop);
-            if(distance <= options.notification.stopDistance){
-                notifyTouristSpots(currentStop.pontos_turisticos);
+            console.log(notifyStops);
+            if(distance <= options.notification.stopDistance && indexOf(notifyStops, "id", currentStop.id) != -1){
+                currentStop.distance = distance;
                 notificationService.scheduleStopNotification(currentStop);
+                notifyTouristSpots(currentStop.pontos_turisticos);
                 removeStopProximityListener(currentStop);
                 currentStop = nextStop;
             }
