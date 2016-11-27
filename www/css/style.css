@@ -1,3 +1,147 @@
 .angular-google-map-container {
     height: 400px
 }
+
+/* ionic override */
+.bar .title {
+    font-family: 'Bungee';
+}
+
+
+/* ionic override */
+
+.background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    background: url(../img/bg-intro.jpg);
+    background-size: auto 100%;
+    background-position-x: 50%;
+    opacity: .6;    
+}
+.content {
+    width: 100%;
+    height: 100%;
+    float: left;
+    padding: 20px;
+
+    font-family: 'Catamaran';
+    font-weight: 300;
+}
+    .content h1::before {
+        width: 100%;
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+
+        border-top: 2px solid #332c2c;
+    }
+    .content h1 {
+        width: 100%;
+        float: left;
+        position: relative;
+
+        color: #fff;
+        font-family: 'Bungee';
+        text-shadow: 2px 2px 0px #332c2c;
+        text-align-last: center;
+
+        border-top: 2px solid #fff;
+        border-bottom: 2px solid #fff;
+        background: transparent;
+
+        z-index: 7;
+    }
+    .content h1::after {
+        width: 100%;
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0px;
+
+        border-top: 2px solid #332c2c;
+    }
+
+.introContainer {
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    top: 40%;
+    transform: translateY(-45%);
+}
+        .introContainer .btnContainer:last-child {
+            margin-bottom: 0;
+        }
+
+.warning {
+    width: 100%;
+    float: left;
+    padding: 10px;
+    margin-bottom: 60px;
+
+    color: #332c2c;
+    font-size: 1.2em;
+    text-align: center;
+
+    border: 1px solid #fff;
+    background: rgba(255, 255, 255, .8);
+}
+    .warning strong {
+        width: 100%;
+        float: left;
+        margin-bottom: 10px;
+
+        font-size: 1.1em;
+    }
+
+.btnContainer {
+    width: 100%;
+    height: 50px;
+    float: left;
+    display: block;
+    margin-bottom: calc(10px + 5px);
+}
+.btnDefault {
+    width: 100%;
+    height: 50px;
+    float: left;
+    padding: 10px 0;
+
+    text-align: center;
+    font-family: 'Catamaran';
+    font-weight: 700;
+    font-size: 1.2em;
+    text-transform: uppercase;
+
+    line-height: normal;
+    border: none;
+    cursor: pointer;
+}
+    .btnDefault:active {
+        margin-top: 5px;
+        box-shadow: none;
+    }
+    .btnDefault i {
+        margin-right: 10px;
+    }
+
+.greenBtn {
+    color: #fff;
+    background: #609000;
+    box-shadow: 0px 5px 0px #4B6E00;
+}
+.redBtn {
+    color: #fff;
+    background: #CA0700;
+    box-shadow: 0px 5px 0px #A50400;
+}
+.blueBtn {
+    color: #fff;
+    background: #00A3EE;
+    box-shadow: 0px 5px 0px #0070A6;
+}

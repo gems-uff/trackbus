@@ -1,22 +1,28 @@
 <ion-view view-title="Trackbus">
-    <ion-content>
-        Bem vindo ao Trackbus!
-        <strong>Importante</strong>
-        Para o bom funcionamento do aplicativo:
-        Verifique se seu serviço de localização está ativo.
-        Para receber notificações de áudio, lembre-se de habilitar o som do seu dispositivo.
+    <div class="background">
+    </div>
 
-        <a ng-click="showInstructions=!showInstructions">Instruções</a>
-        <div ng-show="showInstructions">
-            <li>Escolha as linhas de ônibus que deseja acompanhar</li>
-            <li>Caso queira receber notificações de proximidade de um ônibus, selecione-o no mapa e confirme.</li>
-            <li>Para acompanhar a viagem, ao entrar no ônibus indique em qual linha você está.</li>
-            <li>Em seguida, escolha quais pontos deseja ser notificado da proximidade.</li>
-            <li>Boa viagem!</li>
+    <ion-content scroll="false" class="content">
+        <h1>Trackbus</h1>
+        
+        <div class="introContainer">
+            <div class="warning">
+                <strong>Importante!</strong>
+                Verifique se seu serviço de localização está ativo.
+                Para receber notificações de áudio, lembre-se de habilitar o som do seu dispositivo.
+            </div>
+
+            <div class="btnContainer">
+                <button class="btnDefault greenBtn button-full" ng-click="vm.goToList()">
+                    <i class="fa fa-bus" aria-hidden="true"></i>Começar
+                </button>
+            </div>
+
+            <div class="btnContainer">
+                <button class="btnDefault blueBtn button-full" ng-click="vm.goToOptions()">
+                    <i class="fa fa-cog" aria-hidden="true"></i>Configurações
+                </button>
+            </div>
         </div>
-        <button class="button button-full button-assertive"
-            ng-click="vm.goToList()">
-            Começar
-        </button>
     </ion-content>
 </ion-view>
