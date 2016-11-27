@@ -5,6 +5,8 @@ angular.module('trackbus')
         "MAX_LINES": "Você já selecionou a quantidade máxima de linhas permitida.",
         "ALREADY_PRESENT": "Você já adicionou essa linha.",
         "NO_LINES": "Não possuimos informações sobre os pontos dessa linha.",
+        "SERVICE_UNAVAILABLE": "O serviço de rastreamento de ônibus não está respondendo. Tente novamente mais tarde.",
+        "LOCATION_UNAVAILABLE": "Não foi possível buscar sua localização. Certifique-se que seu serviço de localização está ativo."
     }
 )
 .constant("SUCCESS_MESSAGES",

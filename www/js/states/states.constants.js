@@ -3,7 +3,7 @@ angular
 .constant("STATES",
     {
         "HEADER": "header",
-        "INTRO": "header.intro",
+        "INTRO": "intro",
         "LIST": "header.list",
         "MAP": "header.map",
         "OPTIONS": "header.options",

@@ -18,13 +18,9 @@
             })
             .state(STATES.INTRO, {
                 url: 'intro',
-                views: {
-                    "headerContent":{
-                        templateUrl: 'templates/trackbus/intro.html',
-                        controller: 'InitController',
-                        controllerAs: 'vm'
-                    }
-                }
+                templateUrl: 'templates/trackbus/intro.html',
+                controller: 'InitController',
+                controllerAs: 'vm'
             });
     };
 
