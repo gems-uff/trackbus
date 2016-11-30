@@ -76,6 +76,7 @@
             var stops = vm.stops.filter(function(s) {
                 return Number(s.sequencia) === (Number(currentStop.sequencia) + 1);
             });
+            console.log("Possible next stops: ", stops);
             return stopService.getClosestStop(stops, vm.userMarker.coords);
         };
 
@@ -166,6 +167,9 @@
         };
 
         function addProximityListener(array, value, message, notify) {
+            if(array.contains(value)){
+                return;
+            }
             array.push(value);
             notifyProximity();
             if(notify){
@@ -216,14 +220,16 @@
             }
 
             var distance = getDistance(nextStop);
-            console.log(notifyStops);
+            console.log("Notify: ", notifyStops);
+            console.log("Current: ", currentStop);
+            console.log("Next: ", nextStop);
 
             notifyTouristSpots(currentStop.pontos_turisticos);
             if(distance <= options.notification.stopDistance){
-                if(indexOf(notifyStops, "id", currentStop.id) != -1){
-                    currentStop.distance = distance;
-                    notificationService.scheduleStopNotification(currentStop);
-                    removeStopProximityListener(currentStop);
+                if(indexOf(notifyStops, "description", currentStop.descricao_ponto) != -1){
+                    nextStop.distance = distance;
+                    notificationService.scheduleStopNotification(nextStop);
+                    removeStopProximityListener(nextStop);
                     currentStop = nextStop;
                 }
             }
