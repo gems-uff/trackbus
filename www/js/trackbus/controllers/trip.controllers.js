@@ -217,12 +217,15 @@
 
             var distance = getDistance(nextStop);
             console.log(notifyStops);
-            if(distance <= options.notification.stopDistance && indexOf(notifyStops, "id", currentStop.id) != -1){
-                currentStop.distance = distance;
-                notificationService.scheduleStopNotification(currentStop);
-                notifyTouristSpots(currentStop.pontos_turisticos);
-                removeStopProximityListener(currentStop);
-                currentStop = nextStop;
+
+            notifyTouristSpots(currentStop.pontos_turisticos);
+            if(distance <= options.notification.stopDistance){
+                if(indexOf(notifyStops, "id", currentStop.id) != -1){
+                    currentStop.distance = distance;
+                    notificationService.scheduleStopNotification(currentStop);
+                    removeStopProximityListener(currentStop);
+                    currentStop = nextStop;
+                }
             }
         };
 

@@ -9,7 +9,7 @@
 
     function config($ionicConfigProvider){
         $ionicConfigProvider.scrolling.jsScrolling(false);
-        $ionicConfigProvider.views.maxCache(0); //how many views will be cached
+        $ionicConfigProvider.views.maxCache(2); //how many views will be cached
     };
 
 })();
