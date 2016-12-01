@@ -158,7 +158,7 @@
         function indexOf(array, attr, value) {
             var index = -1;
             angular.forEach(array, function(element, key) {
-                if(element[key] ==  value){
+                if(element[attr] ==  value){
                     return index = key;
                 }
             });
