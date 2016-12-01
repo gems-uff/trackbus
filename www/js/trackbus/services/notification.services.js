@@ -43,7 +43,7 @@
 
         function schedule(notification) {
             if(!window.cordova){
-                console.log("notified!");
+                console.log("notified!", notification);
                 return;
             }
             var promises = {
@@ -61,7 +61,7 @@
             return schedule({
                 id: bus.id.hashCode(),
                 title: "Ônibus " + bus.line,
-                text: "O ônibus está a " + bus.distance + "km.",
+                text: "O ônibus está a " + Number(bus.distance).toFixed(2) + "km.",
                 sound: getSound(),
                 data: {
                     speechText: "Ônibus " + bus.line + " está próximo."
@@ -73,7 +73,7 @@
             return schedule({
                 id: stop.sequencia,
                 title: "Ponto " + stop.descricao_ponto,
-                text: "O ponto está a " + stop.distance + "km.",
+                text: "O ponto está a " + Number(stop.distance).toFixed(2) + "km.",
                 sound: getSound(),
                 data: {
                     speechText: "Próximo ponto " + stop.descricao_ponto
@@ -84,8 +84,8 @@
         self.scheduleTouristNotification = function(ts) {
             return schedule({
                 id: stop.sequencia,
-                title: "Ponto " + stop.descricao_ponto,
-                text: "O ponto está a " + stop.distance + "km.",
+                title: ts.nome,
+                text: "O ponto está a " + Number(ts.distancia).toFixed(2) + "km.",
                 sound: getSound(),
                 data: {
                     speechText: "Próximo ponto " + stop.descricao_ponto

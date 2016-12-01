@@ -34,7 +34,6 @@
                 if(distance < min_distance){
                     min_distance = distance;
                     min_stop = stops[i];
-                    min_stop.index = i;
                 }
             }
             return min_stop;

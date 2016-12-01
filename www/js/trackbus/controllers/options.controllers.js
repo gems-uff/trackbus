@@ -40,6 +40,7 @@
         vm.stopDistanceMeters;
         vm.setBusDistanceDefault = setBusDistanceDefault;
         vm.setStopDistanceDefault = setStopDistanceDefault;
+        vm.setTouristDistanceDefault = setTouristDistanceDefault;
 
         vm.save = save;
 
@@ -74,7 +75,7 @@
         function save() {
             vm.options.notification.busDistance = toKilometers(vm.options.notification.busDistance);
             vm.options.notification.stopDistance = toKilometers(vm.options.notification.stopDistance);
-            vm.options.notification.touristDistance = toMeters(vm.options.notification.touristDistance);
+            vm.options.notification.touristDistance = toKilometers(vm.options.notification.touristDistance);
 
             configService.savePreferences(vm.options);
             $ionicHistory.goBack();

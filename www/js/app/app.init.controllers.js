@@ -12,7 +12,7 @@
 
         vm.goToList = stateService.list;
         vm.goToOptions = stateService.options;
-        
+
         activate();
 
         function activate() {

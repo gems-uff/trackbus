@@ -97,7 +97,6 @@
             if(!currentStop){
                 currentStop = stopService.getClosestStop(vm.stops, coords);
                 console.log(currentStop);
-
             }
             setUserPosition(coords);
             notifyProximity();
@@ -137,6 +136,7 @@
             this.id = stop.sequencia;
             this.options = {icon: BUS_STOP_ICON};
             this.description = stop.descricao_ponto;
+            this.distance = 0;
             this.coords = {
                 latitude: stop.latitude,
                 longitude: stop.longitude
@@ -148,6 +148,7 @@
             this.id = ts.nome;
             this.options = {icon: TOURIST_STOP_ICON};
             this.address = ts.endereco;
+            this.distance = 0;
             this.coords = {
                 latitude: ts.latitude,
                 longitude: ts.longitude
@@ -165,6 +166,9 @@
         };
 
         function addProximityListener(array, value, message, notify) {
+            if(array.contains(value)){
+                return;
+            }
             array.push(value);
             notifyProximity();
             if(notify){
@@ -209,21 +213,25 @@
         };
 
         function notifyProximity() {
-            function toKilometers(value) {
-                return value/1000;
-            }
-
             var nextStop = getNextStop();
             if(!nextStop){
                 return;
             }
 
             var distance = getDistance(nextStop);
+            console.log("Notify: ", notifyStops);
+            console.log("Current: ", currentStop);
+            console.log("Next: ", nextStop);
+
+            notifyTouristSpots(currentStop.pontos_turisticos);
             if(distance <= options.notification.stopDistance){
-                notifyTouristSpots(currentStop.pontos_turisticos);
-                notificationService.scheduleStopNotification(currentStop);
-                removeStopProximityListener(currentStop);
-                currentStop = nextStop;
+                debugger;
+                if(indexOf(notifyStops, "description", nextStop.descricao_ponto) != -1){
+                    nextStop.distance = distance;
+                    notificationService.scheduleStopNotification(nextStop);
+                    removeStopProximityListener(nextStop);
+                    currentStop = nextStop;
+                }
             }
         };
 
