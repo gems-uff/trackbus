@@ -6,7 +6,10 @@
 .bar .title {
     font-family: 'Bungee';
 }
-
+.input-label {
+    font-family: 'Catamaran';
+    padding: 0;
+}
 
 /* ionic override */
 
@@ -20,7 +23,6 @@
     background: url(../img/bg-intro.jpg);
     background-size: auto 100%;
     background-position-x: 50%;
-    opacity: .6;    
 }
 .content {
     width: 100%;
@@ -89,7 +91,7 @@
     text-align: center;
 
     border: 1px solid #fff;
-    background: rgba(255, 255, 255, .8);
+    background: rgba(255, 255, 255, .9);
 }
     .warning strong {
         width: 100%;

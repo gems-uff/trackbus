@@ -4,7 +4,23 @@
         <ion-list>
             <ion-item>
                 <ion-label color="primary" stacked>Notificações</ion-label>
+
                 <ion-checkbox ng-model="vm.options.notification.vibration">Vibração</ion-checkbox>
+<ul class="list">
+
+  <li class="item item-toggle">
+     Vibração
+     <label class="toggle toggle-assertive">
+       <input type="checkbox">
+       <div class="track">
+         <div class="handle"></div>
+       </div>
+     </label>
+  </li>
+
+
+</ul>
+
                 <ion-radio ng-model="vm.options.notification.soundAlert" ng-value="vm.OPTIONS.SOUND.NO_SOUND">
                     Sem som
                 </ion-radio>
