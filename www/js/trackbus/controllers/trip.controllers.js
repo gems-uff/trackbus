@@ -76,7 +76,6 @@
             var stops = vm.stops.filter(function(s) {
                 return Number(s.sequencia) === (Number(currentStop.sequencia) + 1);
             });
-            console.log("Possible next stops: ", stops);
             return stopService.getClosestStop(stops, vm.userMarker.coords);
         };
 
@@ -226,7 +225,8 @@
 
             notifyTouristSpots(currentStop.pontos_turisticos);
             if(distance <= options.notification.stopDistance){
-                if(indexOf(notifyStops, "description", currentStop.descricao_ponto) != -1){
+                debugger;
+                if(indexOf(notifyStops, "description", nextStop.descricao_ponto) != -1){
                     nextStop.distance = distance;
                     notificationService.scheduleStopNotification(nextStop);
                     removeStopProximityListener(nextStop);

@@ -31,7 +31,9 @@
 
         activate();
 
-        function activate() {};
+        function activate() {
+            vm.closeLines = sortLines(vm.closeLines);
+        };
 
         function addLine(line) {
             if(vm.selectedLines.length >= TRACKBUS.MAX_LINES){
@@ -49,6 +51,12 @@
 
         function filterLines() {
             vm.filteredLines = filterFilter(lines, vm.lineFilter);
+        };
+
+        function sortLines(arr){
+            return arr.sort(function(a,b){
+                return a - b;
+            });
         };
 
     };
