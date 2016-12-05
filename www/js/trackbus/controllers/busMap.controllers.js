@@ -43,6 +43,7 @@
         vm.setCurrentPosition = setCurrentPosition;
         vm.addProximityListener = addProximityListener;
         vm.goToTrip = stateService.trip;
+        vm.centerMap = centerMap;
 
         activate();
 
@@ -172,6 +173,10 @@
                 }
             }
             return spatialService.getDistance(_bus.coords, vm.userMarker.coords);
+        };
+
+        function centerMap() {
+            setPosition(vm.userMarker.coords.latitude, vm.userMarker.coords.longitude);
         };
     };
 

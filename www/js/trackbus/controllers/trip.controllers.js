@@ -30,10 +30,9 @@
         vm.stops = stopsPromise;
         vm.touristSpots = options.tourist.enable ? touristPromise:[];
         vm.addStopProximityListener = addStopProximityListener;
-        vm.toggleStopProximityListener = toggleStopProximityListener;
         vm.addTouristProximityListener = addTouristProximityListener;
-        vm.toggleTouristProximityListener = toggleTouristProximityListener;
         vm.setPosition = setPosition;
+        vm.centerMap = centerMap;
 
         // Google Maps
         vm.stopsMarkers = [];
@@ -190,13 +189,9 @@
         function removeProximityListener(array, attr, value, index) {
             var idx = index ? index:indexOf(array, attr, value);
             if(idx != -1){
-                array.splice(idx, 1);
+                return array.splice(idx, 1);
             }
-        };
-
-        function toggleProximityListener(array, attr, value) {
-            var index = indexOf(array, attr, value);
-            (index != -1) ? removeProximityListener(array, attr, value, index):addProximityListener(array, value);
+            return array;
         };
 
         function addStopProximityListener(stop, notify) {
@@ -215,16 +210,6 @@
             removeProximityListener(notifyTourist, "id", ts.id, index);
         };
 
-        function toggleStopProximityListener(stop){
-            var _stop = new StopMarker(stop);
-            toggleProximityListener(notifyStops, "description", _stop);
-        };
-
-        function toggleTouristProximityListener(ts) {
-            var _ts = new TouristMarker(ts);
-            toggleProximityListener(notifyTourist, "id", _ts);
-        };
-
         function notifyProximity() {
             var nextStop = getNextStop();
             if(!nextStop){
@@ -233,6 +218,7 @@
 
             var distance = getDistance(nextStop);
             var idx;
+
             notifyTouristSpots(currentStop.pontos_turisticos);
             if(distance <= options.notification.stopDistance){
                 idx = indexOf(notifyStops, "description", nextStop.descricao_ponto);
@@ -280,6 +266,10 @@
                 }
             }
             return spatialService.getDistance(_point.coords, vm.userMarker.coords);
+        };
+
+        function centerMap() {
+            setPosition(vm.userMarker.coords);
         };
 
     };

@@ -33,14 +33,15 @@
                     </div>
                     <!-- Bus markers -->
                 </ui-gmap-google-map>
+                <button ng-click="vm.centerMap()" class="icon ion-android-locate"></button>
+            </div>
 
-                <label class="item item-divider">Acompanhar viagem na linha</label>
-                <div class="row">
-                    <button ng-repeat="line in vm.linesIds" ng-click="vm.goToTrip(line)"
-                        class="col button button-outline button-assertive">
-                        {{::line}}
-                    </button>
-                </div>
+            <label class="item item-divider">Acompanhar viagem na linha</label>
+            <div class="row">
+                <button ng-repeat="line in vm.linesIds" ng-click="vm.goToTrip(line)"
+                    class="col button button-outline button-assertive">
+                    {{::line}}
+                </button>
             </div>
         </body>
     </ion-content>

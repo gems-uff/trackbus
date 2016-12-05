@@ -55,6 +55,7 @@
                     </div>
                     <!-- Tourist stops -->
                 </ui-gmap-google-map>
+                <button ng-click="vm.centerMap()" class="icon ion-android-locate"></button>
             </div>
 
             <div class="button-bar">
@@ -64,29 +65,31 @@
 
             <!--Pontos de parada-->
             <div ng-show="showStops" ng-init="showStops=true">
-                <div ng-repeat="stop in vm.stops">
-                    <div ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
-                       {{::stop.descricao_ponto}}
-                    </div>
-                    <ion-toggle ng-model="stop.selected" toggle-class="toggle-calm"
-                        ng-selected="stop.selected"
-                        ng-change="vm.toggleStopProximityListener(stop)">
-                    </ion-toggle>
-                </div>
+                <label class="item item-input">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input ng-model="stopFilter" type="text" placeholder="Buscar">
+                </label>
+                <ion-list ng-repeat="stop in vm.stops|filter:stopFilter">
+                    <ion-item ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
+                        <i class="icon ion-ios-location"></i>
+                        {{::stop.descricao_ponto}}
+                    </ion-item>
+                </ion-list>
             </div>
             <!--Pontos de parada-->
 
             <!-- Pontos turísticos -->
             <div ng-show="!showStops">
-                <div ng-repeat="ts in vm.touristSpots">
-                    <div ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})">
-                       {{::ts.nome}}
-                    </div>
-                    <ion-toggle ng-model="ts.selected" toggle-class="toggle-calm"
-                        ng-selected="ts.selected"
-                        ng-change="vm.toggleTouristProximityListener(ts)">
-                    </ion-toggle>
-                </div>
+                <label class="item item-input">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input ng-model="touristFilter" type="text" placeholder="Buscar">
+                </label>
+                <ion-list ng-repeat="ts in vm.touristSpots|filter:touristFilter">
+                    <ion-item ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})">
+                        <i class="icon ion-ios-location"></i>
+                        {{::ts.nome}}
+                    </ion-item>
+                </ion-list>
             </div>
             <!-- Pontos turísticos -->
         </body>
