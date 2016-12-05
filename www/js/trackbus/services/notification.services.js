@@ -38,7 +38,7 @@
 
         function getSound() {
             var prefs = configService.getPreferences();
-            return prefs.soundAlert == OPTIONS.SOUND.SOUND_ALERT ? "file://sounds/honk.mp3":null;
+            return prefs.notification.soundAlert == OPTIONS.SOUND.SOUND_ALERT ? "file://sounds/honk.mp3":null;
         };
 
         function schedule(notification) {

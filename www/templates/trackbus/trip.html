@@ -67,7 +67,7 @@
             <div ng-show="showStops" ng-init="showStops=true">
                 <label class="item item-input">
                     <i class="icon ion-search placeholder-icon"></i>
-                    <input ng-model="stopFilter" type="text" placeholder="Buscar">
+                    <input ng-model="stopFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
                 </label>
                 <ion-list ng-repeat="stop in vm.stops|filter:stopFilter">
                     <ion-item ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
@@ -82,7 +82,7 @@
             <div ng-show="!showStops">
                 <label class="item item-input">
                     <i class="icon ion-search placeholder-icon"></i>
-                    <input ng-model="touristFilter" type="text" placeholder="Buscar">
+                    <input ng-model="touristFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
                 </label>
                 <ion-list ng-repeat="ts in vm.touristSpots|filter:touristFilter">
                     <ion-item ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})">

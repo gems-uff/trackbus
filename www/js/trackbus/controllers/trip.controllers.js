@@ -218,7 +218,7 @@
 
             var distance = getDistance(nextStop);
             var idx;
-
+            console.log(currentStop, nextStop);
             notifyTouristSpots(currentStop.pontos_turisticos);
             if(distance <= options.notification.stopDistance){
                 idx = indexOf(notifyStops, "description", nextStop.descricao_ponto);
