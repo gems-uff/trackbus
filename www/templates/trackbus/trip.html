@@ -2,7 +2,7 @@
     <!--INSERT CSS HERE-->
     <ion-content class="has-header">
         <body>
-            <div class="map-container">
+            <div id="map-div" class="map-container">
                 <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" control="vm.map">
                     <!-- User marker -->
                     <ui-gmap-marker coords="vm.userMarker.coords" options="vm.userMarker.options"
@@ -57,29 +57,38 @@
                 </ui-gmap-google-map>
             </div>
 
+            <div class="button-bar">
+                <a class="button" ng-click="showStops=true">Pontos de parada</a>
+                <a class="button" ng-click="showStops=false">Pontos turísticos</a>
+            </div>
+
+            <!--Pontos de parada-->
             <div ng-show="showStops" ng-init="showStops=true">
-                Notificar pontos de parada
                 <div ng-repeat="stop in vm.stops">
-                    <div ng-click="vm.setPosition(stop.latitude, stop.longitude)">
+                    <div ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
                        {{::stop.descricao_ponto}}
                     </div>
-                    <ion-toggle ng-model="stop" toggle-class="toggle-calm"
+                    <ion-toggle ng-model="stop.selected" toggle-class="toggle-calm"
+                        ng-selected="stop.selected"
                         ng-change="vm.toggleStopProximityListener(stop)">
                     </ion-toggle>
                 </div>
             </div>
+            <!--Pontos de parada-->
+
+            <!-- Pontos turísticos -->
             <div ng-show="!showStops">
-                Notificar pontos turísticos
                 <div ng-repeat="ts in vm.touristSpots">
-                    <div ng-click="vm.setPosition(ts.latitude, ts.longitude)">
-                       {{::stop.nome}}
+                    <div ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})">
+                       {{::ts.nome}}
                     </div>
-                    <ion-toggle ng-model="ts" toggle-class="toggle-calm"
+                    <ion-toggle ng-model="ts.selected" toggle-class="toggle-calm"
+                        ng-selected="ts.selected"
                         ng-change="vm.toggleTouristProximityListener(ts)">
                     </ion-toggle>
                 </div>
             </div>
-
+            <!-- Pontos turísticos -->
         </body>
     </ion-content>
 </ion-view>

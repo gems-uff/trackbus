@@ -6,13 +6,15 @@
         .controller('ListController', ListController);
 
     ListController.$inject = [
-        'filterFilter', '$scope', 'stateService', 'alertService',
+        'filterFilter', '$scope', '$location', '$anchorScroll',
+        'stateService', 'alertService',
         'linesPromise',
         'BUS', 'ERROR_MESSAGES', 'TRACKBUS'
     ];
 
     function ListController(
-        filterFilter, $scope, stateService, alertService,
+        filterFilter, $scope, $location, $anchorScroll,
+        stateService, alertService,
         linesPromise,
         BUS, ERROR_MESSAGES, TRACKBUS
     ) {
@@ -36,6 +38,7 @@
         };
 
         function addLine(line) {
+            scrollToTop();
             if(vm.selectedLines.length >= TRACKBUS.MAX_LINES){
                 return alertService.showAlert("Erro", ERROR_MESSAGES.MAX_LINES);
             } else if(vm.selectedLines.indexOf(line) != -1){
@@ -51,6 +54,11 @@
 
         function filterLines() {
             vm.filteredLines = filterFilter(lines, vm.lineFilter);
+        };
+
+        function scrollToTop() {
+            $location.hash('selected-lines');
+            $anchorScroll();
         };
 
         function sortLines(arr){

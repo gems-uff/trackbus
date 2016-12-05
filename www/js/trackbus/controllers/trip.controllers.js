@@ -6,7 +6,7 @@
         .controller('TripController', TripController);
 
     TripController.$inject = [
-        '$scope', 'uiGmapGoogleMapApi', '$interval',
+        '$scope', 'uiGmapGoogleMapApi', '$interval', '$location', '$anchorScroll',
         'spatialService', 'alertService', 'stopService', 'notificationService',
         'stopsPromise', 'configPromise', 'touristPromise',
         'PERSON_ICON', 'BUS_STOP_ICON', 'TOURIST_STOP_ICON',
@@ -14,7 +14,7 @@
     ];
 
     function TripController(
-        $scope, uiGmapGoogleMapApi, $interval,
+        $scope, uiGmapGoogleMapApi, $interval, $location, $anchorScroll,
         spatialService, alertService, stopService, notificationService,
         stopsPromise, configPromise, touristPromise,
         PERSON_ICON, BUS_STOP_ICON, TOURIST_STOP_ICON,
@@ -63,12 +63,13 @@
                 });
             };
 
+            alertService.showLoading();
             vm.stops = stopService.sortStops(vm.stops);
             return mapSetup().then(function(){
                 setUpdateInterval();
                 initializeStopsMarkers();
                 initializeTouristMarkers();
-                return spatialService.watchPosition(watchUserPosition);
+                return spatialService.watchPosition(watchUserPosition).finally(alertService.hideLoading);
             });
         };
 
@@ -92,16 +93,26 @@
             );
         };
 
+        function updateCurrentStop() {
+            currentStop = stopService.getClosestStop(vm.stops, vm.userMarker.coords);
+        };
+
         function watchUserPosition(lat, lng){
             var coords = {latitude: lat, longitude: lng}
             if(!currentStop){
-                currentStop = stopService.getClosestStop(vm.stops, coords);
+                updateCurrentStop();
             }
             setUserPosition(coords);
             notifyProximity();
         };
 
+        function scrollToMap() {
+            $location.hash('map-div');
+            $anchorScroll();
+        };
+
         function setPosition(coords, zoom) {
+            scrollToMap();
             vm.map.refresh({latitude: coords.latitude, longitude: coords.longitude});
             if(zoom){
                 vm.map.zoom = zoom;
@@ -169,6 +180,7 @@
                 return;
             }
             array.push(value);
+            updateCurrentStop();
             notifyProximity();
             if(notify){
                 alertService.showAlert("Notificação", message);
@@ -204,11 +216,13 @@
         };
 
         function toggleStopProximityListener(stop){
-            toggleProximityListener(notifyStops, "description", stop.descricao_ponto);
+            var _stop = new StopMarker(stop);
+            toggleProximityListener(notifyStops, "description", _stop);
         };
 
         function toggleTouristProximityListener(ts) {
-            toggleProximityListener(notifyTourist, "id", ts.id);
+            var _ts = new TouristMarker(ts);
+            toggleProximityListener(notifyTourist, "id", _ts);
         };
 
         function notifyProximity() {
@@ -255,7 +269,6 @@
                     }
                 }
             });
-
         };
 
         function getDistance(point) {
@@ -268,6 +281,7 @@
             }
             return spatialService.getDistance(_point.coords, vm.userMarker.coords);
         };
+
     };
 
 })();
