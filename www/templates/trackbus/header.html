@@ -1,9 +1,11 @@
 <ion-nav-bar class="bar-positive" align-title="center">
     <ion-nav-buttons side="right">
-        <button class="button button-icon icon ion-settings" ng-if="header.showOptions()" ng-click="header.goToOptions()"></button>
+        <button class="button button-icon" ng-if="header.showOptions()" ng-click="header.goToOptions()">
+        	<i class="fa fa-cog" aria-hidden="true"></i>
+        </button>
     </ion-nav-buttons>
+
     <ion-nav-back-button class="button-clear">
-        <i class="ion-arrow-left-c"></i>
     </ion-nav-back-button>
 </ion-nav-bar>
 
