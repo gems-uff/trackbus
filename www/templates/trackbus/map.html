@@ -19,11 +19,9 @@
                         <label>
                             Linha: <span>{{::vm.selectedMarker.line}}</span>
                         </label>
-
                         <label>
                             Distância: <span class="positive">{{::vm.selectedMarker.distance}} km</span>
                         </label>
-
                         <button class="btnTooltip" ng-click="$parent.vm.addProximityListener($parent.vm.selectedMarker)">
                             <i class="fa fa-bell" aria-hidden="true"></i>Notificar proximidade
                         </button>

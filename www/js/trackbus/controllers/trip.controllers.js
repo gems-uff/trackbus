@@ -37,6 +37,8 @@
         // Google Maps
         vm.stopsMarkers = [];
         vm.touristMarkers = [];
+        vm.selectedStopMarker = {};
+        vm.selectedTouristMarker = {};
         vm.userMarker = {
             coords: {latitude: 0, longitude: 0},
             options: {icon: PERSON_ICON}
@@ -45,6 +47,12 @@
             center: {latitude: 0, longitude: 0},
             zoom: 15
         };
+        vm.onStopMarkerClick = onStopMarkerClick;
+        vm.onTouristMarkerClick = onTouristMarkerClick;
+        vm.onStopWindowClose = onStopWindowClose;
+        vm.onTouristWindowClose = onTouristWindowClose;
+        vm.showTouristMarker = false;
+        vm.showStopMarker = false;
         // Google Maps
 
         activate();
@@ -268,6 +276,24 @@
 
         function centerMap() {
             setPosition(vm.userMarker.coords);
+        };
+
+        function onStopMarkerClick(trigger) {
+            vm.selectedStopMarker = trigger.model;
+            vm.showStopMarker = true;
+        };
+
+        function onTouristMarkerClick(trigger) {
+            vm.selectedTouristMarker = trigger.model;
+            vm.showTouristMarker = true;
+        };
+
+        function onStopWindowClose() {
+            vm.showStopMarker = false;
+        };
+
+        function onTouristWindowClose() {
+            vm.showTouristMarker = false;
         };
 
     };
