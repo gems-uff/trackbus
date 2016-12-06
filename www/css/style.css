@@ -6,8 +6,12 @@
 .back-button {
     text-shadow: 2px 2px 0 #000;
 }
+.button-icon {
+    text-shadow: 2px 2px 0 #000;
+}
     .bar.bar-positive {
         background: #327CCB;
+        border: none;
     }
         .platform-android .bar .title {
             font-size: 2em;
@@ -72,6 +76,13 @@ ion-label.input-label {
 
 .list {
     margin-bottom: 0;
+}
+
+.angular-google-map {
+    height: 100%;
+}
+.angular-google-map-container {
+    height: 100%;
 }
 /* ionic override */
 
@@ -211,7 +222,6 @@ ion-label.input-label {
     box-shadow: 0px 5px 0px #0F66C1;
 }
 
-
 .tag {
     height: 40px;
     position: absolute;
@@ -236,3 +246,221 @@ ion-label.input-label {
                 top: 23px;
                 right: 16px;
             }
+
+.subMenu {
+    width: 100%;
+    height: 40px;
+    display: table;
+
+    background: #5494D6;
+}
+.search {
+    width: 100%;
+    height: 100%;
+
+    color: #fff;
+    font-family: 'Catamaran';
+    font-weight: 300;
+    font-size: 1.3em;
+
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+
+    cursor: pointer;
+    text-shadow: 1px 1px 0px #332c2c;
+}   
+    .search i {
+        margin-right: 10px;
+        font-size: .85em;
+    }
+
+.subFilter {
+    width: 100%;
+    height: 50px;
+    padding: 10px;  
+
+    background: #7EB0E4;
+}
+    .subFilter input {
+        width: 85%;
+        height: 30px;
+        float: left;
+        padding-left: 10px;
+
+        font-family: 'Catamaran';
+        font-weight: 300;
+        font-size: 1.1em;
+
+        border: 1px solid #332c2c;
+    }
+
+.subFilterClose {
+    width: 10%;
+    height: 30px;
+    float: right;
+
+    color: #fff;
+    font-size: 1.6em;
+    text-align: center;
+    line-height: 27px;
+    background: #CA0700;
+}
+.filterContainer {
+    width: 100%;
+    min-height: 100%;
+    float: left;
+    padding: 10px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+
+    border-top: 1px solid #332c2c;
+    background: #f1f1f1;
+}
+.filterPadded {
+    padding-bottom: 160px;
+}
+.filterItem {
+    width: 32%;
+    margin-right: 2%;
+    margin-top: 10px;
+    padding: 5px 10px;
+
+    color: #332c2c;
+    font-family: 'Catamaran';
+    font-weight: 400;
+    font-size: 1.1em;
+    text-align: center;
+
+    background: #fff;
+    border: 1px solid #332c2c;
+}
+    .filterItem i {
+        margin-right: 5px;
+        font-size: .9em;
+    }
+    .filterItem:nth-child(3n) {
+        margin-right: 0;
+    }
+    .filterItem:nth-child(-n+3) {
+        margin-top: 0;
+    }
+
+.white {
+    background: #fff;
+}
+.selectedLines {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+
+    background: #fff;
+    border-top: 1px solid #332c2c;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, .2);
+}
+    .selectedLines span {
+        font-family: 'Catamaran';
+        font-weight: 400;
+    }
+    .selectedLines .filterContainer {
+        min-height: auto;
+        padding: 10px 0;
+        background: #fff;
+    }
+    .selectedLines .btnContainer {
+        margin-bottom: 5px;
+    }
+
+.selected {
+    text-align: center;
+    color: #fff;
+    background: #609000;
+    border: 1px solid #4B6E00;
+}
+    .selected i {
+        margin-left: 5px;
+        margin-right: 0;
+    }
+
+.map-container {
+    width: 100%;
+    height: 100%;
+    float: left;
+    border-bottom: 1px solid #332c2c;
+}
+.tooltipMap {
+    width: 100%;
+}
+    .tooltipMap label {
+        width: 100%;
+        float: left;
+
+        font-family: 'Catamaran';
+        font-weight: 300;
+        font-size: 1.4em;
+    }
+        .tooltipMap label span {
+            font-style: italic;
+        }
+
+.positive {
+    color: #609000;
+}
+.btnTooltip {
+    width: 100%;
+    height: 30px;
+    float: left;
+
+    color: #fff;
+    font-family: 'Catamaran';
+    font-size: 1.2em;
+    background: #609000;
+    border: 1px solid #4B6E00;
+}
+    .btnTooltip i {
+        margin-right: 5px;
+        font-size: .8em;
+    }
+
+.tripContainer {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, .2);
+}
+    .tripContainer .item-divider {
+        border-top: 1px solid #332c2c;
+    }
+    .tripContainer button {
+        width: 100%;
+        float: left;
+        padding: 15px 20px;
+
+        color: #327CCB;
+        font-family: 'Catamaran';
+        font-weight: 400;
+        font-size: 1.6em;
+        text-align: left;
+
+        background: #eaeaea;
+        border: 1px solid transparent;
+        border-bottom: 1px solid #332c2c;
+    }
+        .tripContainer button i {
+            float: right;
+            margin-top: 4px;
+
+            color: #0F66C1;
+        }
+
+
