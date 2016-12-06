@@ -72,7 +72,7 @@
             function enableBackground() {
                 if(window.cordova){
                     cordova.plugins.backgroundMode.enable();
-                    $scope.on("$destroy", function() {
+                    $scope.$on("$destroy", function() {
                         cordova.plugins.backgroundMode.disable();
                     });
                 }

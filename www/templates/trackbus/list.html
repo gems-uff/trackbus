@@ -7,23 +7,25 @@
             </div>
         </div>
 
-        <div class="subFilter" ng-if="vm.showFilter">
-            <input type="tel" size="50" placeholder="Digite o número da linha"
-                    ng-model="vm.lineFilter" ng-change="vm.filterLines()"
-                    ng-model-options="{debounce: 500}">
+        <div ng-show="vm.showFilter">
+            <div class="subFilter">
+                <input type="tel" size="50" placeholder="Digite o número da linha"
+                        ng-model="vm.lineFilter" ng-change="vm.filterLines()"
+                        ng-model-options="{debounce: 500}">
 
-            <div class="subFilterClose">
-                <i class="fa fa-remove" ng-click="vm.showFilter = false" aria-hidden="true"></i>
+                <div class="subFilterClose">
+                    <i class="fa fa-remove" ng-click="vm.showFilter = false" aria-hidden="true"></i>
+                </div>
+            </div>
+
+            <div class="filterContainer" ng-show="vm.lineFilter.length > 0">
+                 <div class="filterItem" ng-repeat="line in vm.filteredLines" ng-click="vm.addLine(line)">
+                    <i class="fa fa-check" aria-hidden="true"></i>{{::line}}
+                </div>
             </div>
         </div>
 
-        <div class="filterContainer" ng-show="vm.lineFilter">
-             <div class="filterItem" ng-repeat="line in vm.filteredLines" ng-click="vm.addLine(line)">
-                <i class="fa fa-check" aria-hidden="true"></i>{{::line}}
-            </div>
-        </div>
-
-        <div ng-if="!vm.showFilter">
+        <div ng-show="!vm.showFilter">
             <div class="item item-divider white">
                 Linhas próximas a você:
             </div>
@@ -34,21 +36,21 @@
                 </div>
             </div>
         </div>
-    </ion-content>
 
-    <div class="selectedLines" ng-if="vm.selectedLines.length > 0">
-        <span>Linhas selecionadas</span>
+        <div class="selectedLines" ng-show="vm.selectedLines.length > 0">
+            <span>Linhas selecionadas</span>
 
-        <div ng-class="{'filterPadded': vm.selectedLines.length > 0}" class="filterContainer">
-            <div class="filterItem selected" ng-repeat="line in vm.selectedLines" ng-click="vm.removeLine(line)">
-                {{::line}}<i class="fa fa-remove" aria-hidden="true"></i>
+            <div ng-class="{'filterPadded': vm.selectedLines.length > 0}" class="filterContainer">
+                <div class="filterItem selected" ng-repeat="line in vm.selectedLines" ng-click="vm.removeLine(line)">
+                    {{::line}}<i class="fa fa-remove" aria-hidden="true"></i>
+                </div>
+            </div>
+
+            <div class="btnContainer">
+                <button class="btnDefault blueBtn" ng-click="vm.goToMap(vm.selectedLines)">
+                    Ver linhas no mapa
+                </button>
             </div>
         </div>
-
-        <div class="btnContainer">
-            <button class="btnDefault blueBtn" ng-click="vm.goToMap(vm.selectedLines)">
-                Ver linhas no mapa
-            </button>
-        </div>
-    </div>
+    </ion-content>
 </ion-view>

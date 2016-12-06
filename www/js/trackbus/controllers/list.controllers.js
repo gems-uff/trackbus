@@ -22,6 +22,7 @@
         var lines = linesPromise.lines;
 
         vm.lineFilter = "";
+        vm.showFilter = false;
         vm.closeLines = linesPromise.closeLines;
         vm.filteredLines = [];
         vm.selectedLines = [];
@@ -66,7 +67,6 @@
                 return a - b;
             });
         };
-
     };
 
 })();
