@@ -62,13 +62,12 @@
                 });
             };
 
-            alertService.showLoading();
             vm.stops = stopService.sortStops(vm.stops);
             return mapSetup().then(function(){
                 setUpdateInterval();
                 initializeStopsMarkers();
                 initializeTouristMarkers();
-                return spatialService.watchPosition(watchUserPosition).finally(alertService.hideLoading);
+                return spatialService.watchPosition(watchUserPosition);
             });
         };
 
@@ -218,7 +217,6 @@
 
             var distance = getDistance(nextStop);
             var idx;
-            console.log(currentStop, nextStop);
             notifyTouristSpots(currentStop.pontos_turisticos);
             if(distance <= options.notification.stopDistance){
                 idx = indexOf(notifyStops, "description", nextStop.descricao_ponto);

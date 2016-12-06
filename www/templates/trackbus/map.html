@@ -9,30 +9,26 @@
                 </ui-gmap-marker>
                 <!-- User marker -->
                 <!-- Bus markers -->
-                <div ng-repeat="marker in vm.busMarkers">
-                    <ui-gmap-marker
-                        coords="marker.coords" options="marker.options"
-                        events="marker.events" idkey="marker.id"
-                        click="marker.click">
-                        <!-- Window content -->
-                        <ui-gmap-window>
-                            <div class="tooltipMap">
-                                <label>
-                                    Linha: <span>{{::marker.line}}</span>
-                                </label>
-
-                                <label>
-                                    Distância: <span class="positive">{{::marker.distance}} km</span>
-                                </label>
-
-                                <button class="btnTooltip" ng-click="$parent.vm.addProximityListener($parent.marker)">
-                                    <i class="fa fa-bell" aria-hidden="true"></i>Notificar proximidade
-                                </button>
-                            </div>
-                        </ui-gmap-window>
-                    </ui-gmap-marker>
-                </div>
+                <ui-gmap-markers models="vm.busMarkers" icon="'options.icon'" coords="'coords'"
+                    click="vm.onMarkerClick">
+                </ui-gmap-markers>
                 <!-- Bus markers -->
+                <ui-gmap-window show="vm.showMarker" coords="vm.selectedMarker.coords"
+                    closeClick="vm.onWindowClose">
+                    <div class="tooltipMap">
+                        <label>
+                            Linha: <span>{{::vm.selectedMarker.line}}</span>
+                        </label>
+
+                        <label>
+                            Distância: <span class="positive">{{::vm.selectedMarker.distance}} km</span>
+                        </label>
+
+                        <button class="btnTooltip" ng-click="$parent.vm.addProximityListener($parent.vm.selectedMarker)">
+                            <i class="fa fa-bell" aria-hidden="true"></i>Notificar proximidade
+                        </button>
+                    </div>
+                </ui-gmap-window>
             </ui-gmap-google-map>
         </div>
 
