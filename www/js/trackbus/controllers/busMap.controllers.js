@@ -63,7 +63,16 @@
                     $interval.cancel(updateWatch);
                 });
             };
+            function enableBackground() {
+                if(window.cordova){
+                    cordova.plugins.backgroundMode.enable();
+                    $scope.on("$destroy", function() {
+                        cordova.plugins.backgroundMode.disable();
+                    });
+                }
+            };
 
+            enableBackground();
             return mapSetup().then(function(){
                 vm.linesIds = getLinesIds();
                 setUpdateInterval();
