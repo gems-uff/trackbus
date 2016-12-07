@@ -68,6 +68,7 @@
                 views: {
                     "headerContent":{
                         templateUrl: 'templates/trackbus/trip.html',
+                        cache: false,
                         controller: 'TripController',
                         controllerAs: 'vm',
                         resolve: {
