@@ -13,9 +13,9 @@
                     click="vm.onMarkerClick">
                 </ui-gmap-markers>
                 <!-- Bus markers -->
-                <ui-gmap-window show="vm.showMarker" coords="vm.selectedMarker.coords"
+                <ui-gmap-window class="tooltipMap" show="vm.showMarker" coords="vm.selectedMarker.coords"
                     closeClick="vm.onWindowClose">
-                    <div class="tooltipMap">
+                    <div >
                         <label>
                             Linha: <span>{{vm.selectedMarker.line}}</span>
                         </label>
@@ -29,7 +29,6 @@
                 </ui-gmap-window>
             </ui-gmap-google-map>
         </div>
-
 
         <div class="tripContainer">
             <label class="item item-divider white">Acompanhar viagem na linha</label>

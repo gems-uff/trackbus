@@ -190,16 +190,14 @@
             return index;
         };
 
-        function addProximityListener(array, value, message, notify) {
+        function addProximityListener(array, value, message) {
             if(array.contains(value)){
                 return;
             }
             array.push(value);
             updateCurrentStop();
             notifyProximity();
-            if(notify){
-                alertService.showAlert("Notificação", message);
-            }
+            alertService.showAlert("Notificação", message);
         };
 
         function removeProximityListener(array, attr, value, index) {
@@ -210,12 +208,12 @@
             return array;
         };
 
-        function addStopProximityListener(stop, notify) {
-            addProximityListener(notifyStops, stop, SUCCESS_MESSAGES.STOP_NOTIFICATION, notify);
+        function addStopProximityListener(stop) {
+            addProximityListener(notifyStops, stop, SUCCESS_MESSAGES.STOP_NOTIFICATION);
         };
 
-        function addTouristProximityListener(ts, notify) {
-            addProximityListener(notifyTourist, ts, SUCCESS_MESSAGES.TOURIST_NOTIFICATION, notify);
+        function addTouristProximityListener(ts) {
+            addProximityListener(notifyTourist, ts, SUCCESS_MESSAGES.TOURIST_NOTIFICATION);
         };
 
         function removeStopProximityListener(stop, index) {

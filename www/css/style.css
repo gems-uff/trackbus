@@ -269,7 +269,7 @@ ion-label.input-label {
 
     cursor: pointer;
     text-shadow: 1px 1px 0px #332c2c;
-}   
+}
     .search i {
         margin-right: 10px;
         font-size: .85em;
@@ -278,7 +278,7 @@ ion-label.input-label {
 .subFilter {
     width: 100%;
     height: 50px;
-    padding: 10px;  
+    padding: 10px;
 
     background: #7EB0E4;
 }
