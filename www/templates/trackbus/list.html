@@ -20,7 +20,7 @@
 
             <div class="filterContainer" ng-show="vm.lineFilter.length > 0">
                  <div class="filterItem" ng-repeat="line in vm.filteredLines" ng-click="vm.addLine(line)">
-                    <i class="fa fa-check" aria-hidden="true"></i>{{::line}}
+                    <i class="fa fa-plus" aria-hidden="true"></i>{{::line}}
                 </div>
             </div>
         </div>
@@ -30,9 +30,9 @@
                 Linhas próximas a você:
             </div>
 
-            <div class="filterContainer">
+            <div ng-class="{'filterPadded': vm.selectedLines.length > 0}" class="filterContainer">
                 <div class="filterItem" ng-repeat="line in vm.closeLines" ng-click="vm.addLine(line)">
-                    <i class="fa fa-check" aria-hidden="true"></i>{{::line}}
+                    <i class="fa fa-plus" aria-hidden="true"></i>{{::line}}
                 </div>
             </div>
         </div>
