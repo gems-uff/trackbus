@@ -20,7 +20,7 @@
 
             <div class="filterContainer" ng-show="vm.lineFilter.length > 0">
                  <div class="filterItem" ng-repeat="line in vm.filteredLines" ng-click="vm.addLine(line)">
-                    <i class="fa fa-check" aria-hidden="true"></i>{{::line}}
+                    <i class="fa fa-plus" aria-hidden="true"></i>{{::line}}
                 </div>
             </div>
         </div>
@@ -30,27 +30,26 @@
                 Linhas próximas a você:
             </div>
 
-            <div class="filterContainer">
-                <div class="filterItem" ng-repeat="line in vm.closeLines" ng-click="vm.addLine(line)">
-                    <i class="fa fa-check" aria-hidden="true"></i>{{::line}}
-                </div>
-            </div>
-        </div>
-
-        <div class="selectedLines" ng-show="vm.selectedLines.length > 0">
-            <span>Linhas selecionadas</span>
-
             <div ng-class="{'filterPadded': vm.selectedLines.length > 0}" class="filterContainer">
-                <div class="filterItem selected" ng-repeat="line in vm.selectedLines" ng-click="vm.removeLine(line)">
-                    {{::line}}<i class="fa fa-remove" aria-hidden="true"></i>
+                <div class="filterItem" ng-repeat="line in vm.closeLines" ng-click="vm.addLine(line)">
+                    <i class="fa fa-plus" aria-hidden="true"></i>{{::line}}
                 </div>
-            </div>
-
-            <div class="btnContainer">
-                <button class="btnDefault blueBtn" ng-click="vm.goToMap(vm.selectedLines)">
-                    Ver linhas no mapa
-                </button>
             </div>
         </div>
     </ion-content>
+    <div class="selectedLines" ng-show="vm.selectedLines.length > 0">
+        <span>Linhas selecionadas</span>
+
+        <div class="filterContainer">
+            <div class="filterItem selected" ng-repeat="line in vm.selectedLines" ng-click="vm.removeLine(line)">
+                {{::line}}<i class="fa fa-remove" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <div class="btnContainer">
+            <button class="btnDefault blueBtn" ng-click="vm.goToMap(vm.selectedLines)">
+                Ver linhas no mapa
+            </button>
+        </div>
+    </div>
 </ion-view>

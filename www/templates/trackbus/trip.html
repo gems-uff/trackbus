@@ -1,94 +1,92 @@
 <ion-view view-title="Trackbus">
     <!--INSERT CSS HERE-->
     <ion-content class="has-header">
-        <body>
-            <div id="map-div" class="map-container">
-                <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" control="vm.map">
-                    <!-- User marker -->
-                    <ui-gmap-marker coords="vm.userMarker.coords" options="vm.userMarker.options"
-                        events="vm.userMarker.events" idkey="'user'"
-                        click="vm.userMarker.click">
-                    </ui-gmap-marker>
-                    <!-- User marker -->
+        <div id="map-div" class="map-container">
+            <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" control="vm.map">
+                <!-- User marker -->
+                <ui-gmap-marker coords="vm.userMarker.coords" options="vm.userMarker.options"
+                    events="vm.userMarker.events" idkey="'user'"
+                    click="vm.userMarker.click">
+                </ui-gmap-marker>
+                <!-- User marker -->
 
-                    <!-- Bus stops -->
-                    <ui-gmap-markers models="vm.stopsMarkers" icon="'options.icon'" coords="'coords'"
-                        click="vm.onStopMarkerClick">
-                    </ui-gmap-markers>
+                <!-- Bus stops -->
+                <ui-gmap-markers models="vm.stopsMarkers" icon="'options.icon'" coords="'coords'"
+                    click="vm.onStopMarkerClick">
+                </ui-gmap-markers>
 
-                    <ui-gmap-window show="vm.showStopMarker" coords="vm.selectedStopMarker.coords"
-                        closeClick="vm.onStopWindowClose">
-                        <div class="tooltipMap">
-                            <label>
-                                <span>{{vm.selectedStopMarker.description}}</span>
-                            </label>
-                            <button class="btnTooltip"
-                                ng-click="$parent.vm.addStopProximityListener($parent.vm.selectedStopMarker)">
-                                <i class="fa fa-bell" aria-hidden="true"></i>Notificar proximidade
-                            </button>
-                        </div>
-                    </ui-gmap-window>
-                    <!-- Bus stops -->
+                <ui-gmap-window show="vm.showStopMarker" coords="vm.selectedStopMarker.coords"
+                    closeClick="vm.onStopWindowClose">
+                    <div class="tooltipMap">
+                        <label>
+                            <span>{{vm.selectedStopMarker.description}}</span>
+                        </label>
+                        <button class="btnTooltip"
+                            ng-click="$parent.vm.addStopProximityListener($parent.vm.selectedStopMarker)">
+                            <i class="fa fa-bell" aria-hidden="true"></i>Notificar proximidade
+                        </button>
+                    </div>
+                </ui-gmap-window>
+                <!-- Bus stops -->
 
-                    <!-- Tourist stops -->
-                    <ui-gmap-markers models="vm.touristMarkers" icon="'options.icon'" coords="'coords'"
-                        click="vm.onTouristMarkerClick">
-                    </ui-gmap-markers>
+                <!-- Tourist stops -->
+                <ui-gmap-markers models="vm.touristMarkers" icon="'options.icon'" coords="'coords'"
+                    click="vm.onTouristMarkerClick">
+                </ui-gmap-markers>
 
-                    <ui-gmap-window show="vm.showTouristMarker" coords="vm.selectedTouristMarker.coords"
-                        closeClick="vm.onTouristWindowClose">
-                        <div class="tooltipMap">
-                            <label>
-                                <span>{{vm.selectedTouristMarker.id}}</span>
-                            </label>
-                            <label>
-                                <span>{{vm.selectedTouristMarker.address}}</span>
-                            </label>
-                            <button class="btnTooltip"
-                                ng-click="$parent.vm.addTouristProximityListener($parent.vm.selectedTouristMarker)">
-                                <i class="fa fa-bell" aria-hidden="true"></i>Notificar proximidade
-                            </button>
-                        </div>
-                    </ui-gmap-window>
-                    <!-- Tourist stops -->
-                </ui-gmap-google-map>
-                <button ng-click="vm.centerMap()" class="icon ion-android-locate"></button>
-            </div>
+                <ui-gmap-window show="vm.showTouristMarker" coords="vm.selectedTouristMarker.coords"
+                    closeClick="vm.onTouristWindowClose">
+                    <div class="tooltipMap">
+                        <label>
+                            <span>{{vm.selectedTouristMarker.id}}</span>
+                        </label>
+                        <label>
+                            <span>{{vm.selectedTouristMarker.address}}</span>
+                        </label>
+                        <button class="btnTooltip"
+                            ng-click="$parent.vm.addTouristProximityListener($parent.vm.selectedTouristMarker)">
+                            <i class="fa fa-bell" aria-hidden="true"></i>Notificar proximidade
+                        </button>
+                    </div>
+                </ui-gmap-window>
+                <!-- Tourist stops -->
+            </ui-gmap-google-map>
+            <button ng-click="vm.centerMap()" class="icon ion-android-locate"></button>
+        </div>
 
-            <div class="button-bar">
-                <a class="button" ng-click="showStops=true">Pontos de parada</a>
-                <a class="button" ng-click="showStops=false">Pontos turísticos</a>
-            </div>
+        <div class="button-bar">
+            <a class="button" ng-class="{'tabActive': showStops}" ng-click="showStops=true">Pontos de parada</a>
+            <a class="button" ng-class="{'tabActive': !showStops}" ng-click="showStops=false">Pontos turísticos</a>
+        </div>
 
-            <!--Pontos de parada-->
-            <div ng-show="showStops" ng-init="showStops=true">
-                <label class="item item-input">
-                    <i class="icon ion-search placeholder-icon"></i>
-                    <input ng-model="stopFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
-                </label>
-                <ion-list ng-repeat="stop in vm.stops|filter:stopFilter">
-                    <ion-item ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
-                        <i class="icon ion-ios-location"></i>
-                        {{::stop.descricao_ponto}}
-                    </ion-item>
-                </ion-list>
-            </div>
-            <!--Pontos de parada-->
+        <!--Pontos de parada-->
+        <div ng-show="showStops" ng-init="showStops=true">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input ng-model="stopFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
+            </label>
+            <ion-list ng-repeat="stop in vm.stops|filter:stopFilter">
+                <ion-item ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
+                    <i class="icon ion-ios-location"></i>
+                    {{::stop.descricao_ponto}}
+                </ion-item>
+            </ion-list>
+        </div>
+        <!--Pontos de parada-->
 
-            <!-- Pontos turísticos -->
-            <div ng-show="!showStops">
-                <label class="item item-input">
-                    <i class="icon ion-search placeholder-icon"></i>
-                    <input ng-model="touristFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
-                </label>
-                <ion-list ng-repeat="ts in vm.touristSpots|filter:touristFilter">
-                    <ion-item ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})">
-                        <i class="icon ion-ios-location"></i>
-                        {{::ts.nome}}
-                    </ion-item>
-                </ion-list>
-            </div>
-            <!-- Pontos turísticos -->
-        </body>
+        <!-- Pontos turísticos -->
+        <div ng-show="!showStops">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input ng-model="touristFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
+            </label>
+            <ion-list ng-repeat="ts in vm.touristSpots|filter:touristFilter">
+                <ion-item ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})">
+                    <i class="icon ion-ios-location"></i>
+                    {{::ts.nome}}
+                </ion-item>
+            </ion-list>
+        </div>
+        <!-- Pontos turísticos -->
     </ion-content>
 </ion-view>
