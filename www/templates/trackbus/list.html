@@ -36,20 +36,20 @@
                 </div>
             </div>
         </div>
+    </ion-content>
+    <div class="selectedLines" ng-show="vm.selectedLines.length > 0">
+        <span>Linhas selecionadas</span>
 
-        <div class="selectedLines" ng-show="vm.selectedLines.length > 0">
-            <span>Linhas selecionadas</span>
-
-            <div ng-class="{'filterPadded': vm.selectedLines.length > 0}" class="filterContainer">
-                <div class="filterItem selected" ng-repeat="line in vm.selectedLines" ng-click="vm.removeLine(line)">
-                    {{::line}}<i class="fa fa-remove" aria-hidden="true"></i>
-                </div>
+        <div ng-class="{'filterPadded': vm.selectedLines.length > 0}" class="filterContainer">
+            <div class="filterItem selected" ng-repeat="line in vm.selectedLines" ng-click="vm.removeLine(line)">
+                {{::line}}<i class="fa fa-remove" aria-hidden="true"></i>
             </div>
         </div>
-    </ion-content>
-    <div class="btnContainer">
-        <button class="btnDefault blueBtn" ng-click="vm.goToMap(vm.selectedLines)">
-            Ver linhas no mapa
-        </button>
+
+        <div class="btnContainer">
+            <button class="btnDefault blueBtn" ng-click="vm.goToMap(vm.selectedLines)">
+                Ver linhas no mapa
+            </button>
+        </div>
     </div>
 </ion-view>
