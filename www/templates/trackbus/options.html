@@ -48,37 +48,50 @@
                     Distância da notificação de ônibus
                 </ion-label>
 
-                <input ng-model="vm.options.notification.busDistance" type="number">
-                <label class="tag" ng-if="vm.options.notification.busDistance > 1">metros</label>
-                <label class="tag" ng-if="vm.options.notification.busDistance <= 1">metro</label>
+                <div class="tagWrapper">
+                    <input ng-model="vm.options.notification.busDistance" type="number">
+                    
+                    <label class="tag" ng-if="vm.options.notification.busDistance > 1">
+                        metros
+                    </label>
+                    <label class="tag" ng-if="vm.options.notification.busDistance <= 1">
+                        metro
+                    </label>
+                </div>
             </div>
 
             <div class="item">
                 <ion-label stacked>
                     Distância da notificação de pontos
                 </ion-label>
-                <input ng-model="vm.options.notification.stopDistance" type="number">
 
-                <label class="tag" ng-if="vm.options.notification.stopDistance > 1">
-                    metros
-                </label>
-                <label class="tag" ng-if="vm.options.notification.stopDistance <= 1">
-                    metro
-                </label>
+                <div class="tagWrapper">
+                    <input ng-model="vm.options.notification.stopDistance" type="number">
+
+                    <label class="tag" ng-if="vm.options.notification.stopDistance > 1">
+                        metros
+                    </label>
+                    <label class="tag" ng-if="vm.options.notification.stopDistance <= 1">
+                        metro
+                    </label>
+                </div>
             </div>
 
             <div class="item">
                 <ion-label stacked>
                     Distância da notificação de pontos turísticos
                 </ion-label>
-                <input ng-model="vm.options.notification.touristDistance" type="number">
 
-                <label class="tag" ng-if="vm.options.notification.touristDistance > 1">
-                    metros
-                </label>
-                <label class="tag" ng-if="vm.options.notification.touristDistance <= 1">
-                    metro
-                </label>
+                <div class="tagWrapper">
+                    <input ng-model="vm.options.notification.touristDistance" type="number">
+
+                    <label class="tag" ng-if="vm.options.notification.touristDistance > 1">
+                        metros
+                    </label>
+                    <label class="tag" ng-if="vm.options.notification.touristDistance <= 1">
+                        metro
+                    </label>
+                </div>
             </div>
         </ion-list>
 

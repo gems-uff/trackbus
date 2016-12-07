@@ -14,7 +14,7 @@
         border: none;
     }
         .platform-android .bar .title {
-            font-size: 2em;
+            font-size: 2.2em;
         }
 
     .bar .title {
@@ -68,7 +68,6 @@ ion-label.input-label {
     ion-item.item {
         padding: 0;
     }
-
     .item-radio .radio-icon {
         right: 5%;
         color: #332c2c;
@@ -77,13 +76,59 @@ ion-label.input-label {
 .list {
     margin-bottom: 0;
 }
-
 .angular-google-map {
     height: 100%;
 }
 .angular-google-map-container {
     height: 100%;
 }
+    .bar .button.button-icon,
+    .bar button.button-icon {
+        font-size: 24px;
+    }
+
+.popup-head {
+    padding: 5px 10px;
+}
+    .popup-container .popup {
+        border: 1px solid #fff;
+    }
+
+.popup-title {
+    font-family: 'Bungee';
+    font-size: 24px;
+}
+.popup-body {
+    font-family: 'Catamaran';
+}
+    .popup-body span {
+        font-size: 16px;
+    }
+        .button-bar > .button:first-child {
+            border-radius: 0;
+        }
+
+.tabActive {
+    position: relative;
+    overflow: visible;
+}
+    .tabActive:after {
+        width: 0;
+        height: 0;
+        content: " ";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+
+        margin-left: -15px;
+        border: solid transparent;
+        border-top-color: #88b7d5;
+        border-width: 15px;
+
+        display: block;
+        z-index: 9;
+        pointer-events: none;
+    }
 /* ionic override */
 
 .background {
@@ -222,11 +267,14 @@ ion-label.input-label {
     box-shadow: 0px 5px 0px #0F66C1;
 }
 
+.tagWrapper {
+    position: relative;
+}
 .tag {
     height: 40px;
     position: absolute;
-    top: 39px;
-    right: 16px;
+    top: 0;
+    right: 0;
 
     padding: 5px 10px;
 
@@ -242,10 +290,6 @@ ion-label.input-label {
             padding-top: 0;
             padding-bottom: 0;
         }
-            .gps .item:nth-child(2) .tag {
-                top: 23px;
-                right: 16px;
-            }
 
 .subMenu {
     width: 100%;
@@ -303,7 +347,7 @@ ion-label.input-label {
     color: #fff;
     font-size: 1.6em;
     text-align: center;
-    line-height: 27px;
+    line-height: 30px;
     background: #CA0700;
 }
 .filterContainer {
@@ -334,7 +378,7 @@ ion-label.input-label {
     color: #332c2c;
     font-family: 'Catamaran';
     font-weight: 400;
-    font-size: 1.1em;
+    font-size: 1.4em;
     text-align: center;
 
     background: #fff;
@@ -342,7 +386,7 @@ ion-label.input-label {
 }
     .filterItem i {
         margin-right: 5px;
-        font-size: .9em;
+        font-size: .7em;
     }
     .filterItem:nth-child(3n) {
         margin-right: 0;
@@ -392,7 +436,7 @@ ion-label.input-label {
 
 .map-container {
     width: 100%;
-    height: 80%;
+    height: calc(100% - 228px);
     float: left;
     border-bottom: 1px solid #332c2c;
 }
@@ -432,6 +476,7 @@ ion-label.input-label {
 
 .tripContainer {
     width: 100%;
+    min-height: 228px;
     position: fixed;
     left: 0;
     bottom: 0;
