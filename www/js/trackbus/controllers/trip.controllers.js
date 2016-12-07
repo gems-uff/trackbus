@@ -6,7 +6,7 @@
         .controller('TripController', TripController);
 
     TripController.$inject = [
-        '$scope', 'uiGmapGoogleMapApi', '$interval',
+        '$scope', 'uiGmapGoogleMapApi', '$interval', '$location', '$anchorScroll',
         'spatialService', 'alertService', 'stopService', 'notificationService',
         'stopsPromise', 'configPromise', 'touristPromise',
         'PERSON_ICON', 'BUS_STOP_ICON', 'TOURIST_STOP_ICON',
@@ -14,7 +14,7 @@
     ];
 
     function TripController(
-        $scope, uiGmapGoogleMapApi, $interval,
+        $scope, uiGmapGoogleMapApi, $interval, $location, $anchorScroll,
         spatialService, alertService, stopService, notificationService,
         stopsPromise, configPromise, touristPromise,
         PERSON_ICON, BUS_STOP_ICON, TOURIST_STOP_ICON,
@@ -30,14 +30,15 @@
         vm.stops = stopsPromise;
         vm.touristSpots = options.tourist.enable ? touristPromise:[];
         vm.addStopProximityListener = addStopProximityListener;
-        vm.toggleStopProximityListener = toggleStopProximityListener;
         vm.addTouristProximityListener = addTouristProximityListener;
-        vm.toggleTouristProximityListener = toggleTouristProximityListener;
         vm.setPosition = setPosition;
+        vm.centerMap = centerMap;
 
         // Google Maps
         vm.stopsMarkers = [];
         vm.touristMarkers = [];
+        vm.selectedStopMarker = {};
+        vm.selectedTouristMarker = {};
         vm.userMarker = {
             coords: {latitude: 0, longitude: 0},
             options: {icon: PERSON_ICON}
@@ -46,6 +47,12 @@
             center: {latitude: 0, longitude: 0},
             zoom: 15
         };
+        vm.onStopMarkerClick = onStopMarkerClick;
+        vm.onTouristMarkerClick = onTouristMarkerClick;
+        vm.onStopWindowClose = onStopWindowClose;
+        vm.onTouristWindowClose = onTouristWindowClose;
+        vm.showTouristMarker = false;
+        vm.showStopMarker = false;
         // Google Maps
 
         activate();
@@ -62,7 +69,16 @@
                     $interval.cancel(updateWatch);
                 });
             };
+            function enableBackground() {
+                if(window.cordova){
+                    cordova.plugins.backgroundMode.enable();
+                    $scope.$on("$destroy", function() {
+                        cordova.plugins.backgroundMode.disable();
+                    });
+                }
+            };
 
+            enableBackground();
             vm.stops = stopService.sortStops(vm.stops);
             return mapSetup().then(function(){
                 setUpdateInterval();
@@ -92,17 +108,26 @@
             );
         };
 
+        function updateCurrentStop() {
+            currentStop = stopService.getClosestStop(vm.stops, vm.userMarker.coords);
+        };
+
         function watchUserPosition(lat, lng){
             var coords = {latitude: lat, longitude: lng}
             if(!currentStop){
-                currentStop = stopService.getClosestStop(vm.stops, coords);
-                console.log(currentStop);
+                updateCurrentStop();
             }
             setUserPosition(coords);
             notifyProximity();
         };
 
+        function scrollToMap() {
+            $location.hash('map-div');
+            $anchorScroll();
+        };
+
         function setPosition(coords, zoom) {
+            scrollToMap();
             vm.map.refresh({latitude: coords.latitude, longitude: coords.longitude});
             if(zoom){
                 vm.map.zoom = zoom;
@@ -158,7 +183,7 @@
         function indexOf(array, attr, value) {
             var index = -1;
             angular.forEach(array, function(element, key) {
-                if(element[key] ==  value){
+                if(element[attr] ==  value){
                     return index = key;
                 }
             });
@@ -170,6 +195,7 @@
                 return;
             }
             array.push(value);
+            updateCurrentStop();
             notifyProximity();
             if(notify){
                 alertService.showAlert("Notificação", message);
@@ -179,13 +205,9 @@
         function removeProximityListener(array, attr, value, index) {
             var idx = index ? index:indexOf(array, attr, value);
             if(idx != -1){
-                array.splice(idx, 1);
+                return array.splice(idx, 1);
             }
-        };
-
-        function toggleProximityListener(array, attr, value) {
-            var index = indexOf(array, attr, value);
-            (index != -1) ? removeProximityListener(array, attr, value, index):addProximityListener(array, value);
+            return array;
         };
 
         function addStopProximityListener(stop, notify) {
@@ -193,23 +215,15 @@
         };
 
         function addTouristProximityListener(ts, notify) {
-            addProximityListener(notifyStops, ts, SUCCESS_MESSAGES.TOURIST_NOTIFICATION, notify);
+            addProximityListener(notifyTourist, ts, SUCCESS_MESSAGES.TOURIST_NOTIFICATION, notify);
         };
 
         function removeStopProximityListener(stop, index) {
-            removeProximityListener(notifyStops, "sequencia", stop.sequencia, index);
+            removeProximityListener(notifyStops, "description", stop.descricao_ponto, index);
         };
 
-        function removeTouristProximityListener(ts){
+        function removeTouristProximityListener(ts, index){
             removeProximityListener(notifyTourist, "id", ts.id, index);
-        };
-
-        function toggleStopProximityListener(stop){
-           toggleProximityListener(notifyStops, "sequencia", stop.sequencia);
-        };
-
-        function toggleTouristProximityListener(ts) {
-            toggleProximityListener(notifyTourist, "id", ts.id);
         };
 
         function notifyProximity() {
@@ -219,17 +233,14 @@
             }
 
             var distance = getDistance(nextStop);
-            console.log("Notify: ", notifyStops);
-            console.log("Current: ", currentStop);
-            console.log("Next: ", nextStop);
-
+            var idx;
             notifyTouristSpots(currentStop.pontos_turisticos);
             if(distance <= options.notification.stopDistance){
-                debugger;
-                if(indexOf(notifyStops, "description", nextStop.descricao_ponto) != -1){
+                idx = indexOf(notifyStops, "description", nextStop.descricao_ponto);
+                if(idx != -1){
                     nextStop.distance = distance;
                     notificationService.scheduleStopNotification(nextStop);
-                    removeStopProximityListener(nextStop);
+                    removeStopProximityListener(nextStop, idx);
                     currentStop = nextStop;
                 }
             }
@@ -247,27 +258,53 @@
             };
 
             var spot;
+            var idx;
             angular.forEach(touristSpots, function(ts) {
                 if(ts.distancia <= options.notification.touristDistance){
-                    if(find(notifyTourist, "name", ts.name)){
-                        spot = find(vm.touristSpots, "name", ts.name);
+                    idx = indexOf(notifyTourist, "name", ts.name);
+                    if(idx != -1){
+                        spot = notifyTourist[idx];
+                        spot.distance = ts.distancia;
                         notificationService.scheduleTouristNotification(spot);
+                        removeTouristProximityListener(spot, idx);
                     }
                 }
             });
-
         };
 
-        function getDistance(stop) {
-            var _stop = angular.copy(stop);
-            if(!_stop.coords){
-                _stop.coords = {
-                    latitude: _stop.latitude,
-                    longitude: _stop.longitude
+        function getDistance(point) {
+            var _point = angular.copy(point);
+            if(!_point.coords){
+                _point.coords = {
+                    latitude: _point.latitude,
+                    longitude: _point.longitude
                 }
             }
-            return spatialService.getDistance(_stop.coords, vm.userMarker.coords);
+            return spatialService.getDistance(_point.coords, vm.userMarker.coords);
         };
+
+        function centerMap() {
+            setPosition(vm.userMarker.coords);
+        };
+
+        function onStopMarkerClick(trigger) {
+            vm.selectedStopMarker = trigger.model;
+            vm.showStopMarker = true;
+        };
+
+        function onTouristMarkerClick(trigger) {
+            vm.selectedTouristMarker = trigger.model;
+            vm.showTouristMarker = true;
+        };
+
+        function onStopWindowClose() {
+            vm.showStopMarker = false;
+        };
+
+        function onTouristWindowClose() {
+            vm.showTouristMarker = false;
+        };
+
     };
 
 })();

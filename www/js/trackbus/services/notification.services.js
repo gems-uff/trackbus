@@ -38,7 +38,7 @@
 
         function getSound() {
             var prefs = configService.getPreferences();
-            return prefs.soundAlert == OPTIONS.SOUND.SOUND_ALERT ? "file://sounds/honk.mp3":null;
+            return prefs.notification.soundAlert == OPTIONS.SOUND.SOUND_ALERT ? "file://sounds/honk.mp3":null;
         };
 
         function schedule(notification) {
@@ -83,12 +83,12 @@
 
         self.scheduleTouristNotification = function(ts) {
             return schedule({
-                id: stop.sequencia,
-                title: ts.nome,
-                text: "O ponto está a " + Number(ts.distancia).toFixed(2) + "km.",
+                id: ts.id.hashCode(),
+                title: ts.id,
+                text: "O ponto está a " + parseInt(ts.distance) + "m.",
                 sound: getSound(),
                 data: {
-                    speechText: "Próximo ponto " + stop.descricao_ponto
+                    speechText: (ts.id + " a " + parseInt(ts.distance) + " metros")
                 }
             });
         };

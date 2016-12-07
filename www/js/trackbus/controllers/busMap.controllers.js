@@ -28,6 +28,7 @@
 
         // Google Maps
         vm.busMarkers = [];
+        vm.selectedMarker = {};
         vm.userMarker = {
             coords: {latitude: 0, longitude: 0},
             options: {icon: PERSON_ICON}
@@ -36,6 +37,9 @@
             center: {latitude: 0, longitude: 0},
             zoom: 15
         };
+        vm.onMarkerClick = onMarkerClick;
+        vm.onWindowClose = onWindowClose;
+        vm.showMarker = false;
         // Google Maps
 
         vm.linesIds = [];
@@ -43,6 +47,7 @@
         vm.setCurrentPosition = setCurrentPosition;
         vm.addProximityListener = addProximityListener;
         vm.goToTrip = stateService.trip;
+        vm.centerMap = centerMap;
 
         activate();
 
@@ -58,7 +63,16 @@
                     $interval.cancel(updateWatch);
                 });
             };
+            function enableBackground() {
+                if(window.cordova){
+                    cordova.plugins.backgroundMode.enable();
+                    $scope.$on("$destroy", function() {
+                        cordova.plugins.backgroundMode.disable();
+                    });
+                }
+            };
 
+            enableBackground();
             return mapSetup().then(function(){
                 vm.linesIds = getLinesIds();
                 setUpdateInterval();
@@ -172,6 +186,19 @@
                 }
             }
             return spatialService.getDistance(_bus.coords, vm.userMarker.coords);
+        };
+
+        function centerMap() {
+            setPosition(vm.userMarker.coords.latitude, vm.userMarker.coords.longitude);
+        };
+
+        function onMarkerClick(trigger) {
+            vm.selectedMarker = trigger.model;
+            vm.showMarker = true;
+        };
+
+        function onWindowClose() {
+            vm.showMarker = false;
         };
     };
 

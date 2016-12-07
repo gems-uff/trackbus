@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 node_modules/
 platforms/
-=======
-node_modules/
-platforms/
->>>>>>> 17db3b77e0aeba7112a3f272ef9b6d978e6f5ab8
 plugins/
+trackbus-release.keystore
