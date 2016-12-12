@@ -243,8 +243,8 @@
                     nextStop.distance = distance;
                     notificationService.scheduleStopNotification(nextStop);
                     removeStopProximityListener(nextStop, idx);
-                    currentStop = nextStop;
                 }
+                currentStop = nextStop;
             }
         };
 

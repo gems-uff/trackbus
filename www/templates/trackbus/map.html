@@ -8,7 +8,7 @@
                     click="vm.userMarker.click">
                 </ui-gmap-marker>
                 <!-- User marker -->
-                
+
                 <!-- Bus markers -->
                 <ui-gmap-markers models="vm.busMarkers" icon="'options.icon'" coords="'coords'"
                     click="vm.onMarkerClick">
@@ -16,7 +16,7 @@
                 <!-- Bus markers -->
                 <ui-gmap-window class="tooltipMap" show="vm.showMarker" coords="vm.selectedMarker.coords"
                     closeClick="vm.onWindowClose">
-                    <div >
+                    <div class="tooltipMap">
                         <label>
                             Linha: <span>{{vm.selectedMarker.line}}</span>
                         </label>
@@ -29,6 +29,9 @@
                     </div>
                 </ui-gmap-window>
             </ui-gmap-google-map>
+            <button ng-click="vm.centerMap()" class="centerBtn">
+                <i class="fa fa-crosshairs" aria-hidden="true"></i>
+            </button>
         </div>
 
         <div class="tripContainer">

@@ -68,7 +68,6 @@
                     cordova.plugins.backgroundMode.setDefaults({
                         title: "Trackbus",
                         text: "Observando localização dos ônibus.",
-                        // icon: "icon" // this will look for icon.png in platforms/android/res/drawable
                     });
                     cordova.plugins.backgroundMode.enable();
                     $scope.$on("$destroy", function() {
