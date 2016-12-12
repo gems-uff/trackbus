@@ -1,5 +1,4 @@
-<ion-view view-title="Trackbus">
-    <!--INSERT CSS HERE-->
+<ion-view view-title="Viagem">
     <ion-content class="has-header">
         <div id="map-div" class="map-container">
             <ui-gmap-google-map center="vm.map.center" zoom="vm.map.zoom" control="vm.map">
@@ -51,42 +50,57 @@
                 </ui-gmap-window>
                 <!-- Tourist stops -->
             </ui-gmap-google-map>
-            <button ng-click="vm.centerMap()" class="icon ion-android-locate"></button>
+
+            <button ng-click="vm.centerMap()" class="centerBtn">
+                <i class="fa fa-crosshairs" aria-hidden="true"></i>
+            </button>
         </div>
 
-        <div class="button-bar">
-            <a class="button" ng-class="{'tabActive': showStops}" ng-click="showStops=true">Pontos de parada</a>
-            <a class="button" ng-class="{'tabActive': !showStops}" ng-click="showStops=false">Pontos turísticos</a>
-        </div>
+        <div class="stopsContainer">
+            <div class="button-bar">
+                <a class="button" ng-class="{'tabActive': showStops}" ng-click="showStops=true">
+                    <i class="fa fa-map-signs" aria-hidden="true"></i>
+                    Pontos de parada
+                </a>
 
-        <!--Pontos de parada-->
-        <div ng-show="showStops" ng-init="showStops=true">
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input ng-model="stopFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
-            </label>
-            <ion-list ng-repeat="stop in vm.stops|filter:stopFilter">
-                <ion-item ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
-                    <i class="icon ion-ios-location"></i>
+                <a class="button" ng-class="{'tabActive': !showStops}" ng-click="showStops=false">
+                    <i class="fa fa-heart" aria-hidden="true"></i>
+                    Pontos turísticos
+                </a>
+            </div>
+
+            <!--Pontos de parada-->
+            <div class="stops" ng-show="showStops" ng-init="showStops=true">
+                <div class="subFilter">
+                    <input ng-model="stopFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
+                    </label>
+                </div>
+
+                <div class="stop" ng-repeat="stop in vm.stops|filter:stopFilter" ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
+                    <div class="iconContainer bus">
+                        <i class="fa fa-map-signs" aria-hidden="true"></i>
+                    </div>
+
                     {{::stop.descricao_ponto}}
-                </ion-item>
-            </ion-list>
-        </div>
-        <!--Pontos de parada-->
+                </div>
+            </div>
+            <!--Pontos de parada-->
 
-        <!-- Pontos turísticos -->
-        <div ng-show="!showStops">
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input ng-model="touristFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
-            </label>
-            <ion-list ng-repeat="ts in vm.touristSpots|filter:touristFilter">
-                <ion-item ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})">
-                    <i class="icon ion-ios-location"></i>
+            <!-- Pontos turísticos -->
+            <div class="stops" ng-show="!showStops">
+                <div class="subFilter">
+                    <input ng-model="touristFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
+                </div>
+
+                <div class="stop" ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})" ng-repeat="ts in vm.touristSpots|filter:touristFilter">
+                    <div class="iconContainer tour">
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                    </div>
+
                     {{::ts.nome}}
-                </ion-item>
-            </ion-list>
+                </div>
+            </div>
+            <!-- Pontos turísticos -->
         </div>
-        <!-- Pontos turísticos -->
     </ion-content>
 </ion-view>
