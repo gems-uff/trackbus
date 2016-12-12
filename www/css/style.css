@@ -110,8 +110,15 @@ ion-label.input-label {
 
 .tabActive {
     position: relative;
-    overflow: visible;
+
+    color: #fff;
+    font-weight: 300;
+    background: #609000;
+    border-bottom: 1px solid #4B6E00;
 }
+    .tabActive:hover {
+        color: #fff;
+    }
     .tabActive:after {
         width: 0;
         height: 0;
@@ -120,14 +127,29 @@ ion-label.input-label {
         top: 100%;
         left: 50%;
 
-        margin-left: -15px;
+        margin-left: -8px;
         border: solid transparent;
-        border-top-color: #88b7d5;
-        border-width: 15px;
+        border-top-color: #609000;
+        border-width: 8px;
 
         display: block;
         z-index: 9;
         pointer-events: none;
+    }
+    .button-bar > .button {
+        overflow: visible;
+    }
+    .overflow-scroll > .scroll {
+        background: #f1f1f1;
+    }
+    .button.active,
+    .button.activated {
+        color: #fff;
+        border: 1px solid transparent;
+        background: #609000;
+    }
+    .button-bar > .button:last-child {
+        border-radius: 0;
     }
 /* ionic override */
 
@@ -438,8 +460,28 @@ ion-label.input-label {
     width: 100%;
     height: calc(100% - 228px);
     float: left;
+    position: relative;
     border-bottom: 1px solid #332c2c;
 }
+.centerBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 2px 8px;
+
+    color: #fff;
+    font-size: 1.2em;
+    text-align: center;
+    background: #327CCB;
+    border: 1px solid #094C91;
+    border-radius: 2px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .4);
+}
+    .centerBtn:active {
+        background: #5494D6;
+        box-shadow: none;
+    }
+
 .tooltipMap {
     width: 100%;
 }
@@ -497,10 +539,13 @@ ion-label.input-label {
         font-size: 1.6em;
         text-align: left;
 
-        background: #eaeaea;
+        background: #fff;
         border: 1px solid transparent;
         border-bottom: 1px solid #332c2c;
     }
+        .tripContainer button:active {
+            background: #eaeaea;
+        }
         .tripContainer button i {
             float: right;
             margin-top: 4px;
@@ -508,4 +553,73 @@ ion-label.input-label {
             color: #0F66C1;
         }
 
+.stopsContainer {
+    width: 100%;
+    max-height: 228px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
 
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, .2);
+    overflow: scroll;
+}
+    .stopsContainer .button-bar {
+        width: 100%;
+        float: left;
+        
+    }
+    .stopsContainer .button-bar button {
+        border: none;
+        background: #f1f1f1;
+    }
+
+.stops {
+    width: 100%;
+    float: left;
+    background: #fff;
+}
+    .stops .subFilter {
+        background: #ccc;
+        border-bottom: 1px solid #332c2c;
+    }
+        .stops .subFilter input {
+            width: 100%;
+        }
+
+.stop {
+    width: 100%;
+    float: left;
+    padding: 20px;
+    padding-left: 50px;
+    position: relative;
+
+    color: #332c2c;
+    font-family: 'Catamaran';
+    font-weight: 300;
+    font-size: 1.2em;
+    text-align: left;
+    line-height: 100%;
+
+    background: #fff;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #332c2c;
+}
+    .stop:active {
+        background: #eaeaea;
+    }
+
+.iconContainer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+    .iconContainer i {
+        float: left;
+        color: #332c2c;
+    }
+    .bus i {
+        color: #327CCB;
+    }
+    .tour i {
+        color: #CA0700;
+    }
