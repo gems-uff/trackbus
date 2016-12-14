@@ -57,52 +57,54 @@
         </div>
 
         <div class="stopsContainer">
-            <div class="tabsWrapper">
-                <div class="button-bar">
-                    <a class="button stopsBtn" ng-class="{'tabActive': showStops}" ng-click="showStops=true">
-                        <i class="fa fa-map-signs" aria-hidden="true"></i>
-                        Pontos de parada
-                    </a>
-
-                    <a class="button tourBtn" ng-class="{'tabActive': !showStops}" ng-click="showStops=false">
-                        <i class="fa fa-camera-retro" aria-hidden="true"></i>
-                        Pontos turísticos
-                    </a>
-                </div>
-
-                <!--Pontos de parada-->
-                <div class="stops" ng-show="showStops" ng-init="showStops=true">
-                    <div class="subFilter">
-                        <input ng-model="stopFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
-                        </label>
-                    </div>
-
-                    <div class="stop" ng-repeat="stop in vm.stops|filter:stopFilter" ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
-                        <div class="iconContainer bus">
-                            <i class="fa fa-map-signs" aria-hidden="true"></i>
-                        </div>
-
-                        {{::stop.descricao_ponto}}
-                    </div>
-                </div>
-                <!--Pontos de parada-->
-
-                <!-- Pontos turísticos -->
-                <div class="stops" ng-show="!showStops">
-                    <div class="subFilter">
-                        <input ng-model="touristFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
-                    </div>
-
-                    <div class="stop" ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})" ng-repeat="ts in vm.touristSpots|filter:touristFilter">
-                        <div class="iconContainer tour">
-                            <i class="fa fa-camera-retro" aria-hidden="true"></i>
-                        </div>
-
-                        {{::ts.nome}}
-                    </div>
-                </div>
-                <!-- Pontos turísticos -->
+            <div class="backToTop">
+                <i class="fa fa-arrow-up" aria-hidden="true"></i>
             </div>
+
+            <div class="button-bar">
+                <a class="button stopsBtn" ng-class="{'tabActive': showStops}" ng-click="showStops=true">
+                    <i class="fa fa-map-signs" aria-hidden="true"></i>
+                    Pontos de parada
+                </a>
+
+                <a class="button tourBtn" ng-class="{'tabActive': !showStops}" ng-click="showStops=false">
+                    <i class="fa fa-camera-retro" aria-hidden="true"></i>
+                    Pontos turísticos
+                </a>
+            </div>
+
+            <!--Pontos de parada-->
+            <div class="stops" ng-show="showStops" ng-init="showStops=true">
+                <div class="subFilter">
+                    <input ng-model="stopFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
+                    </label>
+                </div>
+
+                <div class="stop" ng-repeat="stop in vm.stops|filter:stopFilter" ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
+                    <div class="iconContainer bus">
+                        <i class="fa fa-map-signs" aria-hidden="true"></i>
+                    </div>
+
+                    {{::stop.descricao_ponto}}
+                </div>
+            </div>
+            <!--Pontos de parada-->
+
+            <!-- Pontos turísticos -->
+            <div class="stops" ng-show="!showStops">
+                <div class="subFilter">
+                    <input ng-model="touristFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
+                </div>
+
+                <div class="stop" ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})" ng-repeat="ts in vm.touristSpots|filter:touristFilter">
+                    <div class="iconContainer tour">
+                        <i class="fa fa-camera-retro" aria-hidden="true"></i>
+                    </div>
+
+                    {{::ts.nome}}
+                </div>
+            </div>
+            <!-- Pontos turísticos -->
         </div>
     </ion-content>
 </ion-view>

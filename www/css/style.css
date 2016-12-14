@@ -563,14 +563,7 @@ ion-label.input-label {
     box-shadow: 0 -2px 5px rgba(0, 0, 0, .2);
     overflow: scroll;
 }
-.tabsWrapper {
-    width: 100%;
-    float: left;
-    position: relative;
-    top: 0;
-    left: 0;
-}
-    .tabsWrapper .button-bar {
+    .stopsContainer .button-bar {
         width: 100%;
         position: fixed;
         left: 0;
@@ -581,7 +574,28 @@ ion-label.input-label {
         border: none;
         background: #f1f1f1;
     }
-    
+
+.backToTop {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px 8px;
+
+    color: #fff;
+    font-size: 1.2em;
+    text-align: center;
+    background: #327CCB;
+    border: 1px solid #094C91;
+    border-radius: 2px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .4);
+
+    z-index: 9999;
+}
+    .backToTop:active {
+        background: #5494D6;
+        box-shadow: none;
+    }
+
 .stops {
     width: 100%;
     float: left;
