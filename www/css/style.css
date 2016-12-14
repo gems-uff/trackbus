@@ -565,12 +565,35 @@ ion-label.input-label {
 }
     .stopsContainer .button-bar {
         width: 100%;
-        float: left;
-        
+        position: fixed;
+        left: 0;
+        z-index: 99999;
+        box-shadow: 0px 2px 3px rgba(0, 0, 0, .2);
     }
     .stopsContainer .button-bar button {
         border: none;
         background: #f1f1f1;
+    }
+
+.backToTop {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px 8px;
+
+    color: #fff;
+    font-size: 1.2em;
+    text-align: center;
+    background: #327CCB;
+    border: 1px solid #094C91;
+    border-radius: 2px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, .4);
+
+    z-index: 9999;
+}
+    .backToTop:active {
+        background: #5494D6;
+        box-shadow: none;
     }
 
 .stops {
@@ -579,6 +602,7 @@ ion-label.input-label {
     background: #fff;
 }
     .stops .subFilter {
+        margin-top: 47px;
         background: #ccc;
         border-bottom: 1px solid #332c2c;
     }

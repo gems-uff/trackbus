@@ -57,14 +57,18 @@
         </div>
 
         <div class="stopsContainer">
+            <div class="backToTop">
+                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+            </div>
+
             <div class="button-bar">
-                <a class="button" ng-class="{'tabActive': showStops}" ng-click="showStops=true">
+                <a class="button stopsBtn" ng-class="{'tabActive': showStops}" ng-click="showStops=true">
                     <i class="fa fa-map-signs" aria-hidden="true"></i>
                     Pontos de parada
                 </a>
 
-                <a class="button" ng-class="{'tabActive': !showStops}" ng-click="showStops=false">
-                    <i class="fa fa-heart" aria-hidden="true"></i>
+                <a class="button tourBtn" ng-class="{'tabActive': !showStops}" ng-click="showStops=false">
+                    <i class="fa fa-camera-retro" aria-hidden="true"></i>
                     Pontos turísticos
                 </a>
             </div>
@@ -93,7 +97,7 @@
 
                 <div class="stop" ng-click="vm.setPosition({latitude: ts.latitude, longitude: ts.longitude})" ng-repeat="ts in vm.touristSpots|filter:touristFilter">
                     <div class="iconContainer tour">
-                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        <i class="fa fa-camera-retro" aria-hidden="true"></i>
                     </div>
                     {{::ts.nome}}
                 </div>
