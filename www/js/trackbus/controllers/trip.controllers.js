@@ -33,6 +33,7 @@
         vm.addTouristProximityListener = addTouristProximityListener;
         vm.setPosition = setPosition;
         vm.centerMap = centerMap;
+        vm.backToTop = backToTop;
 
         // Google Maps
         vm.stopsMarkers = [];
@@ -64,7 +65,11 @@
                 });
             };
             function setUpdateInterval() {
-                updateWatch = $interval(notifyProximity, TRACKBUS.TIME_TO_UPDATE_STOPS);
+                if(options.precisionMode){
+                    updateWatch = $interval(notifyProximity, TRACKBUS.TIME_TO_UPDATE_STOPS);
+                } else {
+                    updateWatch = $interval(alternativeNotifyProximity, TRACKBUS.TIME_TO_UPDATE_STOPS);
+                }
                 $scope.$on('$destroy', function() {
                     $interval.cancel(updateWatch);
                 });
@@ -122,11 +127,16 @@
                 updateCurrentStop();
             }
             setUserPosition(coords);
-            notifyProximity();
+            options.precisionMode ? notifyProximity():alternativeNotifyProximity();
         };
 
         function scrollToMap() {
             $location.hash('map-div');
+            $anchorScroll();
+        };
+
+        function backToTop() {
+            $location.hash('top');
             $anchorScroll();
         };
 
@@ -201,7 +211,7 @@
             }
             array.push(value);
             updateCurrentStop();
-            notifyProximity();
+            options.precisionMode ? notifyProximity():alternativeNotifyProximity();
             alertService.showAlert("Notificação", message);
         };
 
@@ -247,6 +257,23 @@
                 }
                 currentStop = nextStop;
             }
+        };
+
+        function alternativeNotifyProximity() {
+            var distance;
+            var idx;
+            var stop;
+            angular.forEach(notifyStops, function(s){
+                idx = indexOf(vm.stops, "descricao_ponto", s.description);
+                stop = vm.stops[idx];
+                distance = getDistance(stop);
+                notifyTouristSpots(stop);
+                if(distance <= options.notification.stopDistance){
+                    stop.distance = distance;
+                    notificationService.scheduleStopNotification(stop);
+                    removeStopProximityListener(stop);
+                }
+            });
         };
 
         function notifyTouristSpots(touristSpots) {

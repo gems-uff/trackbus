@@ -50,7 +50,7 @@
 
                 <div class="tagWrapper">
                     <input ng-model="vm.options.notification.busDistance" type="number">
-                    
+
                     <label class="tag" ng-if="vm.options.notification.busDistance > 1">
                         metros
                     </label>
@@ -106,6 +106,26 @@
                     <label class="toggle toggle-assertive">
                         <input type="checkbox" ng-model="vm.options.tourist.enable">
 
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </li>
+            </ion-item>
+        </ion-list>
+
+
+        <div class="item item-divider">
+            Acompanhamento de viagem
+        </div>
+
+        <ion-list>
+            <ion-item>
+                <li class="item item-toggle">
+                    Modo de precisão
+                    <h5>Marque se estiver com problemas nas notificações</h5>
+                    <label class="toggle toggle-assertive">
+                        <input type="checkbox" ng-model="vm.options.precisionMode">
                         <div class="track">
                             <div class="handle"></div>
                         </div>

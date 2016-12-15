@@ -33,7 +33,8 @@
         //     },
         //     tourist: {
         //         enable: true
-        //     }
+        //     },
+        //      precisionMode: OPTIONS.PRECISION_MODE
         // };
         // vm.busDistanceMeters;
 

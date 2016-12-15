@@ -22,7 +22,8 @@
             },
             tourist: {
                 enable: true
-            }
+            },
+            precisionMode: OPTIONS.PRECISION_MODE
         };
 
         self.getPreferences = function() {
