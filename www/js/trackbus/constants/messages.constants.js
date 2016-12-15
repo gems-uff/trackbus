@@ -6,7 +6,9 @@ angular.module('trackbus')
         "ALREADY_PRESENT": "Você já adicionou essa linha.",
         "NO_LINES": "Não possuimos informações sobre os pontos dessa linha.",
         "SERVICE_UNAVAILABLE": "O serviço de rastreamento de ônibus não está respondendo. Tente novamente mais tarde.",
-        "LOCATION_UNAVAILABLE": "Não foi possível buscar sua localização. Certifique-se que seu serviço de localização está ativo."
+        "LOCATION_UNAVAILABLE": "Não foi possível buscar sua localização. Certifique-se que seu serviço de localização está ativo.",
+        "STOP_ALREADY_NOTIFYING": "Você já adicionou este ponto na lista de notificações.",
+        "BUS_ALREADY_NOTIFYING": "Você já adicionou este ônibus na lista de notificações.",
     }
 )
 .constant("SUCCESS_MESSAGES",

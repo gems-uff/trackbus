@@ -62,12 +62,12 @@
             </div>
 
             <div class="button-bar">
-                <a class="button stopsBtn" ng-class="{'tabActive': showStops}" ng-click="showStops=true">
+                <a class="button" ng-class="{'tabActive': showStops, 'tabStops': showStops}" ng-click="showStops=true">
                     <i class="fa fa-map-signs" aria-hidden="true"></i>
                     Pontos de parada
                 </a>
 
-                <a class="button tourBtn" ng-class="{'tabActive': !showStops}" ng-click="showStops=false">
+                <a class="button" ng-class="{'tabActive': !showStops, 'tabTour': !showStops}" ng-click="showStops=false">
                     <i class="fa fa-camera-retro" aria-hidden="true"></i>
                     Pontos turísticos
                 </a>

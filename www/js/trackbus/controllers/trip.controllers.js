@@ -196,6 +196,7 @@
 
         function addProximityListener(array, value, message) {
             if(array.contains(value)){
+                alertService.showAlert("Erro", ERROR_MESSAGES.STOP_ALREADY_NOTIFYING);
                 return;
             }
             array.push(value);

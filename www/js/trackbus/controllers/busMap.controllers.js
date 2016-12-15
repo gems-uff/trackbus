@@ -160,6 +160,10 @@
         };
 
         function addProximityListener(bus){
+            if(notifyBuses.contains(bus)){
+                alertService.showAlert("Erro", ERROR_MESSAGES.BUS_ALREADY_NOTIFYING);
+                return;
+            }
             notifyBuses.push(bus);
             notifyProximity();
             alertService.showAlert("Notificação", SUCCESS_MESSAGES.BUS_NOTIFICATION);

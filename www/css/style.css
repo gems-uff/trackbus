@@ -113,7 +113,7 @@ ion-label.input-label {
 
     color: #fff;
     font-weight: 300;
-    background: #609000;
+    /*background: #609000;*/
     border-bottom: 1px solid #4B6E00;
 }
     .tabActive:hover {
@@ -129,7 +129,7 @@ ion-label.input-label {
 
         margin-left: -8px;
         border: solid transparent;
-        border-top-color: #609000;
+        /*border-top-color: #609000;*/
         border-width: 8px;
 
         display: block;
@@ -146,7 +146,7 @@ ion-label.input-label {
     .button.activated {
         color: #fff;
         border: 1px solid transparent;
-        background: #609000;
+        /*background: #609000;*/
     }
     .button-bar > .button:last-child {
         border-radius: 0;
@@ -575,6 +575,25 @@ ion-label.input-label {
         background: #f1f1f1;
     }
 
+.tabStops{
+    background: #327ccb;
+}
+    .tabStops:after{
+        border-color: #327ccb;
+    }
+    .tabStops i{
+        color: #094C91;
+    }
+.tabTour{
+    background: #7B0300;
+}
+    .tabTour:after{
+        border-color: #7B0300;
+    }
+    .tabTour i{
+        color: #fff;
+    }
+
 .backToTop {
     position: fixed;
     bottom: 10px;
@@ -647,3 +666,4 @@ ion-label.input-label {
     .tour i {
         color: #CA0700;
     }
+
