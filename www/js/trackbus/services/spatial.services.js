@@ -58,9 +58,8 @@
         };
 
         self.getCurrentPosition = function() {
-            var deferred = $q.defer();
-
             clearWatch();
+            var deferred = $q.defer();
             navigator.geolocation.getCurrentPosition(
                 function success(result) {
                     deferred.resolve(result.coords);
@@ -75,14 +74,20 @@
         };
 
         self.watchPosition = function(handler) {
-            var deferred = $q.defer();
-
             clearWatch();
-            watchId = navigator.geolocation.watchPosition(function(result){
-                var coords = result.coords;
-                handler(coords.latitude, coords.longitude);
-                deferred.resolve();
-            });
+            var deferred = $q.defer();
+            watchId = navigator.geolocation.watchPosition(
+                function success(result){
+                    var coords = result.coords;
+                    handler(coords.latitude, coords.longitude);
+                    deferred.resolve();
+                },
+                function error(result) {
+                    console.error(result);
+                    deferred.reject(result);
+                },
+                {timeout: 5000, enableHighAccuracy: false}
+            );
             return deferred.promise;
         };
 
