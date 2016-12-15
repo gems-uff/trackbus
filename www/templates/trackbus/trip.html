@@ -74,7 +74,7 @@
             </div>
 
             <!--Pontos de parada-->
-            <div class="stops" ng-show="showStops" ng-init="showStops=true">
+            <div id="stops" class="stops" ng-show="showStops" ng-init="showStops=true">
                 <div class="subFilter">
                     <input ng-model="stopFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
                     </label>
@@ -90,7 +90,7 @@
             <!--Pontos de parada-->
 
             <!-- Pontos turísticos -->
-            <div class="stops" ng-show="!showStops">
+            <div id="tours" class="stops" ng-show="!showStops">
                 <div class="subFilter">
                     <input ng-model="touristFilter" ng-model-options="{debounce: 750}" type="text" placeholder="Buscar">
                 </div>

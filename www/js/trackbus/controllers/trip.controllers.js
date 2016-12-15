@@ -131,13 +131,12 @@
         };
 
         function scrollToMap() {
-            $location.hash('map-div');
-            $anchorScroll();
+            $anchorScroll('map-div');
         };
 
         function backToTop() {
-            $location.hash('top');
-            $anchorScroll();
+            $anchorScroll('stops');
+            $anchorScroll('tours');
         };
 
         function setPosition(coords, zoom) {
