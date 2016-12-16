@@ -10,32 +10,39 @@
     function backgroundService() {
 
         var self = this;
+        var bgm;
 
         activate();
 
-        function activate(argument) {
-            if(window.cordova){
-                cordova.plugins.backgroundMode.onfailure = function(errorCode) {
-                    console.error(errorCode);
-                };
+        function activate() {
+            if(!window.cordova){
+                return;
             }
+            bgm = cordova.plugins.backgroundMode;
+            bgm.onfailure = function(errorCode) {
+                console.error(errorCode);
+            };
+            bgm.setDefaults({
+                title: "TrackBus",
+                icon: "icon_notification"
+            });
         };
 
         self.activate = function(title) {
-            if(window.cordova){
-                cordova.plugins.backgroundMode.setDefaults({
-                    title: "TrackBus",
-                    text: "Observando localização dos ônibus.",
-                    icon: "icon_notification"
-                });
-                cordova.plugins.backgroundMode.enable();
+            if(!window.cordova){
+                return;
             }
+            bgm.enable();
+            bgm.configure({
+                text: title,
+            });
         };
 
         self.deactivate = function() {
-            if(window.cordova){
-                cordova.plugins.backgroundMode.disable();
+            if(!window.cordova){
+                return;
             }
+            bgm.disable();
         };
 
 

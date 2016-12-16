@@ -508,6 +508,15 @@ ion-label.input-label {
         font-size: .8em;
     }
 
+.tooltipStop {
+    background: #327ccb;
+    border-color: #094C91;
+}
+.tooltipTour {
+    background: #7B0300;
+    border-color: #560200;
+}
+
 .tripContainer {
     width: 100%;
     min-height: 228px;
@@ -602,16 +611,30 @@ ion-label.input-label {
     color: #fff;
     font-size: 1.2em;
     text-align: center;
-    background: #327CCB;
-    border: 1px solid #094C91;
+    border: 1px solid;
     border-radius: 2px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, .4);
 
     z-index: 9999;
 }
     .backToTop:active {
-        background: #5494D6;
         box-shadow: none;
+    }
+
+.backToTop-stops {
+    background: #327CCB;
+    border-color: #094C91;
+}
+    .backToTop-stops:active {
+        background: #5494D6;
+    }
+
+.backToTop-tour {
+    background: #7B0300;
+    border-color: #560200;
+}
+    .backToTop-tour:active {
+        background: #c03b38;
     }
 
 .stops {

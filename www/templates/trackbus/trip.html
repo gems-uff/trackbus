@@ -20,7 +20,7 @@
                         <label>
                             <span>{{vm.selectedStopMarker.description}}</span>
                         </label>
-                        <button class="btnTooltip"
+                        <button class="btnTooltip tooltipStop"
                             ng-click="$parent.vm.addStopProximityListener($parent.vm.selectedStopMarker)">
                             <i class="fa fa-bell" aria-hidden="true"></i>Notificar proximidade
                         </button>
@@ -42,7 +42,7 @@
                         <label>
                             <span>{{vm.selectedTouristMarker.address}}</span>
                         </label>
-                        <button class="btnTooltip"
+                        <button class="btnTooltip tooltipTour"
                             ng-click="$parent.vm.addTouristProximityListener($parent.vm.selectedTouristMarker)">
                             <i class="fa fa-bell" aria-hidden="true"></i>Notificar proximidade
                         </button>
@@ -57,7 +57,8 @@
         </div>
 
         <div class="stopsContainer">
-            <div class="backToTop" scroll-to="top" ng-click="vm.backToTop()">
+            <div class="backToTop" ng-class="{'backToTop-stops': showStops, 'backToTop-tour': !showStops}"
+                scroll-to="top" ng-click="vm.backToTop()">
                 <i class="fa fa-arrow-up" aria-hidden="true"></i>
             </div>
 

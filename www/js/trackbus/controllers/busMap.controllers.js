@@ -59,14 +59,14 @@
             };
             function setUpdateInterval(){
                 updateWatch = $interval(updateLines, TRACKBUS.TIME_TO_UPDATE_LINES);
-                $scope.$on('$destroy', function() {
-                    $interval.cancel(updateWatch);
-                });
             };
             function enableBackground() {
                 backgroundService.activate("Observando localização dos ônibus.");
+            };
+            function cleanUp() {
                 $scope.$on("$destroy", function() {
                     backgroundService.deactivate();
+                    $interval.cancel(updateWatch);
                 });
             };
 
@@ -74,6 +74,7 @@
             return mapSetup().then(function(){
                 vm.linesIds = getLinesIds();
                 setUpdateInterval();
+                cleanUp();
                 return spatialService.watchPosition(setUserPosition).then(initializeBusMarkers);
             });
         };

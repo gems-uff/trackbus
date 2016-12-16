@@ -69,13 +69,13 @@
                 } else {
                     updateWatch = $interval(alternativeNotifyProximity, TRACKBUS.TIME_TO_UPDATE_STOPS);
                 }
-                $scope.$on('$destroy', function() {
-                    $interval.cancel(updateWatch);
-                });
             };
             function enableBackground() {
                 backgroundService.activate("Observando localização dos pontos.");
-                $scope.$on("$destroy", function() {
+            };
+            function cleanUp() {
+                $scope.$on('$destroy', function() {
+                    $interval.cancel(updateWatch);
                     backgroundService.deactivate();
                 });
             };
@@ -86,6 +86,7 @@
                 setUpdateInterval();
                 initializeStopsMarkers();
                 initializeTouristMarkers();
+                cleanUp();
                 return spatialService.watchPosition(watchUserPosition);
             });
         };

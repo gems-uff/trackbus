@@ -30,6 +30,7 @@
             $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
                 console.error(error);
                 alertService.hideLoading();
+
                 if(error.constructor.name ==  "PositionError"){
                     alertService.showAlert("Erro", ERROR_MESSAGES.LOCATION_UNAVAILABLE);
                     return;
@@ -37,6 +38,9 @@
                 switch(error.status){
                     case 404:
                         alertService.showAlert("Erro", ERROR_MESSAGES.SERVICE_UNAVAILABLE);
+                        break;
+                    case -1:
+                        alertService.showAlert("Erro", ERROR_MESSAGES.NO_CONNECTION);
                         break;
                     default:
                         alertService.showGenericError();
