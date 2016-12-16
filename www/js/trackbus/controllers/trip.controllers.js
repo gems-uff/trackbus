@@ -250,11 +250,25 @@
                 idx = indexOf(vm.stops, "descricao_ponto", s.description);
                 stop = vm.stops[idx];
                 distance = getDistance(stop);
-                notifyTouristSpots(stop);
                 if(distance <= options.notification.stopDistance){
                     stop.distance = distance;
                     notificationService.scheduleStopNotification(stop);
                     removeStopProximityListener(stop);
+                }
+            });
+            alternativeNotifyTourist();
+        };
+
+        function alternativeNotifyTourist() {
+            console.log(notifyTourist);
+            var distance;
+            angular.forEach(notifyTourist, function(ts) {
+                distance = getDistance(ts);
+                console.log(distance);
+                if(distance <= options.notification.touristDistance){
+                    ts.distance = distance;
+                    notificationService.scheduleTouristNotification(ts);
+                    removeTouristProximityListener(ts);
                 }
             });
         };

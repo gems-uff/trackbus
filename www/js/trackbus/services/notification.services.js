@@ -57,11 +57,19 @@
             });
         };
 
+        function toKilometers(value){
+            return value/1000;
+        };
+
+        function toMeters(value) {
+            return value*1000;
+        };
+
         self.scheduleBusNotification = function(bus) {
             return schedule({
                 id: bus.id.hashCode(),
                 title: "Ônibus " + bus.line,
-                text: "O ônibus está a " + Number(bus.distance).toFixed(2) + "km.",
+                text: "O ônibus está a " + toMeters(Number(bus.distance)).toFixed(0) + "m.",
                 sound: getSound(),
                 data: {
                     speechText: "Ônibus " + bus.line + " está próximo."
@@ -74,23 +82,26 @@
             return schedule({
                 id: stop.sequencia,
                 title: "Ponto " + stop.descricao_ponto,
-                text: "O ponto está a " + Number(stop.distance).toFixed(2) + "km.",
+                text: "O ponto está a " + toMeters(Number(stop.distance)).toFixed(0) + "m.",
                 sound: getSound(),
                 data: {
                     speechText: "Próximo ponto " + stop.descricao_ponto
-                }
+                },
+                icon: "res://icon_notification.png"
             });
         };
 
         self.scheduleTouristNotification = function(ts) {
+            console.log(ts);
             return schedule({
                 id: ts.id.hashCode(),
                 title: ts.id,
-                text: "O ponto está a " + parseInt(ts.distance) + "m.",
+                text: "O ponto está a " + toMeters(Number(ts.distance)).toFixed(0) + "m.",
                 sound: getSound(),
                 data: {
-                    speechText: (ts.id + " a " + parseInt(ts.distance) + " metros")
-                }
+                    speechText: (ts.id + " a " + toMeters(Number(ts.distance)).toFixed(0) + " metros")
+                },
+                icon: "res://icon_notification.png"
             });
         };
 
