@@ -113,7 +113,6 @@ ion-label.input-label {
 
     color: #fff;
     font-weight: 300;
-    /*background: #609000;*/
     border-bottom: 1px solid #4B6E00;
 }
     .tabActive:hover {
@@ -129,7 +128,6 @@ ion-label.input-label {
 
         margin-left: -8px;
         border: solid transparent;
-        /*border-top-color: #609000;*/
         border-width: 8px;
 
         display: block;
@@ -141,12 +139,6 @@ ion-label.input-label {
     }
     .overflow-scroll > .scroll {
         background: #f1f1f1;
-    }
-    .button.active,
-    .button.activated {
-        color: #fff;
-        border: 1px solid transparent;
-        /*background: #609000;*/
     }
     .button-bar > .button:last-child {
         border-radius: 0;
@@ -575,22 +567,29 @@ ion-label.input-label {
         background: #f1f1f1;
     }
 
-.tabStops{
+.tabStops {
     background: #327ccb;
 }
-    .tabStops:after{
-        border-color: #327ccb;
+    .tabStops.activated{
+        background: #327ccb;
     }
-    .tabStops i{
+    .tabStops:after {
+        border-top-color: #327ccb;
+    }
+    .tabStops i {
         color: #094C91;
     }
-.tabTour{
+
+.tabTour {
     background: #7B0300;
 }
-    .tabTour:after{
-        border-color: #7B0300;
+    .tabTour.activated{
+        background: #7B0300;
     }
-    .tabTour i{
+    .tabTour:after {
+        border-top-color: #7B0300;
+    }
+    .tabTour i {
         color: #fff;
     }
 
