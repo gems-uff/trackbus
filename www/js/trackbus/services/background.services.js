@@ -22,19 +22,18 @@
             bgm.onfailure = function(errorCode) {
                 console.error(errorCode);
             };
-            bgm.setDefaults({
-                title: "TrackBus",
-                icon: "icon_notification"
-            });
+
         };
 
-        self.activate = function(title) {
+        self.activate = function(text) {
             if(!window.cordova){
                 return;
             }
             bgm.enable();
-            bgm.configure({
-                text: title,
+            bgm.setDefaults({
+                title: "TrackBus",
+                text: text,
+                icon: "icon_notification"
             });
         };
 
@@ -42,7 +41,7 @@
             if(!window.cordova){
                 return;
             }
-            bgm.disable();
+            //bgm.disable(); //not working as intended
         };
 
 
