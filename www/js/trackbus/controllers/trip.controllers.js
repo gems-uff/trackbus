@@ -6,16 +6,16 @@
         .controller('TripController', TripController);
 
     TripController.$inject = [
-        '$scope', 'uiGmapGoogleMapApi', '$interval', '$location', '$anchorScroll',
-        'spatialService', 'alertService', 'stopService', 'notificationService',
+        '$scope', 'uiGmapGoogleMapApi', '$interval',
+        'spatialService', 'alertService', 'stopService', 'notificationService', 'backgroundService',
         'stopsPromise', 'configPromise', 'touristPromise',
         'PERSON_ICON', 'BUS_STOP_ICON', 'TOURIST_STOP_ICON',
         'TRACKBUS', 'SUCCESS_MESSAGES', 'ERROR_MESSAGES'
     ];
 
     function TripController(
-        $scope, uiGmapGoogleMapApi, $interval, $location, $anchorScroll,
-        spatialService, alertService, stopService, notificationService,
+        $scope, uiGmapGoogleMapApi, $interval,
+        spatialService, alertService, stopService, notificationService, backgroundService,
         stopsPromise, configPromise, touristPromise,
         PERSON_ICON, BUS_STOP_ICON, TOURIST_STOP_ICON,
         TRACKBUS, SUCCESS_MESSAGES, ERROR_MESSAGES
@@ -33,7 +33,6 @@
         vm.addTouristProximityListener = addTouristProximityListener;
         vm.setPosition = setPosition;
         vm.centerMap = centerMap;
-        vm.backToTop = backToTop;
 
         // Google Maps
         vm.stopsMarkers = [];
@@ -75,16 +74,10 @@
                 });
             };
             function enableBackground() {
-                if(window.cordova){
-                    cordova.plugins.backgroundMode.setDefaults({
-                        title: "Trackbus",
-                        text: "Observando localização dos pontos.",
-                    });
-                    cordova.plugins.backgroundMode.enable();
-                    $scope.$on("$destroy", function() {
-                        cordova.plugins.backgroundMode.disable();
-                    });
-                }
+                backgroundService.activate("Observando localização dos pontos.");
+                $scope.$on("$destroy", function() {
+                    backgroundService.deactivate();
+                });
             };
 
             enableBackground();
@@ -130,17 +123,7 @@
             options.precisionMode ? notifyProximity():alternativeNotifyProximity();
         };
 
-        function scrollToMap() {
-            $anchorScroll('map-div');
-        };
-
-        function backToTop() {
-            $anchorScroll('stops');
-            $anchorScroll('tours');
-        };
-
         function setPosition(coords, zoom) {
-            scrollToMap();
             vm.map.refresh({latitude: coords.latitude, longitude: coords.longitude});
             if(zoom){
                 vm.map.zoom = zoom;

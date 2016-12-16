@@ -2,19 +2,19 @@
     <!--INSERT CSS HERE-->
     <ion-content class="has-header">
         <div class="subMenu">
-            <div class="search" ng-click="vm.showFilter = true">
+            <div class="search" ng-click="vm.showFilter=true" focus-element="lineInput">
                 <i class="fa fa-search" aria-hidden="true"></i>Pesquisar linhas
             </div>
         </div>
 
         <div ng-show="vm.showFilter">
             <div class="subFilter">
-                <input type="tel" size="50" placeholder="Digite o número da linha"
+                <input id="lineInput" type="tel" size="50" placeholder="Digite o número da linha"
                         ng-model="vm.lineFilter" ng-change="vm.filterLines()"
                         ng-model-options="{debounce: 500}">
 
                 <div class="subFilterClose">
-                    <i class="fa fa-remove" ng-click="vm.showFilter = false" aria-hidden="true"></i>
+                    <i class="fa fa-remove" ng-click="vm.showFilter=false" aria-hidden="true"></i>
                 </div>
             </div>
 

@@ -56,8 +56,8 @@
             </button>
         </div>
 
-        <div id="top" class="stopsContainer">
-            <div class="backToTop" ng-click="vm.backToTop()">
+        <div class="stopsContainer">
+            <div class="backToTop" scroll-to="top" ng-click="vm.backToTop()">
                 <i class="fa fa-arrow-up" aria-hidden="true"></i>
             </div>
 
@@ -73,6 +73,8 @@
                 </a>
             </div>
 
+            <div id="top">
+            </div>
             <!--Pontos de parada-->
             <div id="stops" class="stops" ng-show="showStops" ng-init="showStops=true">
                 <div class="subFilter">
@@ -80,7 +82,9 @@
                     </label>
                 </div>
 
-                <div class="stop" ng-repeat="stop in vm.stops|filter:stopFilter" ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
+                <div class="stop" ng-repeat="stop in vm.stops|filter:stopFilter"
+                    scroll-to="map-div"
+                    ng-click="vm.setPosition({latitude: stop.latitude, longitude: stop.longitude})">
                     <div class="iconContainer bus">
                         <i class="fa fa-map-signs" aria-hidden="true"></i>
                     </div>

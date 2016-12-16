@@ -65,7 +65,8 @@
                 sound: getSound(),
                 data: {
                     speechText: "Ônibus " + bus.line + " está próximo."
-                }
+                },
+                icon: "res://icon_notification.png"
             });
         };
 

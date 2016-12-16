@@ -4,7 +4,7 @@
     angular
         .module('app',[
             'ionic', 'ui.router', 'ngCordova',
-            'alerts', 'states', 'trackbus'
+            'alerts', 'states', 'trackbus', 'utils'
         ])
         .run(run);
 

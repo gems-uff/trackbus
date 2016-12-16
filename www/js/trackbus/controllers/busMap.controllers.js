@@ -7,7 +7,7 @@
 
     BusMapController.$inject = [
         '$scope', 'uiGmapGoogleMapApi', '$interval',
-        'alertService', 'stateService', 'spatialService',
+        'alertService', 'stateService', 'spatialService', 'backgroundService',
         'busStateFactory', 'notificationService', 'configService',
         'busesPromise', 'configPromise',
         'BUS', 'BUS_ICONS', 'PERSON_ICON', 'TRACKBUS', 'SUCCESS_MESSAGES', 'ERROR_MESSAGES'
@@ -15,7 +15,7 @@
 
     function BusMapController(
         $scope, uiGmapGoogleMapApi, $interval,
-        alertService, stateService, spatialService,
+        alertService, stateService, spatialService, backgroundService,
         busStateFactory, notificationService, configService,
         busesLinePromise, configPromise,
         BUS, BUS_ICONS, PERSON_ICON, TRACKBUS, SUCCESS_MESSAGES, ERROR_MESSAGES
@@ -64,16 +64,10 @@
                 });
             };
             function enableBackground() {
-                if(window.cordova){
-                    cordova.plugins.backgroundMode.setDefaults({
-                        title: "Trackbus",
-                        text: "Observando localização dos ônibus.",
-                    });
-                    cordova.plugins.backgroundMode.enable();
-                    $scope.$on("$destroy", function() {
-                        cordova.plugins.backgroundMode.disable();
-                    });
-                }
+                backgroundService.activate("Observando localização dos ônibus.");
+                $scope.$on("$destroy", function() {
+                    backgroundService.deactivate();
+                });
             };
 
             enableBackground();

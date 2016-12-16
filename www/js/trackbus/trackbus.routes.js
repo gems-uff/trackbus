@@ -26,6 +26,7 @@
             })
             .state(STATES.MAP, {
                 url: 'map',
+                cache: false,
                 params:{
                     lines: []
                 },
@@ -62,13 +63,13 @@
             })
             .state(STATES.TRIP, {
                 url: 'trip',
+                cache: false,
                 params: {
                     line: ""
                 },
                 views: {
                     "headerContent":{
                         templateUrl: 'templates/trackbus/trip.html',
-                        cache: false,
                         controller: 'TripController',
                         controllerAs: 'vm',
                         resolve: {
