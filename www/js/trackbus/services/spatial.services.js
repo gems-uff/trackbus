@@ -68,7 +68,7 @@
                     console.log(result);
                     deferred.reject(result);
                 },
-                {timeout: 5000, enableHighAccuracy: false}
+                {timeout: 15000, enableHighAccuracy: false}
             );
             return deferred.promise;
         };
@@ -86,7 +86,7 @@
                     console.error(result);
                     deferred.reject(result);
                 },
-                {timeout: 5000, enableHighAccuracy: false}
+                {timeout: 15000, enableHighAccuracy: false}
             );
             return deferred.promise;
         };
