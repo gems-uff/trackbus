@@ -1,7 +1,7 @@
 angular.module('trackbus')
 .constant("ERROR_MESSAGES",
     {
-        "GENERIC": "Ocorreu um erro.",
+        "GENERIC": "Ocorreu um erro inesperado.\n",
         "MAX_LINES": "Você já selecionou a quantidade máxima de linhas permitida.",
         "ALREADY_PRESENT": "Você já adicionou essa linha.",
         "NO_LINES": "Não possuimos informações sobre os pontos dessa linha.",

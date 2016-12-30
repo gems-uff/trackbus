@@ -106,7 +106,7 @@
                 },
                 function error(result) {
                     console.error(result);
-                    alertService.showAlert("Erro", ERROR_MESSAGES.NAVIGATOR_FAILURE);
+                    alertService.showAlert("Erro (" + error.code +")", ERROR_MESSAGES.LOCATION_UNAVAILABLE);
                 }
             );
         };

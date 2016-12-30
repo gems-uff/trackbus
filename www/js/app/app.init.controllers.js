@@ -29,21 +29,21 @@
             });
             $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
                 console.error(error);
-                alertService.hideLoading();
 
+                alertService.hideLoading();
                 if(error.constructor.name ==  "PositionError"){
-                    alertService.showAlert("Erro", ERROR_MESSAGES.LOCATION_UNAVAILABLE);
+                    alertService.showAlert("Erro (" + error.code +")" , ERROR_MESSAGES.LOCATION_UNAVAILABLE);
                     return;
                 }
                 switch(error.status){
                     case 404:
-                        alertService.showAlert("Erro", ERROR_MESSAGES.SERVICE_UNAVAILABLE);
+                        alertService.showAlert("Erro (" + error.status + ")", ERROR_MESSAGES.SERVICE_UNAVAILABLE);
                         break;
                     case -1:
-                        alertService.showAlert("Erro", ERROR_MESSAGES.NO_CONNECTION);
+                        alertService.showAlert("Erro (" + error.status + ")", ERROR_MESSAGES.NO_CONNECTION);
                         break;
                     default:
-                        alertService.showGenericError();
+                        alertService.showAlert("Erro (" + error.status + ")", ERROR_MESSAGES.GENERIC + error);
                 }
             });
         };
