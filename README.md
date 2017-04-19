@@ -14,6 +14,7 @@ A hybrid mobile app to help the users of public transportation in the city of Ri
 # Documentation
   * [DataRio](http://data.rio/)
   * [DataRio - Bus GPS Positions](http://dadosabertos.rio.rj.gov.br/apitransporte/apresentacao/pdf/documentacao_gps.pdf)
+  * [(PT-BR) TRACKBUS: UM APLICATIVO DE APOIO AOS USUÁRIOS DE ÔNIBUS NA CIDADE DO RIO DE JANEIRO](https://github.com/gems-uff/trackbus/blob/master/Monografia.pdf)
 
 # Technologies
   * [AngularJS](https://angularjs.org/)
